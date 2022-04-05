@@ -1,0 +1,67 @@
+{
+	"name": "Calculate the size of your trade position",
+	"short_name": "Calc Trade",
+	"icons": [
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-36x36.png",
+			"type": "image/png",
+			"sizes": "36x36"
+		},
+		{
+			"src": "/android-48x48.png",
+			"type": "image/png",
+			"sizes": "48x48"
+		},
+		{
+			"src": "/android-72x72.png",
+			"type": "image/png",
+			"sizes": "72x72"
+		},
+		{
+			"src": "/android-96x96.png",
+			"type": "image/png",
+			"sizes": "96x96"
+		},
+		{
+			"src": "/android-144x144.png",
+			"type": "image/png",
+			"sizes": "144x144"
+		},
+		{
+			"src": "/android-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "/android-chrome-maskable-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192",
+			"purpose": "maskable"
+		}
+	],
+	"theme_color": "#FFFFFF",
+	"background_color": "#FFFFFF",
+	"start_url": "/",
+	"display": "standalone",
+	"orientation": "portrait"
+}
