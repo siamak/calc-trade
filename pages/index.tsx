@@ -7,18 +7,18 @@ const Home: NextPage = () => {
 	return (
 		<div>
 			<Head>
-				<title>Calculate the size of your trade position - Calc trade</title>
+				<title>Calculate trade</title>
 				<meta name="description" content="Calculate the size of your trade position" />
 				<link rel="icon" href="/favicon.ico" />
 
-				<meta name="application-name" content="Calculate the size of your trade position" />
+				<meta name="application-name" content="Calculate trade" />
 				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-				<meta name="apple-mobile-web-app-title" content="Calculate the size of your trade position" />
+				<meta name="apple-mobile-web-app-title" content="Calculate trade" />
 				{/* <meta name="description" content="Best PWA App in the world" /> */}
 				<meta name="format-detection" content="telephone=no" />
 				<meta name="mobile-web-app-capable" content="yes" />
-				<meta name="theme-color" content="#000000" />
+				<meta name="theme-color" content="#fff" />
 
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 				<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png" />

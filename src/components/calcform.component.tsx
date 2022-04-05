@@ -168,7 +168,7 @@ export default function HookForm() {
 								{getValues("leverage")}
 							</Text>
 							<Text fontSize="xs" opacity={0.6} minW={"20"} pl={2}>
-								{getValues("leverage") === 1 ? "Spot trades" : "Futures trades"}
+								{getValues("leverage") === 1 ? "Spot trade" : "Futures trade"}
 							</Text>
 						</Box>
 						<Slider
@@ -198,7 +198,7 @@ export default function HookForm() {
 			<Box my={4}>
 				<Alert bg={"#a1ece7"} color="#093e3b" borderRadius={"lg"} status="success">
 					<AlertIcon color="#1c746e" />
-					Margin size is:{" "}
+					Position size is:{" "}
 					<Text pl={1} fontWeight={"bold"}>
 						${marginSize}
 					</Text>
