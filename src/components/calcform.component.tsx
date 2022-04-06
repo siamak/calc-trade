@@ -85,7 +85,15 @@ export default function HookForm() {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<VStack alignItems={"flex-start"} mt={4} p={8} bg="white" boxShadow={"lg"} spacing={4} borderRadius={8}>
+			<VStack
+				alignItems={"flex-start"}
+				mt={4}
+				p={[4, 8]}
+				bg="white"
+				boxShadow={"lg"}
+				spacing={4}
+				borderRadius={8}
+			>
 				{/* Account Balance */}
 				<FormControl isInvalid={errors.balance}>
 					<FormLabel htmlFor="balance">
@@ -180,12 +188,12 @@ export default function HookForm() {
 						</Text>
 					</FormLabel>
 
-					<HStack pl={5} pr={10} spacing={3} py={6} bg={"gray.100"} borderRadius={"lg"}>
+					<HStack pl={5} pr={10} spacing={3} py={6} bg={"gray.100"} borderRadius={"lg"} userSelect="none">
 						<Box d="flex" alignItems="center" flexDirection="row">
 							<Text fontWeight={"bold"} fontSize="xl" minW={"10"} textAlign="center">
 								{getValues("leverage")}
 							</Text>
-							<Text fontSize="xs" opacity={0.6} minW={"20"} pl={2}>
+							<Text fontSize="xs" opacity={0.6} minW={"100"} pl={2}>
 								{getValues("leverage") === 1 ? "Spot trade" : "Futures trade"}
 							</Text>
 						</Box>
@@ -220,7 +228,9 @@ export default function HookForm() {
 				</Button> */}
 					<Button
 						bg="gray.300"
-						color="gray.700"
+						color="gray.600"
+						fontWeight={500}
+						size="sm"
 						isLoading={isSubmitting}
 						type="button"
 						onClick={() =>
@@ -263,7 +273,7 @@ export default function HookForm() {
 				</Alert> */}
 			</HStack>
 
-			<Box mt={4} p={8} bg="white" boxShadow={"lg"} borderRadius={8}>
+			<Box mt={4} p={[4, 8]} bg="white" boxShadow={"lg"} borderRadius={8}>
 				<TableContainer>
 					<Table variant="simple" size="sm">
 						<Thead>
