@@ -1,11 +1,11 @@
-import { Container } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import { Container, Select, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import HookForm from "../src/components/calcform.component";
 
 const Home: NextPage = () => {
 	return (
-		<div>
+		<>
 			<Head>
 				<title>Calculate trade</title>
 				<meta name="description" content="Calculate the size of your trade position" />
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
 				{/* <meta name="description" content="Best PWA App in the world" /> */}
 				<meta name="format-detection" content="telephone=no" />
 				<meta name="mobile-web-app-capable" content="yes" />
-				<meta name="theme-color" content="#fff" />
+				<meta name="theme-color" content="#F5F6FB" />
 
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 				<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png" />
@@ -54,9 +54,10 @@ const Home: NextPage = () => {
 			</Head>
 
 			<Container py={10}>
+				{/* <Select variant="outline" placeholder="Filled" /> */}
 				<HookForm />
 			</Container>
-		</div>
+		</>
 	);
 };
 

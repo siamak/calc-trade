@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import {
 	FormErrorMessage,
@@ -17,12 +17,20 @@ import {
 	SliderFilledTrack,
 	SliderThumb,
 	SliderTrack,
-	Divider,
 	Alert,
 	AlertIcon,
+	TableContainer,
+	Table,
+	Thead,
+	Tbody,
+	Tr,
+	Th,
+	Td,
+	Badge,
 } from "@chakra-ui/react";
 import useFormPersist from "../hooks/useFormPersist";
 
+const rrRatio = [1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4, 5, 10];
 export default function HookForm() {
 	const {
 		register,
@@ -56,6 +64,16 @@ export default function HookForm() {
 		setMargin(Math.round(margin) || 0);
 	}, [values, setMargin]);
 
+	const lossRate = useMemo(() => {
+		const { balance, risk, stoploss, leverage } = values;
+
+		const _risk = risk / 100;
+		const _sl = stoploss / 100;
+		const margin = (balance * _risk) / (_sl * leverage);
+
+		return margin * _sl;
+	}, [values]);
+
 	function onSubmit(values: any) {
 		return new Promise((resolve: any) => {
 			setTimeout(() => {
@@ -67,7 +85,7 @@ export default function HookForm() {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<VStack spacing={6}>
+			<VStack alignItems={"flex-start"} mt={4} p={8} bg="white" boxShadow={"lg"} spacing={4} borderRadius={8}>
 				{/* Account Balance */}
 				<FormControl isInvalid={errors.balance}>
 					<FormLabel htmlFor="balance">
@@ -176,12 +194,13 @@ export default function HookForm() {
 							min={1}
 							max={50}
 							step={1}
+							value={getValues("leverage")}
 							onChange={(e) => setValue("leverage", e)}
 							// onChangeEnd={(e) => setValue("leverage", e)}
 						>
 							<SliderTrack bg="gray.300">
-								<Box position="relative" bg={"yellow"} right={10} />
-								<SliderFilledTrack bg="tomato" />
+								<Box position="relative" right={10} />
+								<SliderFilledTrack bg="#ff5e28" />
 							</SliderTrack>
 							<SliderThumb
 								boxShadow={"0 3px 6px 0 rgb(109 118 126 / 37%), 0 1px 2px 0 rgb(0 0 0 / 6%)"}
@@ -193,48 +212,100 @@ export default function HookForm() {
 						{errors.leverage && (errors.leverage.message || "Leverage should be number")}
 					</FormErrorMessage>
 				</FormControl>
+
+				<HStack mt={4}>
+					{/* <Button colorScheme="teal" isLoading={isSubmitting} type="submit">
+					Calculate
+				</Button> */}
+					<Button
+						bg="gray.300"
+						color="gray.700"
+						isLoading={isSubmitting}
+						type="button"
+						onClick={() =>
+							reset({
+								balance: null,
+								risk: null,
+								stoploss: null,
+								leverage: 10,
+							})
+						}
+					>
+						Clear
+					</Button>
+				</HStack>
 			</VStack>
 
-			<Box my={4}>
-				<Alert bg={"#a1ece7"} color="#093e3b" borderRadius={"lg"} status="success">
+			<HStack spacing={4} my={4} px={8} py={5} bg="white" boxShadow={"lg"} borderRadius={8}>
+				<svg width={64} height={64} viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<rect width={512} height={512} rx={130} fill="#6DB9FF" fillOpacity=".3" />
+					<path
+						d="M332.7 64.3H179.3c-52.9 0-95.8 43-95.8 95.9v191.6c0 53 43 95.9 95.8 95.9h153.4c52.9 0 95.8-43 95.8-95.9V160.2c0-53-43-95.9-95.8-95.9ZM195.8 383.1a18.9 18.9 0 0 1-13.4 5.5 19.2 19.2 0 0 1-19.4-19.2 19.5 19.5 0 0 1 12-17.6 19.7 19.7 0 0 1 18 1.8 19.5 19.5 0 0 1 8.6 16c0 5-2.1 9.8-5.8 13.5ZM163 292.8c0-2.5.6-5 1.6-7.3A19.1 19.1 0 0 1 193 277a20.3 20.3 0 0 1 7 8.6c1 2.3 1.4 4.8 1.4 7.3a19 19 0 0 1-26.5 17.6 19 19 0 0 1-11.9-17.6Zm109.5 90.3a19.3 19.3 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-1.4.2-2.5.4-3.9l1.1-3.4 1.8-3.5c.7-1 1.5-1.9 2.5-2.8a19.5 19.5 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm0-76.7a19 19 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-5 2.1-10 5.8-13.6 7-7.1 19.9-7.1 27 0 1.7 2 3.2 3.8 4.2 6.3 1 2.3 1.3 4.8 1.3 7.3 0 5.2-1.9 10-5.5 13.6Zm-74-80c-19.7 0-36-16-36-36v-19.1c0-19.8 16-36 36-36h115c19.7 0 36 16 36 36v19.1c0 19.8-16 36-36 36h-115Zm150.6 156.7a19 19 0 0 1-20.8 4 19 19 0 0 1-11.7-17.6c0-5 1.9-10 5.5-13.6a19.4 19.4 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm4.3-83a19.3 19.3 0 0 1-17.9 11.9c-5 0-9.7-2-13.4-5.6a19.1 19.1 0 0 1-5.7-13.6c0-5 2-10 5.7-13.6 7.1-7.1 20-7.1 27 0 3.7 3.6 5.8 8.6 5.8 13.6 0 2.5-.6 5-1.5 7.3Z"
+						fill="#0270BF"
+					/>
+				</svg>
+
+				<Box>
+					<Text fontSize="md" color="gray.500">
+						Your position size is
+					</Text>
+					<Text mt={-1} fontSize="x-large" color="#0270BF" fontWeight={"bold"}>
+						{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(marginSize)}
+					</Text>
+				</Box>
+				{/* <Alert bg={"#a1ece7"} color="#093e3b" borderRadius={"lg"} status="success">
 					<AlertIcon color="#1c746e" />
 					Position size is:{" "}
 					<Text pl={1} fontWeight={"bold"}>
 						${marginSize}
 					</Text>
-				</Alert>
-			</Box>
-			{/* <Divider /> */}
-
-			<HStack mt={4}>
-				{/* <Button colorScheme="teal" isLoading={isSubmitting} type="submit">
-					Calculate
-				</Button> */}
-				<Button
-					bg="gray.300"
-					color="gray.700"
-					isLoading={isSubmitting}
-					type="button"
-					onClick={() =>
-						reset({
-							balance: null,
-							risk: null,
-							stoploss: null,
-							leverage: 10,
-						})
-					}
-				>
-					Clear
-				</Button>
+				</Alert> */}
 			</HStack>
 
-			<Divider mt={4} />
+			<Box mt={4} p={8} bg="white" boxShadow={"lg"} borderRadius={8}>
+				<TableContainer>
+					<Table variant="simple" size="sm">
+						<Thead>
+							<Tr>
+								<Th py={3} isNumeric>
+									Risk/Reward Ratio
+								</Th>
+								<Th py={3} isNumeric>
+									Profit
+								</Th>
+								<Th py={3} isNumeric>
+									Loss
+								</Th>
+							</Tr>
+						</Thead>
+						<Tbody>
+							{rrRatio.map((r: number) => (
+								<Tr background={(r === 2 && "gray.100") || ""} key={r}>
+									<Td py={3} isNumeric>
+										<code>1:{r}</code>
+									</Td>
+									<Td py={3} isNumeric>
+										<Badge colorScheme="green">
+											+ ${(Math.round(r * lossRate * 100) / 100 || 0).toFixed(2)}
+										</Badge>
+									</Td>
+									<Td py={3} isNumeric>
+										<Badge colorScheme="red">
+											- ${(Math.round(lossRate * 100) / 100 || 0).toFixed(2)}
+										</Badge>
+									</Td>
+								</Tr>
+							))}
+						</Tbody>
+					</Table>
+				</TableContainer>
+			</Box>
 
-			<Text color="gray.500" mt={1} fontStyle="italic">
+			<Text textAlign={"center"} color="gray.500" mt={8} fontStyle="italic">
 				We do not store your data on servers. Data will be stored on your device.
 			</Text>
 
-			<Text color="gray.700" mt={4}>
+			<Text textAlign={"center"} color="gray.700" mt={2}>
 				Created by{" "}
 				<Text
 					as="a"
