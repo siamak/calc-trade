@@ -196,6 +196,7 @@ export default function HookForm() {
 							step={1}
 							value={getValues("leverage")}
 							onChange={(e) => setValue("leverage", e)}
+							focusThumbOnChange={false}
 							// onChangeEnd={(e) => setValue("leverage", e)}
 						>
 							<SliderTrack bg="gray.300">
