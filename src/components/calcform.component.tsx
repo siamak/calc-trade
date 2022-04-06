@@ -180,7 +180,7 @@ export default function HookForm() {
 						</Text>
 					</FormLabel>
 
-					<HStack pl={5} pr={10} spacing={6} py={6} bg={"gray.100"} borderRadius={"lg"}>
+					<HStack pl={5} pr={10} spacing={3} py={6} bg={"gray.100"} borderRadius={"lg"}>
 						<Box d="flex" alignItems="center" flexDirection="row">
 							<Text fontWeight={"bold"} fontSize="xl" minW={"10"} textAlign="center">
 								{getValues("leverage")}
