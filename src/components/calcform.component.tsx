@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import NumberFormat from "react-number-format";
 import {
 	FormErrorMessage,
 	FormLabel,
@@ -27,6 +28,7 @@ import {
 	Th,
 	Td,
 	Badge,
+	TableCaption,
 } from "@chakra-ui/react";
 import useFormPersist from "../hooks/useFormPersist";
 
@@ -39,6 +41,7 @@ export default function HookForm() {
 		reset,
 		setValue,
 		getValues,
+		control,
 		formState: { errors, isSubmitting, isValid },
 	} = useForm({
 		mode: "onBlur",
@@ -104,7 +107,7 @@ export default function HookForm() {
 					</FormLabel>
 					<InputGroup>
 						<InputLeftAddon>$</InputLeftAddon>
-						<Input
+						{/* <Input
 							id="balance"
 							placeholder="Enter your account balance ($1000) ..."
 							type={"number"}
@@ -116,6 +119,23 @@ export default function HookForm() {
 									positive: (v) => parseInt(v) > 0,
 								},
 							})}
+						/> */}
+
+						<Controller
+							control={control}
+							name="balance"
+							render={({ field: { onChange, name, value } }) => (
+								<NumberFormat
+									customInput={Input}
+									borderRadius={"0 0.375rem 0.375rem 0"}
+									placeholder="Enter your account balance ($1,000) ..."
+									allowNegative={false}
+									thousandSeparator={true}
+									name={name}
+									value={value}
+									onValueChange={(v) => onChange(v.floatValue)}
+								/>
+							)}
 						/>
 					</InputGroup>
 					<FormErrorMessage>
@@ -132,7 +152,25 @@ export default function HookForm() {
 						</Text>
 					</FormLabel>
 					<InputGroup>
-						<Input
+						<Controller
+							control={control}
+							name="risk"
+							render={({ field: { onChange, name, value } }) => (
+								<NumberFormat
+									customInput={Input}
+									borderRadius={"0.375rem 0 0 0.375rem"}
+									allowNegative={false}
+									thousandSeparator={false}
+									decimalScale={2}
+									fixedDecimalScale
+									placeholder="Enter your risk (1.00%) ..."
+									name={name}
+									value={value}
+									onValueChange={(v) => onChange(v.floatValue)}
+								/>
+							)}
+						/>
+						{/* <Input
 							id="risk"
 							placeholder="Enter your risk (1%) ..."
 							type={"number"}
@@ -144,7 +182,7 @@ export default function HookForm() {
 								// 	positive: (v) => parseInt(v) > 0,
 								// },
 							})}
-						/>
+						/> */}
 						<InputRightAddon>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
@@ -161,7 +199,25 @@ export default function HookForm() {
 						</Text>
 					</FormLabel>
 					<InputGroup>
-						<Input
+						<Controller
+							control={control}
+							name="stoploss"
+							render={({ field: { onChange, name, value } }) => (
+								<NumberFormat
+									customInput={Input}
+									borderRadius={"0.375rem 0 0 0.375rem"}
+									allowNegative={false}
+									thousandSeparator={false}
+									decimalScale={2}
+									fixedDecimalScale
+									placeholder="Enter your stoploss (0.50%) ..."
+									name={name}
+									value={value}
+									onValueChange={(v) => onChange(v.floatValue)}
+								/>
+							)}
+						/>
+						{/* <Input
 							id="stoploss"
 							placeholder="Enter your stoploss (0.5%) ..."
 							type={"number"}
@@ -171,7 +227,7 @@ export default function HookForm() {
 								// valueAsNumber: true,
 								// pattern: "d*(.d{0,2})?$",
 							})}
-						/>
+						/> */}
 						<InputRightAddon>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
@@ -308,6 +364,7 @@ export default function HookForm() {
 								</Tr>
 							))}
 						</Tbody>
+						<TableCaption color="gray.500">Note: does not account for exchange fees.</TableCaption>
 					</Table>
 				</TableContainer>
 			</Box>
