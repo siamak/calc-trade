@@ -18,8 +18,6 @@ import {
 	SliderFilledTrack,
 	SliderThumb,
 	SliderTrack,
-	Alert,
-	AlertIcon,
 	TableContainer,
 	Table,
 	Thead,
@@ -31,22 +29,20 @@ import {
 	TableCaption,
 	Divider,
 } from "@chakra-ui/react";
-import useFormPersist from "../hooks/useFormPersist";
-// import { useRouter } from "next/router";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import useFormPersist from "../hooks/useFormPersist";
+import LocaleSwitcher from "./localeSwitch";
+// import { useRouter } from "next/router";
 
 const rrRatio = [1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4, 5, 10];
 
-interface IProps {
-	content: { [key: string]: string };
-}
-export default function HookForm({ content }: IProps) {
+export default function HookForm() {
 	const router = useRouter();
 	const t = useTranslations("form");
 	const { locale } = router;
 
-	const isRTL = locale === "rtl";
+	const isRTL = locale === "fa";
 	const {
 		// register,
 		handleSubmit,
@@ -55,7 +51,7 @@ export default function HookForm({ content }: IProps) {
 		setValue,
 		getValues,
 		control,
-		formState: { errors, isSubmitting, isValid },
+		formState: { errors, isSubmitting },
 	} = useForm({
 		mode: "onBlur",
 	});
@@ -128,7 +124,9 @@ export default function HookForm({ content }: IProps) {
 						</Text>
 					</FormLabel>
 					<InputGroup>
-						<InputLeftAddon>$</InputLeftAddon>
+						<InputLeftAddon borderRadius={isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"}>
+							$
+						</InputLeftAddon>
 						{/* <Input
 							id="balance"
 							placeholder="Enter your account balance ($1000) ..."
@@ -149,7 +147,8 @@ export default function HookForm({ content }: IProps) {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
-									borderRadius={"0 0.375rem 0.375rem 0"}
+									borderRadius={isRTL ? "0.375rem 0 0 0.375rem" : "0 0.375rem 0.375rem 0"}
+									// borderRadius={"0 0.375r/em 0.375rem 0"}
 									placeholder={t("balance.placeholder")}
 									allowNegative={false}
 									thousandSeparator={true}
@@ -181,7 +180,7 @@ export default function HookForm({ content }: IProps) {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
-									borderRadius={"0.375rem 0 0 0.375rem"}
+									borderRadius={isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"}
 									allowNegative={false}
 									thousandSeparator={false}
 									decimalScale={2}
@@ -206,7 +205,7 @@ export default function HookForm({ content }: IProps) {
 								// },
 							})}
 						/> */}
-						<InputRightAddon>%</InputRightAddon>
+						<InputRightAddon borderRadius={"none"}>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>{errors.risk && (errors.risk.message || t("risk.error"))}</FormErrorMessage>
 				</FormControl>
@@ -226,7 +225,7 @@ export default function HookForm({ content }: IProps) {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
-									borderRadius={"0.375rem 0 0 0.375rem"}
+									borderRadius={isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"}
 									allowNegative={false}
 									thousandSeparator={false}
 									decimalScale={2}
@@ -249,7 +248,7 @@ export default function HookForm({ content }: IProps) {
 								// pattern: "d*(.d{0,2})?$",
 							})}
 						/> */}
-						<InputRightAddon>%</InputRightAddon>
+						<InputRightAddon borderRadius={"none"}>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
 						{errors.stoploss && (errors.stoploss.message || t("stoploss.error"))}
@@ -509,6 +508,8 @@ export default function HookForm({ content }: IProps) {
 				</Text>
 				.
 			</Text>
+
+			<LocaleSwitcher />
 		</form>
 	);
 }

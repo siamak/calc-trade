@@ -3,7 +3,7 @@ import { Container, Select, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import HookForm from "../src/components/calcform.component";
 
-const Home: NextPage = ({ content }: any) => {
+const Home: NextPage = () => {
 	return (
 		<>
 			<Head>
@@ -55,7 +55,7 @@ const Home: NextPage = ({ content }: any) => {
 
 			<Container py={10}>
 				{/* <Select variant="outline" placeholder="Filled" /> */}
-				<HookForm content={content} />
+				<HookForm />
 			</Container>
 		</>
 	);
