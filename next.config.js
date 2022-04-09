@@ -6,4 +6,10 @@ module.exports = withPWA({
 		disable: process.env.NODE_ENV === "development",
 	},
 	reactStrictMode: true,
+	i18n: {
+		locales: ["default", "en", "fa"],
+		defaultLocale: "default",
+		localeDetection: true,
+	},
+	trailingSlash: true,
 });

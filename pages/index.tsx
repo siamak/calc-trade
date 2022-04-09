@@ -3,7 +3,7 @@ import { Container, Select, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import HookForm from "../src/components/calcform.component";
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ content }: any) => {
 	return (
 		<>
 			<Head>
@@ -55,10 +55,33 @@ const Home: NextPage = () => {
 
 			<Container py={10}>
 				{/* <Select variant="outline" placeholder="Filled" /> */}
-				<HookForm />
+				<HookForm content={content} />
 			</Container>
 		</>
 	);
 };
+
+export function getStaticProps({ locale }: { locale: string }) {
+	return {
+		props: {
+			messages: {
+				...require(`../src/dict/${locale}.json`),
+			},
+		},
+	};
+}
+// export const getStaticProps: GetStaticProps = async (ctx) => {
+// 	const { locale } = ctx;
+// 	const dir = path.join(process.cwd(), "public", "dict");
+// 	const filePath = `${dir}/${locale}.json`;
+// 	const buffer = fs.readFileSync(filePath);
+// 	const content = JSON.parse(buffer.toString());
+// 	return {
+// 		props: {
+// 			content,
+// 		},
+// 	};
+
+// };
 
 export default Home;

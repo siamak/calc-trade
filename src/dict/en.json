@@ -1,0 +1,50 @@
+{
+	"form": {
+		"balance": {
+			"label": "Account Balance",
+			"subtitle": "How much money do you have?",
+			"placeholder": "Enter your account balance ($1,000) ...",
+			"error": "Balance should be number"
+		},
+		"risk": {
+			"label": "Risk (%)",
+			"subtitle": "How much risk are you willing to take?",
+			"placeholder": "Enter your risk (1.00%) ...",
+			"error": "Risk should be number"
+		},
+		"stoploss": {
+			"label": "Stop loss (%)",
+			"subtitle": "How much percent are you willing to lose on stop-loss?",
+			"placeholder": "Enter your stoploss (0.50%) ...",
+			"error": "Stop-loss should be number"
+		},
+		"leverage": {
+			"label": "Leverage",
+			"subtitle": "What is the size of your leverage?",
+			"futures": "Futures trade",
+			"spot": "Spot trade"
+		},
+		"actions": {
+			"clear": "Clear"
+		},
+		"riskedCaptial": {
+			"label": "Risked Capital",
+			"subtitle": "Amount of capital that will be lost if your configured stop loss is reached"
+		},
+		"margin": {
+			"label": "Margin",
+			"subtitle": "Total amount of your capital used in this position"
+		},
+		"result": {
+			"headings": ["Risk/Reward Ratio", "Profit", "Loss"],
+			"note": "Note: does not account for exchange fees."
+		},
+		"footer": {
+			"disclaimer": "We do not store your data on servers. Data will be stored on your device",
+			"copyright": {
+				"text": "Created by",
+				"name": "Siamak"
+			}
+		}
+	}
+}

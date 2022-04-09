@@ -29,13 +29,26 @@ import {
 	Td,
 	Badge,
 	TableCaption,
+	Divider,
 } from "@chakra-ui/react";
 import useFormPersist from "../hooks/useFormPersist";
+// import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/router";
 
 const rrRatio = [1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4, 5, 10];
-export default function HookForm() {
+
+interface IProps {
+	content: { [key: string]: string };
+}
+export default function HookForm({ content }: IProps) {
+	const router = useRouter();
+	const t = useTranslations("form");
+	const { locale } = router;
+
+	const isRTL = locale === "rtl";
 	const {
-		register,
+		// register,
 		handleSubmit,
 		watch,
 		reset,
@@ -77,6 +90,15 @@ export default function HookForm() {
 		return margin * _sl;
 	}, [values]);
 
+	const riskCapital = useMemo(() => {
+		const { balance, risk } = values;
+
+		const _risk = risk / 100;
+		const margin = balance * _risk;
+
+		return margin || 0;
+	}, [values]);
+
 	function onSubmit(values: any) {
 		return new Promise((resolve: any) => {
 			setTimeout(() => {
@@ -100,9 +122,9 @@ export default function HookForm() {
 				{/* Account Balance */}
 				<FormControl isInvalid={errors.balance}>
 					<FormLabel htmlFor="balance">
-						Account balance
+						{t("balance.label")}
 						<Text fontSize="xs" opacity={0.6}>
-							How much money do you have?
+							{t("balance.subtitle")}
 						</Text>
 					</FormLabel>
 					<InputGroup>
@@ -128,7 +150,7 @@ export default function HookForm() {
 								<NumberFormat
 									customInput={Input}
 									borderRadius={"0 0.375rem 0.375rem 0"}
-									placeholder="Enter your account balance ($1,000) ..."
+									placeholder={t("balance.placeholder")}
 									allowNegative={false}
 									thousandSeparator={true}
 									name={name}
@@ -139,16 +161,17 @@ export default function HookForm() {
 						/>
 					</InputGroup>
 					<FormErrorMessage>
-						{errors.balance && (errors.balance.message || "Balance should be number")}
+						{errors.balance && (errors.balance.message || t("balance.error"))}
 					</FormErrorMessage>
 				</FormControl>
 
 				{/* Risk */}
 				<FormControl isInvalid={errors.risk}>
 					<FormLabel htmlFor="risk">
-						Risk (%)
+						{t("risk.label")}
+
 						<Text fontSize="xs" opacity={0.6}>
-							How much risk are you willing to take?
+							{t("risk.subtitle")}
 						</Text>
 					</FormLabel>
 					<InputGroup>
@@ -163,7 +186,7 @@ export default function HookForm() {
 									thousandSeparator={false}
 									decimalScale={2}
 									fixedDecimalScale
-									placeholder="Enter your risk (1.00%) ..."
+									placeholder={t("risk.placeholder")}
 									name={name}
 									value={value}
 									onValueChange={(v) => onChange(v.floatValue)}
@@ -185,17 +208,15 @@ export default function HookForm() {
 						/> */}
 						<InputRightAddon>%</InputRightAddon>
 					</InputGroup>
-					<FormErrorMessage>
-						{errors.risk && (errors.risk.message || "Risk should be number")}
-					</FormErrorMessage>
+					<FormErrorMessage>{errors.risk && (errors.risk.message || t("risk.error"))}</FormErrorMessage>
 				</FormControl>
 
 				{/* Stoploss */}
 				<FormControl isInvalid={errors.stoploss}>
 					<FormLabel htmlFor="stoploss">
-						Stop loss (%)
+						{t("stoploss.label")}
 						<Text fontSize="xs" opacity={0.6}>
-							How much percent are you willing to lose on stop-loss?
+							{t("stoploss.subtitle")}
 						</Text>
 					</FormLabel>
 					<InputGroup>
@@ -210,7 +231,7 @@ export default function HookForm() {
 									thousandSeparator={false}
 									decimalScale={2}
 									fixedDecimalScale
-									placeholder="Enter your stoploss (0.50%) ..."
+									placeholder={t("stoploss.subtitle")}
 									name={name}
 									value={value}
 									onValueChange={(v) => onChange(v.floatValue)}
@@ -231,16 +252,16 @@ export default function HookForm() {
 						<InputRightAddon>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
-						{errors.stoploss && (errors.stoploss.message || "Stop-loss should be number")}
+						{errors.stoploss && (errors.stoploss.message || t("stoploss.error"))}
 					</FormErrorMessage>
 				</FormControl>
 
 				{/* Leverage */}
 				<FormControl isInvalid={errors.leverage}>
 					<FormLabel htmlFor="leverage">
-						Leverage
+						{t("leverage.label")}
 						<Text fontSize="xs" opacity={0.6}>
-							What is the size of your leverage?
+							{t("leverage.subtitle")}
 						</Text>
 					</FormLabel>
 
@@ -250,7 +271,7 @@ export default function HookForm() {
 								{getValues("leverage")}
 							</Text>
 							<Text fontSize="xs" opacity={0.6} minW={"100"} pl={2}>
-								{getValues("leverage") === 1 ? "Spot trade" : "Futures trade"}
+								{getValues("leverage") === 1 ? t("leverage.spot") : t("leverage.futures")}
 							</Text>
 						</Box>
 						<Slider
@@ -273,9 +294,7 @@ export default function HookForm() {
 							/>
 						</Slider>
 					</HStack>
-					<FormErrorMessage>
-						{errors.leverage && (errors.leverage.message || "Leverage should be number")}
-					</FormErrorMessage>
+					<FormErrorMessage>{errors.leverage && errors.leverage.message}</FormErrorMessage>
 				</FormControl>
 
 				<HStack mt={4}>
@@ -298,20 +317,122 @@ export default function HookForm() {
 							})
 						}
 					>
-						Clear
+						{t("actions.clear")}
 					</Button>
 				</HStack>
 			</VStack>
 
-			<HStack spacing={4} my={4} px={8} py={5} bg="white" boxShadow={"lg"} borderRadius={8}>
-				<svg width={64} height={64} viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<rect width={512} height={512} rx={130} fill="#6DB9FF" fillOpacity=".3" />
-					<path
-						d="M332.7 64.3H179.3c-52.9 0-95.8 43-95.8 95.9v191.6c0 53 43 95.9 95.8 95.9h153.4c52.9 0 95.8-43 95.8-95.9V160.2c0-53-43-95.9-95.8-95.9ZM195.8 383.1a18.9 18.9 0 0 1-13.4 5.5 19.2 19.2 0 0 1-19.4-19.2 19.5 19.5 0 0 1 12-17.6 19.7 19.7 0 0 1 18 1.8 19.5 19.5 0 0 1 8.6 16c0 5-2.1 9.8-5.8 13.5ZM163 292.8c0-2.5.6-5 1.6-7.3A19.1 19.1 0 0 1 193 277a20.3 20.3 0 0 1 7 8.6c1 2.3 1.4 4.8 1.4 7.3a19 19 0 0 1-26.5 17.6 19 19 0 0 1-11.9-17.6Zm109.5 90.3a19.3 19.3 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-1.4.2-2.5.4-3.9l1.1-3.4 1.8-3.5c.7-1 1.5-1.9 2.5-2.8a19.5 19.5 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm0-76.7a19 19 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-5 2.1-10 5.8-13.6 7-7.1 19.9-7.1 27 0 1.7 2 3.2 3.8 4.2 6.3 1 2.3 1.3 4.8 1.3 7.3 0 5.2-1.9 10-5.5 13.6Zm-74-80c-19.7 0-36-16-36-36v-19.1c0-19.8 16-36 36-36h115c19.7 0 36 16 36 36v19.1c0 19.8-16 36-36 36h-115Zm150.6 156.7a19 19 0 0 1-20.8 4 19 19 0 0 1-11.7-17.6c0-5 1.9-10 5.5-13.6a19.4 19.4 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm4.3-83a19.3 19.3 0 0 1-17.9 11.9c-5 0-9.7-2-13.4-5.6a19.1 19.1 0 0 1-5.7-13.6c0-5 2-10 5.7-13.6 7.1-7.1 20-7.1 27 0 3.7 3.6 5.8 8.6 5.8 13.6 0 2.5-.6 5-1.5 7.3Z"
-						fill="#0270BF"
-					/>
-				</svg>
+			<VStack
+				spacing={4}
+				alignItems="flex-start"
+				my={4}
+				px={8}
+				py={5}
+				bg="white"
+				boxShadow={"lg"}
+				borderRadius={8}
+			>
+				<HStack flex={1} width="100%" justifyContent={"space-between"}>
+					<HStack spacing={4}>
+						<svg
+							version="1.1"
+							width={40}
+							height={40}
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+							xmlnsXlink="http://www.w3.org/1999/xlink"
+						>
+							<g fill="#f21313">
+								<path
+									opacity=".30"
+									d="M21.7605 15.92l-6.4-11.52c-.86-1.55-2.05-2.4-3.36-2.4 -1.31 0-2.50003.85-3.36003 2.4l-6.4 11.52c-.81 1.47-.9 2.88-.25 3.99 .65 1.11 1.93 1.72 3.61 1.72h12.8c1.68 0 2.96-.61 3.61-1.72 .65-1.11.56-2.53-.25-3.99Z"
+								/>
+								<path d="M12 14.75c-.41 0-.75-.34-.75-.75v-5c0-.41.34-.75.75-.75 .41 0 .75.34.75.75v5c0 .41-.34.75-.75.75Z" />
+								<path d="M12 18.0001c-.06 0-.13-.01-.2-.02 -.06-.01-.12-.03-.18-.06 -.06-.02-.12-.05-.18-.09 -.05-.04-.1-.08-.15-.12 -.18-.19-.29-.45-.29-.71 0-.26.11-.52.29-.71 .05-.04.1-.08.15-.12 .06-.04.12-.07.18-.09 .06-.03.12-.05.18-.06 .13-.03.27-.03.39 0 .07.01.13.03.19.06 .06.02.12.05.18.09 .05.04.1.08.15.12 .18.19.29.45.29.71 0 .26-.11.52-.29.71 -.05.04-.1.08-.15.12 -.06.04-.12.07-.18.09 -.06.03-.12.05-.19.06 -.06.01-.13.02-.19.02Z" />
+							</g>
+						</svg>
 
+						{/* <svg
+							width={40}
+							height={40}
+							viewBox="0 0 512 512"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<rect width={512} height={512} rx={130} fill="#6DB9FF" fillOpacity=".3" />
+							<path
+								d="M332.7 64.3H179.3c-52.9 0-95.8 43-95.8 95.9v191.6c0 53 43 95.9 95.8 95.9h153.4c52.9 0 95.8-43 95.8-95.9V160.2c0-53-43-95.9-95.8-95.9ZM195.8 383.1a18.9 18.9 0 0 1-13.4 5.5 19.2 19.2 0 0 1-19.4-19.2 19.5 19.5 0 0 1 12-17.6 19.7 19.7 0 0 1 18 1.8 19.5 19.5 0 0 1 8.6 16c0 5-2.1 9.8-5.8 13.5ZM163 292.8c0-2.5.6-5 1.6-7.3A19.1 19.1 0 0 1 193 277a20.3 20.3 0 0 1 7 8.6c1 2.3 1.4 4.8 1.4 7.3a19 19 0 0 1-26.5 17.6 19 19 0 0 1-11.9-17.6Zm109.5 90.3a19.3 19.3 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-1.4.2-2.5.4-3.9l1.1-3.4 1.8-3.5c.7-1 1.5-1.9 2.5-2.8a19.5 19.5 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm0-76.7a19 19 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-5 2.1-10 5.8-13.6 7-7.1 19.9-7.1 27 0 1.7 2 3.2 3.8 4.2 6.3 1 2.3 1.3 4.8 1.3 7.3 0 5.2-1.9 10-5.5 13.6Zm-74-80c-19.7 0-36-16-36-36v-19.1c0-19.8 16-36 36-36h115c19.7 0 36 16 36 36v19.1c0 19.8-16 36-36 36h-115Zm150.6 156.7a19 19 0 0 1-20.8 4 19 19 0 0 1-11.7-17.6c0-5 1.9-10 5.5-13.6a19.4 19.4 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm4.3-83a19.3 19.3 0 0 1-17.9 11.9c-5 0-9.7-2-13.4-5.6a19.1 19.1 0 0 1-5.7-13.6c0-5 2-10 5.7-13.6 7.1-7.1 20-7.1 27 0 3.7 3.6 5.8 8.6 5.8 13.6 0 2.5-.6 5-1.5 7.3Z"
+								fill="#0270BF"
+							/>
+						</svg> */}
+
+						<VStack alignItems="flex-start" spacing={0}>
+							<Text fontSize="md" fontWeight={500}>
+								{t("riskedCaptial.label")}
+							</Text>
+
+							<Text fontSize="xs" opacity={0.6}>
+								{t("riskedCaptial.subtitle")}
+							</Text>
+						</VStack>
+					</HStack>
+					<Text fontSize="large" color="gray.700" fontWeight={"bold"} lineHeight={1}>
+						{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(riskCapital)}
+					</Text>
+				</HStack>
+
+				<Divider />
+
+				<HStack flex={1} width="100%" justifyContent={"space-between"}>
+					<HStack spacing={4}>
+						<svg
+							version="1.1"
+							viewBox="0 0 24 24"
+							width={40}
+							height={40}
+							xmlns="http://www.w3.org/2000/svg"
+							xmlnsXlink="http://www.w3.org/1999/xlink"
+						>
+							<g fill="#219752">
+								<path
+									opacity=".40"
+									d="M17 7.75c-.19 0-.38-.07-.53-.22 -.29-.29-.29-.77 0-1.06l2.05-2.05c-1.76-1.5-4.03-2.42-6.52-2.42 -5.52 0-10 4.48-10 10 0 5.52 4.48 10 10 10 5.52 0 10-4.48 10-10 0-2.49-.92-4.76-2.42-6.52l-2.05 2.05c-.15.15-.34.22-.53.22Z"
+								/>
+								<path d="M13.75 11.82l-1-.35v-2.22h.08c.51 0 .92.45.92 1 0 .41.34.75.75.75 .41 0 .75-.34.75-.75 0-1.38-1.08-2.5-2.42-2.5h-.08v-.25c0-.41-.34-.75-.75-.75 -.41 0-.75.34-.75.75v.25h-.3c-1.20999 0-2.2 1.02-2.2 2.28 0 1.46.85 1.93 1.5 2.16l1 .35v2.22h-.08c-.51 0-.92-.45-.92-1 0-.41-.34-.75-.75-.75 -.41 0-.75.34-.75.75 0 1.38 1.08001 2.5 2.42 2.5h.08v.25c0 .41.34.75.75.75 .41 0 .75-.34.75-.75v-.25h.3c1.21 0 2.2-1.02 2.2-2.28 0-1.47-.85-1.94-1.5-2.16Zm-3.01-1.06c-.34-.12-.49-.19-.49-.74 0-.43.32-.78.7-.78h.3v1.69l-.51-.17Zm2.31 3.99h-.3v-1.69l.51.18c.34.12.49.19.49.74 0 .42-.32.77-.7.77Z" />
+								<path d="M22.6902 1.71024c-.08-.18-.22-.33-.41-.41 -.09-.04-.19-.06001-.29-.06001h-4c-.41 0-.75.34-.75.75 0 .41.34.75.75.75h2.19l-1.6699 1.67001c.38.33.73.68 1.06 1.06l1.6699-1.67v2.2c0 .41.34.75.75.75 .41 0 .75-.34.75-.75v-4c.01-.1-.01-.19-.05-.29Z" />
+							</g>
+						</svg>
+
+						{/* <svg
+							width={40}
+							height={40}
+							viewBox="0 0 512 512"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<rect width={512} height={512} rx={130} fill="#6DB9FF" fillOpacity=".3" />
+							<path
+								d="M332.7 64.3H179.3c-52.9 0-95.8 43-95.8 95.9v191.6c0 53 43 95.9 95.8 95.9h153.4c52.9 0 95.8-43 95.8-95.9V160.2c0-53-43-95.9-95.8-95.9ZM195.8 383.1a18.9 18.9 0 0 1-13.4 5.5 19.2 19.2 0 0 1-19.4-19.2 19.5 19.5 0 0 1 12-17.6 19.7 19.7 0 0 1 18 1.8 19.5 19.5 0 0 1 8.6 16c0 5-2.1 9.8-5.8 13.5ZM163 292.8c0-2.5.6-5 1.6-7.3A19.1 19.1 0 0 1 193 277a20.3 20.3 0 0 1 7 8.6c1 2.3 1.4 4.8 1.4 7.3a19 19 0 0 1-26.5 17.6 19 19 0 0 1-11.9-17.6Zm109.5 90.3a19.3 19.3 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-1.4.2-2.5.4-3.9l1.1-3.4 1.8-3.5c.7-1 1.5-1.9 2.5-2.8a19.5 19.5 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm0-76.7a19 19 0 0 1-13.6 5.6c-5 0-9.8-2-13.4-5.6a19.2 19.2 0 0 1-5.8-13.6c0-5 2.1-10 5.8-13.6 7-7.1 19.9-7.1 27 0 1.7 2 3.2 3.8 4.2 6.3 1 2.3 1.3 4.8 1.3 7.3 0 5.2-1.9 10-5.5 13.6Zm-74-80c-19.7 0-36-16-36-36v-19.1c0-19.8 16-36 36-36h115c19.7 0 36 16 36 36v19.1c0 19.8-16 36-36 36h-115Zm150.6 156.7a19 19 0 0 1-20.8 4 19 19 0 0 1-11.7-17.6c0-5 1.9-10 5.5-13.6a19.4 19.4 0 0 1 27 0 19.3 19.3 0 0 1 0 27.2Zm4.3-83a19.3 19.3 0 0 1-17.9 11.9c-5 0-9.7-2-13.4-5.6a19.1 19.1 0 0 1-5.7-13.6c0-5 2-10 5.7-13.6 7.1-7.1 20-7.1 27 0 3.7 3.6 5.8 8.6 5.8 13.6 0 2.5-.6 5-1.5 7.3Z"
+								fill="#0270BF"
+							/>
+						</svg> */}
+
+						<VStack alignItems="flex-start" spacing={0}>
+							<Text fontSize="md" fontWeight={500}>
+								{t("margin.label")}
+							</Text>
+
+							<Text fontSize="xs" opacity={0.6}>
+								{t("margin.subtitle")}
+							</Text>
+						</VStack>
+					</HStack>
+					<Text fontSize="large" color="gray.700" fontWeight={"bold"} lineHeight={1}>
+						{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(marginSize)}
+					</Text>
+				</HStack>
+
+				{/* 
 				<Box>
 					<Text fontSize="md" color="gray.500">
 						Your position size is
@@ -319,7 +440,8 @@ export default function HookForm() {
 					<Text mt={-1} fontSize="x-large" color="#0270BF" fontWeight={"bold"}>
 						{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(marginSize)}
 					</Text>
-				</Box>
+				</Box> */}
+
 				{/* <Alert bg={"#a1ece7"} color="#093e3b" borderRadius={"lg"} status="success">
 					<AlertIcon color="#1c746e" />
 					Position size is:{" "}
@@ -327,7 +449,7 @@ export default function HookForm() {
 						${marginSize}
 					</Text>
 				</Alert> */}
-			</HStack>
+			</VStack>
 
 			<Box mt={4} p={[4, 8]} bg="white" boxShadow={"lg"} borderRadius={8}>
 				<TableContainer>
@@ -335,13 +457,13 @@ export default function HookForm() {
 						<Thead>
 							<Tr>
 								<Th py={3} isNumeric>
-									Risk/Reward Ratio
+									{t("result.headings.0")}
 								</Th>
 								<Th py={3} isNumeric>
-									Profit
+									{t("result.headings.1")}
 								</Th>
 								<Th py={3} isNumeric>
-									Loss
+									{t("result.headings.2")}
 								</Th>
 							</Tr>
 						</Thead>
@@ -364,17 +486,17 @@ export default function HookForm() {
 								</Tr>
 							))}
 						</Tbody>
-						<TableCaption color="gray.500">Note: does not account for exchange fees.</TableCaption>
+						<TableCaption color="gray.500">{t("result.note")}</TableCaption>
 					</Table>
 				</TableContainer>
 			</Box>
 
 			<Text textAlign={"center"} color="gray.500" mt={8} fontStyle="italic">
-				We do not store your data on servers. Data will be stored on your device.
+				{t("footer.disclaimer")}
 			</Text>
 
 			<Text textAlign={"center"} color="gray.700" mt={2}>
-				Created by{" "}
+				{t("footer.copyright.text")}{" "}
 				<Text
 					as="a"
 					fontWeight={500}
@@ -383,12 +505,10 @@ export default function HookForm() {
 					target="_blank"
 					href="https://m.siamak.me/"
 				>
-					Siamak
+					{t("footer.copyright.name")}
 				</Text>
 				.
 			</Text>
-
-			{/* <pre>{JSON.stringify({ errors, isSubmitting, isValid }, null, 2)}</pre> */}
 		</form>
 	);
 }
