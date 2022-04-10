@@ -145,17 +145,19 @@ export default function HookForm() {
 							control={control}
 							name="balance"
 							render={({ field: { onChange, name, value } }) => (
-								<NumberFormat
-									customInput={Input}
-									borderRadius={isRTL ? "0.375rem 0 0 0.375rem" : "0 0.375rem 0.375rem 0"}
-									// borderRadius={"0 0.375r/em 0.375rem 0"}
-									placeholder={t("balance.placeholder")}
-									allowNegative={false}
-									thousandSeparator={true}
-									name={name}
-									value={value}
-									onValueChange={(v) => onChange(v.floatValue)}
-								/>
+								<>
+									<NumberFormat
+										customInput={Input}
+										borderRadius={isRTL ? "0.375rem 0 0 0.375rem" : "0 0.375rem 0.375rem 0"}
+										// borderRadius={"0 0.375r/em 0.375rem 0"}
+										placeholder={t("balance.placeholder")}
+										allowNegative={false}
+										thousandSeparator={true}
+										name={name}
+										value={value || ""}
+										onValueChange={(v) => onChange(v.floatValue)}
+									/>
+								</>
 							)}
 						/>
 					</InputGroup>
@@ -187,7 +189,7 @@ export default function HookForm() {
 									fixedDecimalScale
 									placeholder={t("risk.placeholder")}
 									name={name}
-									value={value}
+									value={value || ""}
 									onValueChange={(v) => onChange(v.floatValue)}
 								/>
 							)}
@@ -232,7 +234,7 @@ export default function HookForm() {
 									fixedDecimalScale
 									placeholder={t("stoploss.subtitle")}
 									name={name}
-									value={value}
+									value={value || ""}
 									onValueChange={(v) => onChange(v.floatValue)}
 								/>
 							)}
@@ -490,7 +492,9 @@ export default function HookForm() {
 				</TableContainer>
 			</Box>
 
-			<Text textAlign={"center"} color="gray.500" mt={8} fontStyle="italic">
+			<LocaleSwitcher />
+
+			<Text textAlign={"center"} color="gray.500" mt={4} fontStyle="italic">
 				{t("footer.disclaimer")}
 			</Text>
 
@@ -508,8 +512,6 @@ export default function HookForm() {
 				</Text>
 				.
 			</Text>
-
-			<LocaleSwitcher />
 		</form>
 	);
 }

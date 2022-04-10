@@ -40,6 +40,7 @@
 			"note": "Note: does not account for exchange fees."
 		},
 		"footer": {
+			"lang": "Language",
 			"disclaimer": "We do not store your data on servers. Data will be stored on your device",
 			"copyright": {
 				"text": "Created by",

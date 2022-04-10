@@ -16,7 +16,7 @@ class MyDocument extends Document {
 					<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
 					{dir === "rtl" && (
 						<link
-							href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap"
+							href="https://cdnjs.cloudflare.com/ajax/libs/vazir-font/30.1.0/UI/Farsi-Digits/font-face-FD-UI.min.css"
 							rel="stylesheet"
 						/>
 					)}

@@ -53,7 +53,7 @@ const Home: NextPage = () => {
 				<link rel="apple-touch-startup-image" href="/splash/apple_splash_640.png" sizes="640x1136" />
 			</Head>
 
-			<Container py={10}>
+			<Container maxW={"36rem"} py={10}>
 				{/* <Select variant="outline" placeholder="Filled" /> */}
 				<HookForm />
 			</Container>
