@@ -1,4 +1,8 @@
-import { ChakraProvider, extendTheme, type ThemeConfig } from "@chakra-ui/react";
+import {
+	ChakraProvider,
+	extendTheme,
+	type ThemeConfig,
+} from "@chakra-ui/react";
 import { NextIntlProvider } from "next-intl";
 import "../styles/globals.css";
 

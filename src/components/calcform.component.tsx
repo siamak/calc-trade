@@ -124,7 +124,11 @@ export default function HookForm() {
 						</Text>
 					</FormLabel>
 					<InputGroup>
-						<InputLeftAddon borderRadius={isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"}>
+						<InputLeftAddon
+							borderRadius={
+								isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"
+							}
+						>
 							$
 						</InputLeftAddon>
 						{/* <Input
@@ -148,7 +152,9 @@ export default function HookForm() {
 								<>
 									<NumberFormat
 										customInput={Input}
-										borderRadius={isRTL ? "0.375rem 0 0 0.375rem" : "0 0.375rem 0.375rem 0"}
+										borderRadius={
+											isRTL ? "0.375rem 0 0 0.375rem" : "0 0.375rem 0.375rem 0"
+										}
 										// borderRadius={"0 0.375r/em 0.375rem 0"}
 										placeholder={t("balance.placeholder")}
 										allowNegative={false}
@@ -182,7 +188,9 @@ export default function HookForm() {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
-									borderRadius={isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"}
+									borderRadius={
+										isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"
+									}
 									allowNegative={false}
 									thousandSeparator={false}
 									decimalScale={2}
@@ -209,7 +217,9 @@ export default function HookForm() {
 						/> */}
 						<InputRightAddon borderRadius={"none"}>%</InputRightAddon>
 					</InputGroup>
-					<FormErrorMessage>{errors.risk && (errors.risk.message || t("risk.error"))}</FormErrorMessage>
+					<FormErrorMessage>
+						{errors.risk && (errors.risk.message || t("risk.error"))}
+					</FormErrorMessage>
 				</FormControl>
 
 				{/* Stoploss */}
@@ -227,7 +237,9 @@ export default function HookForm() {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
-									borderRadius={isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"}
+									borderRadius={
+										isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"
+									}
 									allowNegative={false}
 									thousandSeparator={false}
 									decimalScale={2}
@@ -253,7 +265,8 @@ export default function HookForm() {
 						<InputRightAddon borderRadius={"none"}>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
-						{errors.stoploss && (errors.stoploss.message || t("stoploss.error"))}
+						{errors.stoploss &&
+							(errors.stoploss.message || t("stoploss.error"))}
 					</FormErrorMessage>
 				</FormControl>
 
@@ -266,13 +279,28 @@ export default function HookForm() {
 						</Text>
 					</FormLabel>
 
-					<HStack pl={5} pr={10} spacing={3} py={6} bg={"gray.100"} borderRadius={"lg"} userSelect="none">
+					<HStack
+						pl={5}
+						pr={10}
+						spacing={3}
+						py={6}
+						bg={"gray.100"}
+						borderRadius={"lg"}
+						userSelect="none"
+					>
 						<Box d="flex" alignItems="center" flexDirection="row">
-							<Text fontWeight={"bold"} fontSize="xl" minW={"10"} textAlign="center">
+							<Text
+								fontWeight={"bold"}
+								fontSize="xl"
+								minW={"10"}
+								textAlign="center"
+							>
 								{getValues("leverage")}
 							</Text>
 							<Text fontSize="xs" opacity={0.6} minW={"100"} pl={2}>
-								{getValues("leverage") === 1 ? t("leverage.spot") : t("leverage.futures")}
+								{getValues("leverage") === 1
+									? t("leverage.spot")
+									: t("leverage.futures")}
 							</Text>
 						</Box>
 						<Slider
@@ -290,12 +318,16 @@ export default function HookForm() {
 								<SliderFilledTrack bg="#ff5e28" />
 							</SliderTrack>
 							<SliderThumb
-								boxShadow={"0 3px 6px 0 rgb(109 118 126 / 37%), 0 1px 2px 0 rgb(0 0 0 / 6%)"}
+								boxShadow={
+									"0 3px 6px 0 rgb(109 118 126 / 37%), 0 1px 2px 0 rgb(0 0 0 / 6%)"
+								}
 								boxSize={6}
 							/>
 						</Slider>
 					</HStack>
-					<FormErrorMessage>{errors.leverage && errors.leverage.message}</FormErrorMessage>
+					<FormErrorMessage>
+						{errors.leverage && errors.leverage.message}
+					</FormErrorMessage>
 				</FormControl>
 
 				<HStack mt={4}>
@@ -377,8 +409,16 @@ export default function HookForm() {
 							</Text>
 						</VStack>
 					</HStack>
-					<Text fontSize="large" color="gray.700" fontWeight={"bold"} lineHeight={1}>
-						{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(riskCapital)}
+					<Text
+						fontSize="large"
+						color="gray.700"
+						fontWeight={"bold"}
+						lineHeight={1}
+					>
+						{new Intl.NumberFormat("en-US", {
+							style: "currency",
+							currency: "USD",
+						}).format(riskCapital)}
 					</Text>
 				</HStack>
 
@@ -428,12 +468,20 @@ export default function HookForm() {
 							</Text>
 						</VStack>
 					</HStack>
-					<Text fontSize="large" color="gray.700" fontWeight={"bold"} lineHeight={1}>
-						{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(marginSize)}
+					<Text
+						fontSize="large"
+						color="gray.700"
+						fontWeight={"bold"}
+						lineHeight={1}
+					>
+						{new Intl.NumberFormat("en-US", {
+							style: "currency",
+							currency: "USD",
+						}).format(marginSize)}
 					</Text>
 				</HStack>
 
-				{/* 
+				{/*
 				<Box>
 					<Text fontSize="md" color="gray.500">
 						Your position size is
@@ -476,7 +524,8 @@ export default function HookForm() {
 									</Td>
 									<Td py={3} isNumeric>
 										<Badge colorScheme="green">
-											+ ${(Math.round(r * lossRate * 100) / 100 || 0).toFixed(2)}
+											+ $
+											{(Math.round(r * lossRate * 100) / 100 || 0).toFixed(2)}
 										</Badge>
 									</Td>
 									<Td py={3} isNumeric>

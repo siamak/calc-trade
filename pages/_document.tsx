@@ -1,4 +1,10 @@
-import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
+import Document, {
+	Html,
+	Head,
+	Main,
+	NextScript,
+	DocumentContext,
+} from "next/document";
 
 class MyDocument extends Document {
 	static async getInitialProps(ctx: DocumentContext) {
@@ -13,7 +19,11 @@ class MyDocument extends Document {
 			<Html>
 				<Head>
 					<link rel="preconnect" href="https://fonts.googleapis.com" />
-					<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+					<link
+						rel="preconnect"
+						href="https://fonts.gstatic.com"
+						crossOrigin=""
+					/>
 					{dir === "rtl" && (
 						<link
 							href="https://cdnjs.cloudflare.com/ajax/libs/vazir-font/30.1.0/UI/Farsi-Digits/font-face-FD-UI.min.css"

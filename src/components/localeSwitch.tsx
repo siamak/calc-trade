@@ -16,7 +16,6 @@ const dictFlags: any = {
 export default function LocaleSwitcher() {
 	const t = useTranslations("form");
 	const { locales, locale, push } = useRouter();
-	// const otherLocales = locales?.filter((l) => l !== locale); // Find all the locales apart from the current locale.
 
 	if (locales && locales?.length > 0) {
 		return (
@@ -40,11 +39,7 @@ export default function LocaleSwitcher() {
 						}}
 					>
 						{locales.map((_locale) => (
-							<option
-								key={_locale}
-								value={_locale}
-								// selected={locale === _locale}
-							>
+							<option key={_locale} value={_locale}>
 								{dictFlags[_locale].emoji} {dictFlags[_locale].text}
 							</option>
 						))}

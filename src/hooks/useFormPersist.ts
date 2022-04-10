@@ -3,7 +3,14 @@ import { useEffect } from "react";
 const useFormPersist = (
 	name: any,
 	{ watch, setValue }: any,
-	{ storage, exclude = [], include, onDataRestored, validate = false, dirty = false }: any = {}
+	{
+		storage,
+		exclude = [],
+		include,
+		onDataRestored,
+		validate = false,
+		dirty = false,
+	}: any = {}
 ) => {
 	const values = watch(include);
 	const getStorage = () => storage || window.sessionStorage;
@@ -18,7 +25,10 @@ const useFormPersist = (
 				const shouldSet = !exclude.includes(key);
 				if (shouldSet) {
 					dataRestored[key] = values[key];
-					setValue(key, values[key], { shouldValidate: validate, shouldDirty: dirty });
+					setValue(key, values[key], {
+						shouldValidate: validate,
+						shouldDirty: dirty,
+					});
 				}
 			});
 
