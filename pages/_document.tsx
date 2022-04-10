@@ -18,12 +18,6 @@ class MyDocument extends Document {
 		return (
 			<Html>
 				<Head>
-					<link rel="preconnect" href="https://fonts.googleapis.com" />
-					<link
-						rel="preconnect"
-						href="https://fonts.gstatic.com"
-						crossOrigin=""
-					/>
 					{dir === "rtl" && (
 						<link
 							href="https://cdnjs.cloudflare.com/ajax/libs/vazir-font/30.1.0/UI/Farsi-Digits/font-face-FD-UI.min.css"
@@ -32,10 +26,18 @@ class MyDocument extends Document {
 					)}
 
 					{dir === "ltr" && (
-						<link
-							href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-							rel="stylesheet"
-						/>
+						<>
+							<link rel="preconnect" href="https://fonts.googleapis.com" />
+							<link
+								rel="preconnect"
+								href="https://fonts.gstatic.com"
+								crossOrigin=""
+							/>
+							<link
+								href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+								rel="stylesheet"
+							/>
+						</>
 					)}
 				</Head>
 

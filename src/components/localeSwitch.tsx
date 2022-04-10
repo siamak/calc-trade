@@ -14,7 +14,7 @@ const dictFlags: any = {
 	},
 };
 export default function LocaleSwitcher() {
-	const t = useTranslations("form");
+	const t = useTranslations("footer");
 	const { locales, locale, push } = useRouter();
 
 	if (locales && locales?.length > 0) {
@@ -22,7 +22,7 @@ export default function LocaleSwitcher() {
 			<>
 				<FormControl mt={6} mb={4} d="flex" alignItems={"center"}>
 					<FormLabel w={"50%"} htmlFor="lang" mb={0}>
-						{t("footer.lang")}
+						{t("lang")}
 					</FormLabel>
 					<Select
 						userSelect={"none"}

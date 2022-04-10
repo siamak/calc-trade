@@ -26,7 +26,10 @@
 		},
 		"actions": {
 			"clear": "Clear"
-		},
+		}
+	},
+
+	"result": {
 		"riskedCaptial": {
 			"label": "Risked Capital",
 			"subtitle": "Amount of capital that will be lost if your configured stop loss is reached"
@@ -34,18 +37,19 @@
 		"margin": {
 			"label": "Margin",
 			"subtitle": "Total amount of your capital used in this position"
-		},
-		"result": {
-			"headings": ["Risk/Reward Ratio", "Profit", "Loss"],
-			"note": "Note: does not account for exchange fees."
-		},
-		"footer": {
-			"lang": "Language",
-			"disclaimer": "We do not store your data on servers. Data will be stored on your device",
-			"copyright": {
-				"text": "Created by",
-				"name": "Siamak"
-			}
+		}
+	},
+
+	"riskReward": {
+		"headings": ["Risk/Reward Ratio", "Profit", "Loss"],
+		"note": "Note: does not account for exchange fees."
+	},
+	"footer": {
+		"lang": "Language",
+		"disclaimer": "We do not store your data on servers. Data will be stored on your device",
+		"copyright": {
+			"text": "Created by",
+			"name": "Siamak"
 		}
 	}
 }

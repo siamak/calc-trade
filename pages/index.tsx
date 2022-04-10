@@ -1,7 +1,14 @@
 import type { NextPage } from "next";
-import { Container, Select, VStack } from "@chakra-ui/react";
 import Head from "next/head";
-import HookForm from "../src/components/calcform.component";
+import dynamic from "next/dynamic";
+import { Container, Spinner } from "@chakra-ui/react";
+
+const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
+	loading: () => <Spinner />,
+});
+const Footer = dynamic(() => import("../src/components/footer"), {
+	loading: () => <Spinner />,
+});
 
 const Home: NextPage = () => {
 	return (
@@ -80,8 +87,8 @@ const Home: NextPage = () => {
 			</Head>
 
 			<Container maxW={"36rem"} py={10}>
-				{/* <Select variant="outline" placeholder="Filled" /> */}
-				<HookForm />
+				<CalcForm />
+				<Footer />
 			</Container>
 		</>
 	);
