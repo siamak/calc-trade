@@ -1,6 +1,13 @@
-import { Text, Divider, HStack, VStack } from "@chakra-ui/react";
+import {
+	Text,
+	Divider,
+	HStack,
+	VStack,
+	useToast,
+	useClipboard,
+} from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface IProps {
 	riskCapital: number;
@@ -9,13 +16,29 @@ interface IProps {
 
 const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 	const t = useTranslations("result");
+	const toast = useToast();
+	const { hasCopied, onCopy } = useClipboard(`${marginSize}`);
+
+	useEffect(() => {
+		console.log({ hasCopied });
+
+		if (hasCopied) {
+			toast({
+				title: t("clipboard.title"),
+				description: `$${marginSize} ${t("clipboard.description")}`,
+				status: "success",
+				duration: 3000,
+				isClosable: true,
+			});
+		}
+	}, [hasCopied, toast, t, marginSize]);
+
 	return (
 		<VStack
 			spacing={4}
 			alignItems="flex-start"
 			my={4}
-			px={8}
-			py={5}
+			p={[4, 8]}
 			bg="white"
 			boxShadow={"lg"}
 			borderRadius={8}
@@ -45,7 +68,7 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 							{t("riskedCaptial.label")}
 						</Text>
 
-						<Text fontSize="xs" opacity={0.6}>
+						<Text fontSize="xs" opacity={0.6} maxW={"290px"}>
 							{t("riskedCaptial.subtitle")}
 						</Text>
 					</VStack>
@@ -75,7 +98,7 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 						xmlns="http://www.w3.org/2000/svg"
 						xmlnsXlink="http://www.w3.org/1999/xlink"
 					>
-						<g fill="#402acf">
+						<g fill="#009980">
 							<path
 								opacity=".40"
 								d="M17 7.75c-.19 0-.38-.07-.53-.22 -.29-.29-.29-.77 0-1.06l2.05-2.05c-1.76-1.5-4.03-2.42-6.52-2.42 -5.52 0-10 4.48-10 10 0 5.52 4.48 10 10 10 5.52 0 10-4.48 10-10 0-2.49-.92-4.76-2.42-6.52l-2.05 2.05c-.15.15-.34.22-.53.22Z"
@@ -90,22 +113,54 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 							{t("margin.label")}
 						</Text>
 
-						<Text fontSize="xs" opacity={0.6}>
+						<Text fontSize="xs" opacity={0.6} maxW={"290px"}>
 							{t("margin.subtitle")}
 						</Text>
 					</VStack>
 				</HStack>
-				<Text
-					fontSize="large"
-					color="gray.700"
-					fontWeight={"bold"}
-					lineHeight={1}
+
+				<HStack
+					onClick={onCopy}
+					cursor="pointer"
+					spacing={1}
+					transition="0.1s opacity"
+					_hover={{
+						opacity: 0.75,
+					}}
+					_active={{
+						opacity: 0.5,
+					}}
+					userSelect="none"
 				>
-					{new Intl.NumberFormat("en-US", {
-						style: "currency",
-						currency: "USD",
-					}).format(marginSize)}
-				</Text>
+					<Text
+						fontSize="large"
+						color="gray.700"
+						fontWeight={"bold"}
+						lineHeight={1}
+					>
+						{new Intl.NumberFormat("en-US", {
+							style: "currency",
+							currency: "USD",
+						}).format(marginSize)}
+					</Text>
+
+					<svg
+						version="1.1"
+						viewBox="0 0 24 24"
+						width={20}
+						height={20}
+						xmlns="http://www.w3.org/2000/svg"
+						xmlnsXlink="http://www.w3.org/1999/xlink"
+					>
+						<g fill="#607d8b">
+							<path d="M16 12.9v4.2c0 3.5-1.4 4.9-4.9 4.9h-4.2c-3.5 0-4.9-1.4-4.9-4.9v-4.2c0-3.5 1.4-4.9 4.9-4.9h4.2c3.5 0 4.9 1.4 4.9 4.9Z" />
+							<path
+								opacity=".40"
+								d="M17.0998 2h-4.2c-3.45004 0-4.85003 1.37-4.89003 4.75h3.09003c4.2 0 6.15 1.95 6.15 6.15v3.09c3.38-.04 4.75-1.44 4.75-4.89v-4.2c0-3.5-1.4-4.9-4.9-4.9Z"
+							/>
+						</g>
+					</svg>
+				</HStack>
 			</HStack>
 		</VStack>
 	);

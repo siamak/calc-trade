@@ -30,6 +30,10 @@
 	},
 
 	"result": {
+		"clipboard": {
+			"title": "The margin size is copied",
+			"description": "copied to your clipboard. Paste in Exchange"
+		},
 		"riskedCaptial": {
 			"label": "Risked Capital",
 			"subtitle": "Amount of capital that will be lost if your configured stop loss is reached"
