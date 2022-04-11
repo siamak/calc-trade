@@ -107,7 +107,7 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 			</StatGroup>
 
 			<Divider mt={3} />
-			<Text color="gray.500" mt={2} fontSize={"sm"}>
+			<Text color="gray.500" fontWeight={500} mt={2} fontSize={"xs"}>
 				{t("note")}
 			</Text>
 
