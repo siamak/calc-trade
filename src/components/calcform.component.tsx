@@ -79,7 +79,7 @@ export default function CalcForm() {
 		const margin = (balance * _risk) / (_sl * leverage);
 
 		return {
-			lossRate: margin * _sl || 0,
+			// lossRate: margin * _sl || 0,
 			riskCapital: balance * _risk || 0,
 		};
 	}, [values]);
@@ -174,7 +174,7 @@ export default function CalcForm() {
 									placeholder={t("risk.placeholder")}
 									name={name}
 									value={value || ""}
-									onValueChange={(v) => onChange(v.floatValue)}
+									onValueChange={(v) => onChange(v.value)}
 								/>
 							)}
 						/>
@@ -308,7 +308,7 @@ export default function CalcForm() {
 
 			<Result marginSize={marginSize} riskCapital={calculator.riskCapital} />
 
-			<RiskReward lossRate={calculator.lossRate} />
+			<RiskReward lossRate={calculator.riskCapital} />
 		</form>
 	);
 }

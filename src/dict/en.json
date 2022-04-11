@@ -41,6 +41,14 @@
 	},
 
 	"riskReward": {
+		"rewardSlider": {
+			"label": "Risk/Reward Ratio",
+			"subtitle": "Ratio of potential gains over potential losses"
+		},
+		"pnl": {
+			"label": "Estimated PnL",
+			"subtitle": "Potential gains if take profit is reached"
+		},
 		"headings": ["Risk/Reward Ratio", "Profit", "Loss"],
 		"note": "Note: does not account for exchange fees."
 	},

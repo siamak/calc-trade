@@ -1,6 +1,5 @@
 import { Divider, FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const dictFlags: any = {
@@ -35,7 +34,7 @@ export default function LocaleSwitcher() {
 							push("/", "/", { locale: e.target.value });
 							setTimeout(() => {
 								window.location.reload();
-							}, 100);
+							}, 500);
 						}}
 					>
 						{locales.map((_locale) => (
