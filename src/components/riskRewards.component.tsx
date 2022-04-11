@@ -76,7 +76,7 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 					<Slider
 						defaultValue={2}
 						min={1}
-						max={16}
+						max={25}
 						step={0.5}
 						value={value}
 						onChange={(e) => setValue(e)}
