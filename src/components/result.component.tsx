@@ -20,8 +20,6 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 	const { hasCopied, onCopy } = useClipboard(`${marginSize}`);
 
 	useEffect(() => {
-		console.log({ hasCopied });
-
 		if (hasCopied) {
 			toast({
 				title: t("clipboard.title"),
