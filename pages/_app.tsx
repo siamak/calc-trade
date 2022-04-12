@@ -4,6 +4,7 @@ import {
 	type ThemeConfig,
 } from "@chakra-ui/react";
 import { NextIntlProvider } from "next-intl";
+import { RtlProvider } from "../src/components/rtl.provider";
 import "../styles/globals.css";
 
 // 2. Add your color mode config
@@ -29,7 +30,9 @@ function MyApp({ Component, pageProps }: any) {
 	return (
 		<NextIntlProvider messages={pageProps.messages}>
 			<ChakraProvider theme={theme}>
-				<Component {...pageProps} />
+				<RtlProvider>
+					<Component {...pageProps} />
+				</RtlProvider>
 			</ChakraProvider>
 		</NextIntlProvider>
 	);

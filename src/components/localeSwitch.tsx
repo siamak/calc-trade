@@ -14,7 +14,12 @@ const dictFlags: any = {
 };
 export default function LocaleSwitcher() {
 	const t = useTranslations("footer");
-	const { locales, locale, push } = useRouter();
+	const { locales, locale, push, reload, pathname } = useRouter();
+
+	const onClick = async (e: string) => {
+		await push(pathname, pathname, { locale: e });
+		reload();
+	};
 
 	if (locales && locales?.length > 0) {
 		return (
@@ -30,12 +35,7 @@ export default function LocaleSwitcher() {
 						_hover={{ bg: "gray.300" }}
 						id="lang"
 						defaultValue={locale}
-						onChange={(e) => {
-							push("/", "/", { locale: e.target.value });
-							setTimeout(() => {
-								window.location.reload();
-							}, 500);
-						}}
+						onChange={(e) => onClick(e.target.value)}
 					>
 						{locales.map((_locale) => (
 							<option key={_locale} value={_locale}>

@@ -113,13 +113,7 @@ export default function CalcForm() {
 						</Text>
 					</FormLabel>
 					<InputGroup>
-						<InputLeftAddon
-							borderRadius={
-								isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"
-							}
-						>
-							$
-						</InputLeftAddon>
+						<InputLeftAddon>$</InputLeftAddon>
 
 						<Controller
 							control={control}
@@ -128,11 +122,8 @@ export default function CalcForm() {
 								<>
 									<NumberFormat
 										customInput={Input}
-										borderRadius={
-											isRTL ? "0.375rem 0 0 0.375rem" : "0 0.375rem 0.375rem 0"
-										}
-										// borderRadius={"0 0.375r/em 0.375rem 0"}
 										placeholder={t("balance.placeholder")}
+										borderStartRadius={0}
 										allowNegative={false}
 										thousandSeparator={true}
 										name={name}
@@ -164,12 +155,10 @@ export default function CalcForm() {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
-									borderRadius={
-										isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"
-									}
 									allowNegative={false}
 									thousandSeparator={false}
 									decimalScale={2}
+									borderEndRadius={0}
 									fixedDecimalScale
 									placeholder={t("risk.placeholder")}
 									name={name}
@@ -179,7 +168,7 @@ export default function CalcForm() {
 							)}
 						/>
 
-						<InputRightAddon borderRadius={"none"}>%</InputRightAddon>
+						<InputRightAddon>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
 						{errors.risk && (errors.risk.message || t("risk.error"))}
@@ -201,9 +190,7 @@ export default function CalcForm() {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
-									borderRadius={
-										isRTL ? "0 0.375rem 0.375rem 0" : "0.375rem 0 0 0.375rem"
-									}
+									borderEndRadius={0}
 									allowNegative={false}
 									thousandSeparator={false}
 									decimalScale={2}
@@ -216,7 +203,7 @@ export default function CalcForm() {
 							)}
 						/>
 
-						<InputRightAddon borderRadius={"none"}>%</InputRightAddon>
+						<InputRightAddon>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
 						{errors.stoploss &&
