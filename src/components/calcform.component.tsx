@@ -211,7 +211,7 @@ export default function CalcForm() {
 									placeholder={t("stoploss.subtitle")}
 									name={name}
 									value={value || ""}
-									onValueChange={(v) => onChange(v.floatValue)}
+									onValueChange={(v) => onChange(v.value)}
 								/>
 							)}
 						/>
