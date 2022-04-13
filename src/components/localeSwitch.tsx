@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const dictFlags: any = {
 	fa: {
 		emoji: "🇮🇷",
-		text: "Persian",
+		text: "فارسی",
 	},
 	en: {
 		emoji: "🇺🇸",
@@ -25,7 +25,7 @@ export default function LocaleSwitcher() {
 		return (
 			<>
 				<FormControl mt={6} mb={4} d="flex" alignItems={"center"}>
-					<FormLabel w={"50%"} htmlFor="lang" mb={0}>
+					<FormLabel w={"80%"} htmlFor="lang" mb={0}>
 						{t("lang")}
 					</FormLabel>
 					<Select

@@ -52,6 +52,7 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 							fontSize="lg"
 							minW={"8"}
 							textAlign="center"
+							opacity={0.6}
 						>
 							1
 						</Text>
@@ -60,6 +61,7 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 							fontSize="lg"
 							minW={"4"}
 							textAlign="center"
+							opacity={0.6}
 						>
 							:
 						</Text>
@@ -84,7 +86,7 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 					>
 						<SliderTrack bg="gray.300">
 							<Box position="relative" right={10} />
-							<SliderFilledTrack bg="#088f62" />
+							<SliderFilledTrack bg="#009980" />
 						</SliderTrack>
 						<SliderThumb
 							boxShadow={
@@ -99,7 +101,7 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 			<StatGroup mt={4}>
 				<Stat>
 					<StatLabel>{t("pnl.label")}</StatLabel>
-					<StatNumber color="#088f62">
+					<StatNumber color="#009980">
 						~ ${(Math.round(value * lossRate * 100) / 100 || 0).toFixed(2)}
 					</StatNumber>
 					<StatHelpText color="gray.600">{t("pnl.subtitle")}</StatHelpText>

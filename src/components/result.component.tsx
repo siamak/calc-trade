@@ -150,7 +150,7 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 						xmlns="http://www.w3.org/2000/svg"
 						xmlnsXlink="http://www.w3.org/1999/xlink"
 					>
-						<g fill="#607d8b">
+						<g fill="#666c6f">
 							<path d="M16 12.9v4.2c0 3.5-1.4 4.9-4.9 4.9h-4.2c-3.5 0-4.9-1.4-4.9-4.9v-4.2c0-3.5 1.4-4.9 4.9-4.9h4.2c3.5 0 4.9 1.4 4.9 4.9Z" />
 							<path
 								opacity=".40"
