@@ -124,7 +124,7 @@ const RiskReward: React.FC<IProps> = ({
 
 				<Stat>
 					<StatLabel>{t("percent.label")}</StatLabel>
-					<StatNumber color="gray.800">
+					<StatNumber fontSize={"lg"} lineHeight={2} color="gray.800">
 						+{(stoploss * value || 0).toFixed(2)}%
 					</StatNumber>
 					<StatHelpText color="gray.600">{t("percent.subtitle")}</StatHelpText>
@@ -132,7 +132,7 @@ const RiskReward: React.FC<IProps> = ({
 
 				<Stat>
 					<StatLabel>{t("roe.label")}</StatLabel>
-					<StatNumber color="#009980">
+					<StatNumber fontSize={"lg"} lineHeight={2} color="#009980">
 						+{(stoploss * value * leverage || 0).toFixed(2)}%
 					</StatNumber>
 					<StatHelpText color="gray.600">{t("roe.subtitle")}</StatHelpText>
