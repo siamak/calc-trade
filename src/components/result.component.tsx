@@ -7,7 +7,7 @@ import {
 	useClipboard,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 
 interface IProps {
 	riskCapital: number;
@@ -164,4 +164,4 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 	);
 };
 
-export default Result;
+export default memo(Result);

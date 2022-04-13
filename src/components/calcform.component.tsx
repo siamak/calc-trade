@@ -75,12 +75,13 @@ export default function CalcForm() {
 		const { balance, risk, stoploss, leverage } = values;
 
 		const _risk = risk / 100;
-		const _sl = stoploss / 100;
-		const margin = (balance * _risk) / (_sl * leverage);
 
 		return {
 			// lossRate: margin * _sl || 0,
 			riskCapital: balance * _risk || 0,
+			stoploss,
+			leverage,
+			balance,
 		};
 	}, [values]);
 
@@ -295,7 +296,12 @@ export default function CalcForm() {
 
 			<Result marginSize={marginSize} riskCapital={calculator.riskCapital} />
 
-			<RiskReward lossRate={calculator.riskCapital} />
+			<RiskReward
+				lossRate={calculator.riskCapital}
+				stoploss={calculator.stoploss}
+				leverage={calculator.leverage}
+				balance={calculator.balance}
+			/>
 		</form>
 	);
 }

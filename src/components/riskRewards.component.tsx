@@ -9,23 +9,32 @@ import {
 	SliderThumb,
 	SliderTrack,
 	Stat,
-	StatGroup,
 	StatHelpText,
 	StatLabel,
 	StatNumber,
 	Divider,
+	SimpleGrid,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 interface IProps {
 	lossRate: number;
+	stoploss: number;
+	leverage: number;
+	balance: number;
 }
-// const rrRatio = [1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4, 5, 10];
 
-const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
+const RiskReward: React.FC<IProps> = ({
+	lossRate,
+	stoploss,
+	leverage,
+	balance,
+}: IProps) => {
 	const t = useTranslations("riskReward");
 	const [value, setValue] = useState<number>(2);
+	const pnl = Math.round(value * lossRate * 100) / 100 || 0;
+
 	return (
 		<Box mt={4} p={[4, 8]} bg="white" boxShadow={"lg"} borderRadius={8}>
 			{/* Reward Slider */}
@@ -98,15 +107,37 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 				</HStack>
 			</FormControl>
 
-			<StatGroup mt={4}>
+			<SimpleGrid mt={4} minChildWidth="200px" spacing={4}>
 				<Stat>
 					<StatLabel>{t("pnl.label")}</StatLabel>
-					<StatNumber color="#009980">
-						~ ${(Math.round(value * lossRate * 100) / 100 || 0).toFixed(2)}
-					</StatNumber>
+					<StatNumber color="#009980">~ ${pnl}</StatNumber>
 					<StatHelpText color="gray.600">{t("pnl.subtitle")}</StatHelpText>
 				</Stat>
-			</StatGroup>
+
+				<Stat>
+					<StatLabel>{t("ptb.label")}</StatLabel>
+					<StatNumber color="purple.600">
+						+{((pnl / balance) * 100 || 0).toFixed(2)}%
+					</StatNumber>
+					<StatHelpText color="gray.600">{t("ptb.subtitle")}</StatHelpText>
+				</Stat>
+
+				<Stat>
+					<StatLabel>{t("percent.label")}</StatLabel>
+					<StatNumber color="gray.800">
+						+{(stoploss * value || 0).toFixed(2)}%
+					</StatNumber>
+					<StatHelpText color="gray.600">{t("percent.subtitle")}</StatHelpText>
+				</Stat>
+
+				<Stat>
+					<StatLabel>{t("roe.label")}</StatLabel>
+					<StatNumber color="#009980">
+						+{(stoploss * value * leverage || 0).toFixed(2)}%
+					</StatNumber>
+					<StatHelpText color="gray.600">{t("roe.subtitle")}</StatHelpText>
+				</Stat>
+			</SimpleGrid>
 
 			<Divider mt={3} />
 			<Text color="gray.500" fontWeight={500} mt={2} fontSize={"xs"}>
@@ -154,4 +185,4 @@ const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 	);
 };
 
-export default RiskReward;
+export default memo(RiskReward);

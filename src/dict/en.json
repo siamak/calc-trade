@@ -53,6 +53,18 @@
 			"label": "Estimated PnL",
 			"subtitle": "Potential gains if take profit is reached"
 		},
+		"roe": {
+			"label": "ROE",
+			"subtitle": "Return on equity"
+		},
+		"percent": {
+			"label": "Percent Change",
+			"subtitle": "Percent change of asset at exit price without leverage"
+		},
+		"ptb": {
+			"label": "Percent in total balance",
+			"subtitle": "Change in the total balance"
+		},
 		"headings": ["Risk/Reward Ratio", "Profit", "Loss"],
 		"note": "Note: does not account for exchange fees."
 	},
