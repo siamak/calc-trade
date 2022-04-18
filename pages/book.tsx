@@ -2,11 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { Container, Spinner } from "@chakra-ui/react";
-import BookTable from "../src/components/book.table";
+// import BookTable from "../src/components/book.table";
 
-const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
-	loading: () => <Spinner />,
-});
 const Footer = dynamic(() => import("../src/components/footer"), {
 	loading: () => <Spinner />,
 });
@@ -88,7 +85,7 @@ const Book: NextPage = () => {
 			</Head>
 
 			<Container maxW={"100%"} mt={10}>
-				<BookTable />
+				{/* <BookTable /> */}
 			</Container>
 			<Container maxW={"36rem"} my={10}>
 				<Footer />
