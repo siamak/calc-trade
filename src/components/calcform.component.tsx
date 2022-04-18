@@ -127,7 +127,8 @@ export default function CalcForm() {
 										borderStartRadius={0}
 										allowNegative={false}
 										thousandSeparator={true}
-										type="tel"
+										type="text"
+										inputMode="decimal"
 										name={name}
 										value={value || ""}
 										onValueChange={(v) => onChange(v.floatValue)}
@@ -161,7 +162,8 @@ export default function CalcForm() {
 									thousandSeparator={false}
 									decimalScale={2}
 									borderEndRadius={0}
-									type="tel"
+									type="text"
+									inputMode="decimal"
 									fixedDecimalScale
 									placeholder={t("risk.placeholder")}
 									name={name}
@@ -198,7 +200,8 @@ export default function CalcForm() {
 									thousandSeparator={false}
 									decimalScale={2}
 									fixedDecimalScale
-									type="tel"
+									type="text"
+									inputMode="decimal"
 									placeholder={t("stoploss.subtitle")}
 									name={name}
 									value={value || ""}
