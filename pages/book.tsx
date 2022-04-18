@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { Container, Spinner } from "@chakra-ui/react";
+import BookTable from "../src/components/book.table";
 
 const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
 	loading: () => <Spinner />,
@@ -10,11 +11,11 @@ const Footer = dynamic(() => import("../src/components/footer"), {
 	loading: () => <Spinner />,
 });
 
-const Home: NextPage = () => {
+const Book: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Calculate trade</title>
+				<title>Book • Calculate trade</title>
 				<meta
 					name="description"
 					content="Calculate the size of your trade position"
@@ -86,8 +87,10 @@ const Home: NextPage = () => {
 				/>
 			</Head>
 
-			<Container maxW={"40rem"} py={4}>
-				<CalcForm />
+			<Container maxW={"100%"} mt={10}>
+				<BookTable />
+			</Container>
+			<Container maxW={"36rem"} my={10}>
 				<Footer />
 			</Container>
 		</>
@@ -104,4 +107,4 @@ export function getStaticProps({ locale }: { locale: string }) {
 	};
 }
 
-export default Home;
+export default Book;

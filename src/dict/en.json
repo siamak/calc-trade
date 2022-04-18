@@ -40,7 +40,8 @@
 		},
 		"margin": {
 			"label": "Margin",
-			"subtitle": "Total amount of your capital used in this position"
+			"subtitle": "Total amount of your capital used in this position",
+			"error": "Required margin is lower than your balance. SOLUTIONS: Decrease risk, Increase leverage or Increase stoploss"
 		}
 	},
 

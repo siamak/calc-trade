@@ -12,12 +12,19 @@ import React, { memo, useEffect } from "react";
 interface IProps {
 	riskCapital: number;
 	marginSize: number;
+	balance: number;
 }
 
-const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
+const Result: React.FC<IProps> = ({
+	riskCapital,
+	marginSize,
+	balance,
+}: IProps) => {
 	const t = useTranslations("result");
 	const toast = useToast();
 	const { hasCopied, onCopy } = useClipboard(`${marginSize}`);
+
+	const isImpossible = marginSize > balance;
 
 	useEffect(() => {
 		if (hasCopied) {
@@ -42,7 +49,11 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 			borderRadius={8}
 		>
 			<HStack flex={1} width="100%" justifyContent={"space-between"}>
-				<HStack spacing={4}>
+				<HStack
+					spacing={[0, 4]}
+					alignItems={["flex-start", "center"]}
+					flexDirection={["column", "row"]}
+				>
 					<svg
 						version="1.1"
 						width={40}
@@ -61,12 +72,12 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 						</g>
 					</svg>
 
-					<VStack alignItems="flex-start" spacing={0}>
+					<VStack alignItems="flex-start" spacing={1}>
 						<Text fontSize="md" fontWeight={500}>
 							{t("riskedCaptial.label")}
 						</Text>
 
-						<Text fontSize="xs" opacity={0.6} maxW={"290px"}>
+						<Text fontSize="xs" opacity={0.6} maxW={"360px"}>
 							{t("riskedCaptial.subtitle")}
 						</Text>
 					</VStack>
@@ -87,7 +98,11 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 			<Divider />
 
 			<HStack flex={1} width="100%" justifyContent={"space-between"}>
-				<HStack spacing={4}>
+				<HStack
+					spacing={[0, 4]}
+					alignItems={["flex-start", "center"]}
+					flexDirection={["column", "row"]}
+				>
 					<svg
 						version="1.1"
 						viewBox="0 0 24 24"
@@ -106,14 +121,19 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 						</g>
 					</svg>
 
-					<VStack alignItems="flex-start" spacing={0}>
+					<VStack alignItems="flex-start" spacing={1}>
 						<Text fontSize="md" fontWeight={500}>
 							{t("margin.label")}
 						</Text>
 
-						<Text fontSize="xs" opacity={0.6} maxW={"290px"}>
+						<Text fontSize="xs" opacity={0.6} maxW={"360px"}>
 							{t("margin.subtitle")}
 						</Text>
+						{isImpossible && (
+							<Text fontSize="xs" color="red.500" maxW={"360px"}>
+								{t("margin.error")}
+							</Text>
+						)}
 					</VStack>
 				</HStack>
 
@@ -122,6 +142,7 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 					cursor="pointer"
 					spacing={1}
 					transition="0.1s opacity"
+					pointerEvents={isImpossible ? "none" : "auto"}
 					_hover={{
 						opacity: 0.75,
 					}}
@@ -132,7 +153,7 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 				>
 					<Text
 						fontSize="large"
-						color="gray.700"
+						color={isImpossible ? "red.500" : "gray.700"}
 						fontWeight={"bold"}
 						lineHeight={1}
 					>
@@ -142,22 +163,42 @@ const Result: React.FC<IProps> = ({ riskCapital, marginSize }: IProps) => {
 						}).format(marginSize)}
 					</Text>
 
-					<svg
-						version="1.1"
-						viewBox="0 0 24 24"
-						width={20}
-						height={20}
-						xmlns="http://www.w3.org/2000/svg"
-						xmlnsXlink="http://www.w3.org/1999/xlink"
-					>
-						<g fill="#666c6f">
-							<path d="M16 12.9v4.2c0 3.5-1.4 4.9-4.9 4.9h-4.2c-3.5 0-4.9-1.4-4.9-4.9v-4.2c0-3.5 1.4-4.9 4.9-4.9h4.2c3.5 0 4.9 1.4 4.9 4.9Z" />
-							<path
-								opacity=".40"
-								d="M17.0998 2h-4.2c-3.45004 0-4.85003 1.37-4.89003 4.75h3.09003c4.2 0 6.15 1.95 6.15 6.15v3.09c3.38-.04 4.75-1.44 4.75-4.89v-4.2c0-3.5-1.4-4.9-4.9-4.9Z"
-							/>
-						</g>
-					</svg>
+					{(isImpossible && (
+						<svg
+							version="1.1"
+							viewBox="0 0 24 24"
+							width={24}
+							height={24}
+							xmlns="http://www.w3.org/2000/svg"
+							xmlnsXlink="http://www.w3.org/1999/xlink"
+						>
+							<g fill="#E53E3E">
+								<path
+									opacity=".40"
+									d="M16.2391 3.65039h-8.48004c-2.47 0-4.47 2.01-4.47 4.47v9.41001c0 2.46 2.01 4.47 4.47 4.47h8.47004c2.47 0 4.47-2.01 4.47-4.47v-9.41001c.01-2.47-2-4.47-4.46-4.47Z"
+								/>
+								<path d="M14.3498 2h-4.70003c-1.04 0-1.89.84-1.89 1.88v.94c0 1.04.84 1.88 1.88 1.88h4.71003c1.04 0 1.88-.84 1.88-1.88v-.94c.01-1.04-.84-1.88-1.88-1.88Z" />
+								<path d="M14.5295 15.6199l-1.45-1.45 1.4-1.4c.29-.29.29-.77 0-1.06 -.29-.29-.77-.29-1.06 0l-1.4 1.4 -1.45-1.45c-.29-.29-.77005-.29-1.06005 0 -.29.29-.29.77 0 1.06l1.45005 1.45 -1.49005 1.49c-.29.29-.29.77 0 1.06 .15.15.34.22.53.22 .19005 0 .38005-.07.53005-.22l1.49-1.49 1.45 1.45c.15.15.34.22.53.22 .19 0 .38-.07.53-.22 .29-.29.29-.76 0-1.06Z" />
+							</g>
+						</svg>
+					)) || (
+						<svg
+							version="1.1"
+							viewBox="0 0 24 24"
+							width={24}
+							height={24}
+							xmlns="http://www.w3.org/2000/svg"
+							xmlnsXlink="http://www.w3.org/1999/xlink"
+						>
+							<g fill="#666c6f">
+								<path d="M16 12.9v4.2c0 3.5-1.4 4.9-4.9 4.9h-4.2c-3.5 0-4.9-1.4-4.9-4.9v-4.2c0-3.5 1.4-4.9 4.9-4.9h4.2c3.5 0 4.9 1.4 4.9 4.9Z" />
+								<path
+									opacity=".40"
+									d="M17.0998 2h-4.2c-3.45004 0-4.85003 1.37-4.89003 4.75h3.09003c4.2 0 6.15 1.95 6.15 6.15v3.09c3.38-.04 4.75-1.44 4.75-4.89v-4.2c0-3.5-1.4-4.9-4.9-4.9Z"
+								/>
+							</g>
+						</svg>
+					)}
 				</HStack>
 			</HStack>
 		</VStack>

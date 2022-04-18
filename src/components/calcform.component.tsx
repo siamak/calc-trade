@@ -127,6 +127,7 @@ export default function CalcForm() {
 										borderStartRadius={0}
 										allowNegative={false}
 										thousandSeparator={true}
+										type="tel"
 										name={name}
 										value={value || ""}
 										onValueChange={(v) => onChange(v.floatValue)}
@@ -160,6 +161,7 @@ export default function CalcForm() {
 									thousandSeparator={false}
 									decimalScale={2}
 									borderEndRadius={0}
+									type="tel"
 									fixedDecimalScale
 									placeholder={t("risk.placeholder")}
 									name={name}
@@ -196,6 +198,7 @@ export default function CalcForm() {
 									thousandSeparator={false}
 									decimalScale={2}
 									fixedDecimalScale
+									type="tel"
 									placeholder={t("stoploss.subtitle")}
 									name={name}
 									value={value || ""}
@@ -294,7 +297,11 @@ export default function CalcForm() {
 				</HStack>
 			</VStack>
 
-			<Result marginSize={marginSize} riskCapital={calculator.riskCapital} />
+			<Result
+				marginSize={marginSize}
+				balance={calculator.balance}
+				riskCapital={calculator.riskCapital}
+			/>
 
 			<RiskReward
 				lossRate={calculator.riskCapital}

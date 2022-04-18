@@ -14,7 +14,9 @@
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@fontsource/inter": "^4.5.7",
+    "@types/react-table": "^7.7.10",
     "framer-motion": "^6.2.8",
+    "localforage": "^1.10.0",
     "next": "12.1.4",
     "next-intl": "^2.6.0",
     "next-pwa": "^5.4.7",
@@ -22,6 +24,7 @@
     "react-dom": "18.0.0",
     "react-hook-form": "^7.29.0",
     "react-number-format": "^4.9.1",
+    "react-table": "^7.7.0",
     "stylis": "^4.1.0",
     "stylis-plugin-rtl": "^2.1.1"
   },
