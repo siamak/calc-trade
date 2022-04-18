@@ -5,7 +5,6 @@ import Document, {
 	NextScript,
 	DocumentContext,
 } from "next/document";
-
 class MyDocument extends Document {
 	static async getInitialProps(ctx: DocumentContext) {
 		const initialProps = await Document.getInitialProps(ctx);
@@ -39,7 +38,7 @@ class MyDocument extends Document {
 							/>
 						</>
 					)}
-
+					{/*
 					<script
 						async
 						src="https://www.googletagmanager.com/gtag/js?id=G-FDNZT3M442"
@@ -54,7 +53,7 @@ class MyDocument extends Document {
               gtag('config', 'G-FDNZT3M442', { page_path: window.location.pathname });
             `,
 						}}
-					/>
+					/> */}
 				</Head>
 
 				<body dir={dir} lang={locale}>
