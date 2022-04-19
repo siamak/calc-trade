@@ -250,7 +250,7 @@ export default function CalcForm() {
 								minW={"10"}
 								textAlign="center"
 							>
-								{getValues("leverage")}
+								{getValues("leverage") || 10}
 							</Text>
 							<Text fontSize="xs" opacity={0.6} minW={"100"} pl={2}>
 								{getValues("leverage") === 1
