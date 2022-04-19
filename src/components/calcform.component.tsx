@@ -56,7 +56,7 @@ export default function CalcForm() {
 		"@history",
 		{ watch, setValue },
 		{
-			storage: process.browser && window.localStorage, // default window.sessionStorage
+			storage: process.browser && window.localStorage,
 		}
 	);
 
@@ -77,7 +77,6 @@ export default function CalcForm() {
 		const _risk = risk / 100;
 
 		return {
-			// lossRate: margin * _sl || 0,
 			riskCapital: balance * _risk || 0,
 			stoploss,
 			leverage,
@@ -267,7 +266,6 @@ export default function CalcForm() {
 							value={getValues("leverage")}
 							onChange={(e) => setValue("leverage", e)}
 							focusThumbOnChange={false}
-							// onChangeEnd={(e) => setValue("leverage", e)}
 						>
 							<SliderTrack bg="gray.300">
 								<Box position="relative" right={10} />

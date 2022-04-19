@@ -34,25 +34,10 @@ const Home: NextPage = () => {
 				<meta name="theme-color" content="#F5F6FB" />
 
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-				<link
-					rel="apple-touch-icon"
-					sizes="152x152"
-					href="/apple-touch-icon.png"
-				/>
-				<link
-					rel="apple-touch-icon"
-					sizes="180x180"
-					href="/apple-touch-icon.png"
-				/>
-				<link
-					rel="apple-touch-icon"
-					sizes="167x167"
-					href="/apple-touch-icon.png"
-				/>
 				<link rel="manifest" href="/manifest.json" />
 				<link rel="shortcut icon" href="/favicon.ico" />
 
-				<link
+				{/* <link
 					rel="apple-touch-startup-image"
 					href="/splash/apple_splash_2048.png"
 					sizes="2048x2732"
@@ -86,7 +71,7 @@ const Home: NextPage = () => {
 					rel="apple-touch-startup-image"
 					href="/splash/apple_splash_640.png"
 					sizes="640x1136"
-				/>
+				/> */}
 			</Head>
 
 			<Container maxW={"40rem"} py={4}>

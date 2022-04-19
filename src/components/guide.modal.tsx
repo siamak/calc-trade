@@ -63,7 +63,6 @@ export default function GuideModal() {
 						<Text
 							maxW={"300px"}
 							textAlign={"center"}
-							// fontSize="sm"
 							mx="auto"
 							my={2}
 							opacity={0.6}

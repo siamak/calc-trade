@@ -8,13 +8,11 @@ import { NextIntlProvider } from "next-intl";
 import { RtlProvider } from "../src/components/rtl.provider";
 import "../styles/globals.css";
 
-// 2. Add your color mode config
 const config: ThemeConfig = {
 	initialColorMode: "light",
 	useSystemColorMode: false,
 };
 
-// 3. extend the theme
 const theme = extendTheme({
 	config,
 
