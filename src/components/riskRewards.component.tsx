@@ -38,7 +38,7 @@ const RiskReward: React.FC<IProps> = ({
 	const bgTrackActive = useColorModeValue("#009980", "#17e2c0");
 
 	const greenColor = useColorModeValue("#009980", "#17e2c0");
-	const purpleColor = useColorModeValue("purple.500", "orange.200");
+	const purpleColor = useColorModeValue("purple.500", "#9086ff");
 	const blackColor = useColorModeValue("gray.800", "gray.400");
 
 	const [value, setValue] = useState<number>(2);

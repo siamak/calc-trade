@@ -38,7 +38,7 @@ export default function CalcForm() {
 	const bgSlider = useColorModeValue("gray.100", "#2e3345");
 	const bgTrack = useColorModeValue("gray.300", "#5c6277");
 	const bgAddon = useColorModeValue("gray.100", "#2e3345");
-	const bgTrackActive = useColorModeValue("#641ce5", "#6e61ff");
+	const bgTrackActive = useColorModeValue("#641ce5", "#9086ff");
 	const bgButtonHover = useColorModeValue("gray.300", "gray.600");
 	const bgButtonText = useColorModeValue("gray.600", "gray.100");
 
