@@ -1,4 +1,10 @@
-import { Divider, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import {
+	Divider,
+	FormControl,
+	FormLabel,
+	Select,
+	useColorModeValue,
+} from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
@@ -15,6 +21,8 @@ const dictFlags: any = {
 export default function LocaleSwitcher() {
 	const t = useTranslations("footer");
 	const { locales, locale, push, reload, pathname } = useRouter();
+	const bgSelect = useColorModeValue("gray.200", "gray.700");
+	const bgSelectHover = useColorModeValue("gray.300", "gray.600");
 
 	const onClick = async (e: string) => {
 		await push(pathname, pathname, { locale: e });
@@ -31,8 +39,8 @@ export default function LocaleSwitcher() {
 					<Select
 						userSelect={"none"}
 						variant={"filled"}
-						bg="gray.200"
-						_hover={{ bg: "gray.300" }}
+						bg={bgSelect}
+						_hover={{ bg: bgSelectHover }}
 						id="lang"
 						defaultValue={locale}
 						onChange={(e) => onClick(e.target.value)}

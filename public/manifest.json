@@ -1,6 +1,7 @@
 {
-	"name": "Calculate the size of your trade position",
+	"name": "Calc Trade",
 	"short_name": "Calc Trade",
+	"description": "Calculate the size of your trade position",
 	"icons": [
 		{
 			"src": "/icons/android/android-launchericon-512-512.png",

@@ -1,29 +1,11 @@
 import {
 	ChakraProvider,
-	extendTheme,
-	type ThemeConfig,
 } from "@chakra-ui/react";
 import Script from "next/script";
 import { NextIntlProvider } from "next-intl";
 import { RtlProvider } from "../src/components/rtl.provider";
+import theme from "../src/utils/theme";
 import "../styles/globals.css";
-
-const config: ThemeConfig = {
-	initialColorMode: "light",
-	useSystemColorMode: false,
-};
-
-const theme = extendTheme({
-	config,
-
-	styles: {
-		global: {
-			"html, body": {
-				background: "#F5F6FB",
-			},
-		},
-	},
-});
 
 function MyApp({ Component, pageProps }: any) {
 	return (

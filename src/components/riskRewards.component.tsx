@@ -14,6 +14,7 @@ import {
 	StatNumber,
 	Divider,
 	SimpleGrid,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import React, { memo, useState } from "react";
@@ -32,11 +33,19 @@ const RiskReward: React.FC<IProps> = ({
 	balance,
 }: IProps) => {
 	const t = useTranslations("riskReward");
+	const bgSlider = useColorModeValue("gray.100", "#2e3345");
+	const bgTrack = useColorModeValue("gray.300", "#5c6277");
+	const bgTrackActive = useColorModeValue("#009980", "#17e2c0");
+
+	const greenColor = useColorModeValue("#009980", "#17e2c0");
+	const purpleColor = useColorModeValue("purple.500", "orange.200");
+	const blackColor = useColorModeValue("gray.800", "gray.400");
+
 	const [value, setValue] = useState<number>(2);
 	const pnl = Math.round(value * lossRate * 100) / 100 || 0;
 
 	return (
-		<Box mt={4} p={[4, 8]} bg="white" boxShadow={"lg"} borderRadius={8}>
+		<Box mt={4} p={[4, 8]} bg="boxBg" boxShadow={"lg"} borderRadius={8}>
 			{/* Reward Slider */}
 			<FormControl>
 				<FormLabel htmlFor="RewardSlider">
@@ -52,7 +61,7 @@ const RiskReward: React.FC<IProps> = ({
 					flexDirection={["column", "row"]}
 					spacing={[0, 3]}
 					py={6}
-					bg={"gray.100"}
+					bg={bgSlider}
 					borderRadius={"lg"}
 					userSelect="none"
 				>
@@ -101,9 +110,9 @@ const RiskReward: React.FC<IProps> = ({
 						onChange={(e) => setValue(e)}
 						focusThumbOnChange={false}
 					>
-						<SliderTrack bg="gray.300">
+						<SliderTrack bg={bgTrack}>
 							<Box position="relative" right={10} />
-							<SliderFilledTrack bg="#009980" />
+							<SliderFilledTrack bg={bgTrackActive} />
 						</SliderTrack>
 						<SliderThumb
 							boxShadow={
@@ -118,32 +127,32 @@ const RiskReward: React.FC<IProps> = ({
 			<SimpleGrid mt={4} minChildWidth="200px" spacing={4}>
 				<Stat>
 					<StatLabel>{t("pnl.label")}</StatLabel>
-					<StatNumber color="#009980">~ ${pnl}</StatNumber>
-					<StatHelpText color="gray.600">{t("pnl.subtitle")}</StatHelpText>
+					<StatNumber color={greenColor}>~ ${pnl}</StatNumber>
+					<StatHelpText opacity={0.6}>{t("pnl.subtitle")}</StatHelpText>
 				</Stat>
 
 				<Stat>
 					<StatLabel>{t("ptb.label")}</StatLabel>
-					<StatNumber color="purple.600">
+					<StatNumber color={purpleColor}>
 						+{((pnl / balance) * 100 || 0).toFixed(2)}%
 					</StatNumber>
-					<StatHelpText color="gray.600">{t("ptb.subtitle")}</StatHelpText>
+					<StatHelpText opacity={0.6}>{t("ptb.subtitle")}</StatHelpText>
 				</Stat>
 
 				<Stat>
 					<StatLabel>{t("percent.label")}</StatLabel>
-					<StatNumber fontSize={"lg"} lineHeight={2} color="gray.800">
+					<StatNumber fontSize={"lg"} lineHeight={2} color={blackColor}>
 						+{(stoploss * value || 0).toFixed(2)}%
 					</StatNumber>
-					<StatHelpText color="gray.600">{t("percent.subtitle")}</StatHelpText>
+					<StatHelpText opacity={0.6}>{t("percent.subtitle")}</StatHelpText>
 				</Stat>
 
 				<Stat>
 					<StatLabel>{t("roe.label")}</StatLabel>
-					<StatNumber fontSize={"lg"} lineHeight={2} color="#009980">
+					<StatNumber fontSize={"lg"} lineHeight={2} color={greenColor}>
 						+{(stoploss * value * leverage || 0).toFixed(2)}%
 					</StatNumber>
-					<StatHelpText color="gray.600">{t("roe.subtitle")}</StatHelpText>
+					<StatHelpText opacity={0.6}>{t("roe.subtitle")}</StatHelpText>
 				</Stat>
 			</SimpleGrid>
 

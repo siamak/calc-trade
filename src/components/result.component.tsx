@@ -5,6 +5,7 @@ import {
 	VStack,
 	useToast,
 	useClipboard,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import React, { memo, useEffect } from "react";
@@ -23,6 +24,10 @@ const Result: React.FC<IProps> = ({
 	const t = useTranslations("result");
 	const toast = useToast();
 	const { hasCopied, onCopy } = useClipboard(`${marginSize}`);
+	const foreground = useColorModeValue("gray.700", "gray.100");
+	const redColor = useColorModeValue("#f21313", "#ff7070");
+	const blueColor = useColorModeValue("#1861ea", "#6299ff");
+	const buttonColor = useColorModeValue("#666c6f", "#c1c8cc");
 
 	const isImpossible = marginSize > balance;
 
@@ -44,7 +49,7 @@ const Result: React.FC<IProps> = ({
 			alignItems="flex-start"
 			my={4}
 			p={[4, 8]}
-			bg="white"
+			bg="boxBg"
 			boxShadow={"lg"}
 			borderRadius={8}
 		>
@@ -62,7 +67,7 @@ const Result: React.FC<IProps> = ({
 						xmlns="http://www.w3.org/2000/svg"
 						xmlnsXlink="http://www.w3.org/1999/xlink"
 					>
-						<g fill="#f21313">
+						<g fill={redColor}>
 							<path
 								opacity=".30"
 								d="M21.7605 15.92l-6.4-11.52c-.86-1.55-2.05-2.4-3.36-2.4 -1.31 0-2.50003.85-3.36003 2.4l-6.4 11.52c-.81 1.47-.9 2.88-.25 3.99 .65 1.11 1.93 1.72 3.61 1.72h12.8c1.68 0 2.96-.61 3.61-1.72 .65-1.11.56-2.53-.25-3.99Z"
@@ -84,7 +89,7 @@ const Result: React.FC<IProps> = ({
 				</HStack>
 				<Text
 					fontSize="large"
-					color="gray.700"
+					color={foreground}
 					fontWeight={"bold"}
 					lineHeight={1}
 				>
@@ -111,7 +116,7 @@ const Result: React.FC<IProps> = ({
 						xmlns="http://www.w3.org/2000/svg"
 						xmlnsXlink="http://www.w3.org/1999/xlink"
 					>
-						<g fill="#1861ea">
+						<g fill={blueColor}>
 							<path
 								opacity=".40"
 								d="M17 7.75c-.19 0-.38-.07-.53-.22 -.29-.29-.29-.77 0-1.06l2.05-2.05c-1.76-1.5-4.03-2.42-6.52-2.42 -5.52 0-10 4.48-10 10 0 5.52 4.48 10 10 10 5.52 0 10-4.48 10-10 0-2.49-.92-4.76-2.42-6.52l-2.05 2.05c-.15.15-.34.22-.53.22Z"
@@ -153,7 +158,7 @@ const Result: React.FC<IProps> = ({
 				>
 					<Text
 						fontSize="large"
-						color={isImpossible ? "red.500" : "gray.700"}
+						color={isImpossible ? "red.500" : foreground}
 						fontWeight={"bold"}
 						lineHeight={1}
 					>
@@ -190,7 +195,7 @@ const Result: React.FC<IProps> = ({
 							xmlns="http://www.w3.org/2000/svg"
 							xmlnsXlink="http://www.w3.org/1999/xlink"
 						>
-							<g fill="#666c6f">
+							<g fill={buttonColor}>
 								<path d="M16 12.9v4.2c0 3.5-1.4 4.9-4.9 4.9h-4.2c-3.5 0-4.9-1.4-4.9-4.9v-4.2c0-3.5 1.4-4.9 4.9-4.9h4.2c3.5 0 4.9 1.4 4.9 4.9Z" />
 								<path
 									opacity=".40"

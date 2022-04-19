@@ -19,8 +19,8 @@ import {
 	SliderThumb,
 	SliderTrack,
 	Spinner,
+	useColorModeValue,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import useFormPersist from "../hooks/useFormPersist";
@@ -34,13 +34,14 @@ const Result = dynamic(() => import("./result.component"), {
 });
 
 export default function CalcForm() {
-	const router = useRouter();
 	const t = useTranslations("form");
-	const { locale } = router;
-	const isRTL = locale === "fa";
+	const bgSlider = useColorModeValue("gray.100", "#2e3345");
+	const bgTrack = useColorModeValue("gray.300", "#5c6277");
+	const bgTrackActive = useColorModeValue("#641ce5", "#6e61ff");
+	const bgButtonHover = useColorModeValue("gray.300", "gray.600");
+	const bgButtonText = useColorModeValue("gray.600", "gray.100");
 
 	const {
-		handleSubmit,
 		watch,
 		reset,
 		setValue,
@@ -49,6 +50,12 @@ export default function CalcForm() {
 		formState: { errors, isSubmitting },
 	} = useForm({
 		mode: "onBlur",
+		defaultValues: {
+			balance: 0,
+			risk: 0,
+			stoploss: 0,
+			leverage: 10,
+		},
 	});
 	const [marginSize, setMargin] = useState<number>(0);
 
@@ -84,28 +91,19 @@ export default function CalcForm() {
 		};
 	}, [values]);
 
-	function onSubmit(values: any) {
-		return new Promise((resolve: any) => {
-			setTimeout(() => {
-				alert(JSON.stringify(values, null, 2));
-				resolve();
-			}, 3000);
-		});
-	}
-
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form>
 			<VStack
 				alignItems={"flex-start"}
 				mt={4}
 				p={[4, 8]}
-				bg="white"
+				bg="boxBg"
 				boxShadow={"lg"}
 				spacing={4}
 				borderRadius={8}
 			>
 				{/* Account Balance */}
-				<FormControl isInvalid={errors.balance}>
+				<FormControl>
 					<FormLabel htmlFor="balance">
 						{t("balance.label")}
 						<Text fontSize="xs" opacity={0.6}>
@@ -142,7 +140,7 @@ export default function CalcForm() {
 				</FormControl>
 
 				{/* Risk */}
-				<FormControl isInvalid={errors.risk}>
+				<FormControl>
 					<FormLabel htmlFor="risk">
 						{t("risk.label")}
 
@@ -180,7 +178,7 @@ export default function CalcForm() {
 				</FormControl>
 
 				{/* Stoploss */}
-				<FormControl isInvalid={errors.stoploss}>
+				<FormControl>
 					<FormLabel htmlFor="stoploss">
 						{t("stoploss.label")}
 						<Text fontSize="xs" opacity={0.6}>
@@ -218,7 +216,7 @@ export default function CalcForm() {
 				</FormControl>
 
 				{/* Leverage */}
-				<FormControl isInvalid={errors.leverage}>
+				<FormControl>
 					<FormLabel htmlFor="leverage">
 						{t("leverage.label")}
 						<Text fontSize="xs" opacity={0.6}>
@@ -232,7 +230,7 @@ export default function CalcForm() {
 						spacing={[0, 3]}
 						pr={10}
 						py={6}
-						bg={"gray.100"}
+						bg={bgSlider}
 						borderRadius={"lg"}
 						userSelect="none"
 					>
@@ -249,7 +247,7 @@ export default function CalcForm() {
 								minW={"10"}
 								textAlign="center"
 							>
-								{getValues("leverage") || 10}
+								{getValues("leverage")}
 							</Text>
 							<Text fontSize="xs" opacity={0.6} minW={"100"} pl={2}>
 								{getValues("leverage") === 1
@@ -267,9 +265,9 @@ export default function CalcForm() {
 							onChange={(e) => setValue("leverage", e)}
 							focusThumbOnChange={false}
 						>
-							<SliderTrack bg="gray.300">
+							<SliderTrack bg={bgTrack}>
 								<Box position="relative" right={10} />
-								<SliderFilledTrack bg="#641ce5" />
+								<SliderFilledTrack bg={bgTrackActive} />
 							</SliderTrack>
 							<SliderThumb
 								boxShadow={
@@ -286,17 +284,17 @@ export default function CalcForm() {
 
 				<HStack mt={4}>
 					<Button
-						bg="gray.300"
-						color="gray.600"
+						bg={bgButtonHover}
+						color={bgButtonText}
 						fontWeight={500}
 						size="sm"
 						isLoading={isSubmitting}
 						type="button"
 						onClick={() =>
 							reset({
-								balance: null,
-								risk: null,
-								stoploss: null,
+								balance: 0,
+								risk: 0,
+								stoploss: 0,
 								leverage: 10,
 							})
 						}
