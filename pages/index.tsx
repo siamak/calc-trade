@@ -6,6 +6,9 @@ import { Container, Spinner } from "@chakra-ui/react";
 const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
 	loading: () => <Spinner />,
 });
+const GuideModal = dynamic(() => import("../src/components/guide.modal"), {
+	loading: () => <Spinner />,
+});
 const Footer = dynamic(() => import("../src/components/footer"), {
 	loading: () => <Spinner />,
 });
@@ -90,6 +93,7 @@ const Home: NextPage = () => {
 				<CalcForm />
 				<Footer />
 			</Container>
+			<GuideModal />
 		</>
 	);
 };

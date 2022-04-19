@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import LocaleSwitcher from "./localeSwitch";
+import LocaleSwitcher from "./localeSwitcher.component";
 
 export default function Footer() {
 	const t = useTranslations("footer");

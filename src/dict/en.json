@@ -76,5 +76,12 @@
 			"text": "Created by",
 			"name": "Siamak"
 		}
+	},
+
+	"guide_modal": {
+		"title": "Hello!",
+		"subtitle": "Ready to see how fun and easy is to calculate the size of your trade position?",
+		"description": "Let's say you have analyzed to buy a coin (BTC, ETH, etc.) and your stop loss is 3%. Your account balance is $1,000 and your risk is 2% (You'll lose $20 if your stop loss is reached) — Calculate the size of the position with this calculator. If you use a 3% stop loss, you lose 2%, or $20.",
+		"cta": "Let's Go!"
 	}
 }

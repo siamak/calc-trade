@@ -1,7 +1,16 @@
 import { useEffect } from "react";
 
+// type IProps = {
+// 	storage: false | Storage;
+// 	exclude: string[];
+// 	include: string[];
+// 	onDataRestored: (data: { [key: string]: string }) => void;
+// 	validate: boolean;
+// 	dirty: boolean;
+// };
+
 const useFormPersist = (
-	name: any,
+	name: string,
 	{ watch, setValue }: any,
 	{
 		storage,
@@ -19,7 +28,7 @@ const useFormPersist = (
 		const str = getStorage().getItem(name);
 		if (str) {
 			const values = JSON.parse(str);
-			const dataRestored: any = {};
+			const dataRestored: { [key: string]: string } = {};
 
 			Object.keys(values).forEach((key) => {
 				const shouldSet = !exclude.includes(key);
