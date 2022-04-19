@@ -49,13 +49,20 @@ const RiskReward: React.FC<IProps> = ({
 				<HStack
 					pl={5}
 					pr={10}
-					spacing={4}
+					flexDirection={["column", "row"]}
+					spacing={[0, 3]}
 					py={6}
 					bg={"gray.100"}
 					borderRadius={"lg"}
 					userSelect="none"
 				>
-					<Box d="flex" alignItems="center" flexDirection="row">
+					<Box
+						d="flex"
+						order={[1, 0]}
+						mt={[2, 0]}
+						alignItems="center"
+						flexDirection="row"
+					>
 						<Text
 							fontWeight={"bold"}
 							fontSize="lg"
@@ -85,6 +92,7 @@ const RiskReward: React.FC<IProps> = ({
 						</Text>
 					</Box>
 					<Slider
+						order={[-1, 0]}
 						defaultValue={2}
 						min={1}
 						max={25}

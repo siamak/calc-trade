@@ -35,12 +35,6 @@ export default function GuideModal() {
 			<Modal onClose={onClose} isOpen={isOpen} isCentered>
 				<ModalOverlay />
 				<ModalContent>
-					{/* <ModalHeader>
-						{t("title")}
-						<Text fontSize="sm" opacity={0.6}>
-							{t("subtitle")}
-						</Text>
-					</ModalHeader> */}
 					<Text
 						position={"absolute"}
 						top={-9}

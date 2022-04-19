@@ -229,14 +229,21 @@ export default function CalcForm() {
 
 					<HStack
 						pl={5}
+						flexDirection={["column", "row"]}
+						spacing={[0, 3]}
 						pr={10}
-						spacing={3}
 						py={6}
 						bg={"gray.100"}
 						borderRadius={"lg"}
 						userSelect="none"
 					>
-						<Box d="flex" alignItems="center" flexDirection="row">
+						<Box
+							order={[1, 0]}
+							mt={[2, 0]}
+							d="flex"
+							alignItems="center"
+							flexDirection="row"
+						>
 							<Text
 								fontWeight={"bold"}
 								fontSize="xl"
@@ -252,6 +259,7 @@ export default function CalcForm() {
 							</Text>
 						</Box>
 						<Slider
+							order={[-1, 0]}
 							defaultValue={10}
 							min={1}
 							max={50}
@@ -263,7 +271,7 @@ export default function CalcForm() {
 						>
 							<SliderTrack bg="gray.300">
 								<Box position="relative" right={10} />
-								<SliderFilledTrack bg="#ff5e28" />
+								<SliderFilledTrack bg="#641ce5" />
 							</SliderTrack>
 							<SliderThumb
 								boxShadow={
