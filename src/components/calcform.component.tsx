@@ -37,6 +37,7 @@ export default function CalcForm() {
 	const t = useTranslations("form");
 	const bgSlider = useColorModeValue("gray.100", "#2e3345");
 	const bgTrack = useColorModeValue("gray.300", "#5c6277");
+	const bgAddon = useColorModeValue("gray.100", "#2e3345");
 	const bgTrackActive = useColorModeValue("#641ce5", "#6e61ff");
 	const bgButtonHover = useColorModeValue("gray.300", "gray.600");
 	const bgButtonText = useColorModeValue("gray.600", "gray.100");
@@ -111,7 +112,7 @@ export default function CalcForm() {
 						</Text>
 					</FormLabel>
 					<InputGroup>
-						<InputLeftAddon>$</InputLeftAddon>
+						<InputLeftAddon bg={bgAddon}>$</InputLeftAddon>
 
 						<Controller
 							control={control}
@@ -170,7 +171,7 @@ export default function CalcForm() {
 							)}
 						/>
 
-						<InputRightAddon>%</InputRightAddon>
+						<InputRightAddon bg={bgAddon}>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
 						{errors.risk && (errors.risk.message || t("risk.error"))}
@@ -199,7 +200,7 @@ export default function CalcForm() {
 									fixedDecimalScale
 									type="text"
 									inputMode="decimal"
-									placeholder={t("stoploss.subtitle")}
+									placeholder={t("stoploss.placeholder")}
 									name={name}
 									value={value || ""}
 									onValueChange={(v) => onChange(v.value)}
@@ -207,7 +208,7 @@ export default function CalcForm() {
 							)}
 						/>
 
-						<InputRightAddon>%</InputRightAddon>
+						<InputRightAddon bg={bgAddon}>%</InputRightAddon>
 					</InputGroup>
 					<FormErrorMessage>
 						{errors.stoploss &&

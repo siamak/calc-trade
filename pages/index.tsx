@@ -31,7 +31,16 @@ const Home: NextPage = () => {
 				{/* <meta name="description" content="Best PWA App in the world" /> */}
 				<meta name="format-detection" content="telephone=no" />
 				<meta name="mobile-web-app-capable" content="yes" />
-				<meta name="theme-color" content="#F5F6FB" />
+				<meta
+					name="theme-color"
+					content="#F5F6FB"
+					media="(prefers-color-scheme: light)"
+				/>
+				<meta
+					name="theme-color"
+					content="#101217"
+					media="(prefers-color-scheme: dark)"
+				/>
 
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 				<link rel="manifest" href="/manifest.json" />

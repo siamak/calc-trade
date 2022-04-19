@@ -40,22 +40,6 @@ class MyDocument extends Document {
 							/>
 						</>
 					)}
-					{/*
-					<script
-						async
-						src="https://www.googletagmanager.com/gtag/js?id=G-FDNZT3M442"
-					/>
-
-					<script
-						dangerouslySetInnerHTML={{
-							__html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-FDNZT3M442', { page_path: window.location.pathname });
-            `,
-						}}
-					/> */}
 				</Head>
 
 				<body dir={dir} lang={locale}>

@@ -16,7 +16,7 @@ export default function Footer() {
 				{t("disclaimer")}
 			</Text>
 
-			<Text textAlign={"center"} color={"gray.500"} mt={2}>
+			<Text textAlign={"center"} color={"gray.500"} my={3}>
 				{t("copyright.text")}{" "}
 				<Text
 					as="a"
