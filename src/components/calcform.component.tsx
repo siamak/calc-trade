@@ -35,6 +35,7 @@ const Result = dynamic(() => import("./result.component"), {
 
 export default function CalcForm() {
 	const t = useTranslations("form");
+	const inputBorderActive = useColorModeValue("purple.500", "purple.300");
 	const bgSlider = useColorModeValue("gray.100", "#2e3345");
 	const bgTrack = useColorModeValue("gray.300", "#5c6277");
 	const bgAddon = useColorModeValue("gray.100", "#2e3345");
@@ -51,12 +52,12 @@ export default function CalcForm() {
 		formState: { errors, isSubmitting },
 	} = useForm({
 		mode: "onBlur",
-		defaultValues: {
-			balance: 0,
-			risk: 0,
-			stoploss: 0,
-			leverage: 10,
-		},
+		// defaultValues: {
+		// balance: 0,
+		// risk: 0,
+		// stoploss: 0,
+		// leverage: 10,
+		// },
 	});
 	const [marginSize, setMargin] = useState<number>(0);
 
@@ -121,6 +122,9 @@ export default function CalcForm() {
 								<>
 									<NumberFormat
 										customInput={Input}
+										_focus={{
+											borderColor: inputBorderActive,
+										}}
 										placeholder={t("balance.placeholder")}
 										borderStartRadius={0}
 										allowNegative={false}
@@ -156,6 +160,9 @@ export default function CalcForm() {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
+									_focus={{
+										borderColor: inputBorderActive,
+									}}
 									allowNegative={false}
 									thousandSeparator={false}
 									decimalScale={2}
@@ -193,6 +200,9 @@ export default function CalcForm() {
 							render={({ field: { onChange, name, value } }) => (
 								<NumberFormat
 									customInput={Input}
+									_focus={{
+										borderColor: inputBorderActive,
+									}}
 									borderEndRadius={0}
 									allowNegative={false}
 									thousandSeparator={false}

@@ -1,10 +1,19 @@
-import { Button, useColorMode } from "@chakra-ui/react";
+import { Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
 
 export default function ThemeSwitcher() {
 	const { colorMode, toggleColorMode } = useColorMode();
+	const bgButton = useColorModeValue("gray.200", "gray.700");
+	const bgButtonHover = useColorModeValue("gray.300", "gray.600");
 
 	return (
-		<Button mt={3} isFullWidth outline={0} onClick={toggleColorMode}>
+		<Button
+			mt={3}
+			bg={bgButton}
+			_hover={{ bg: bgButtonHover }}
+			isFullWidth
+			outline={0}
+			onClick={toggleColorMode}
+		>
 			{colorMode === "light" ? (
 				<svg
 					version="1.1"

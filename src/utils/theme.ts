@@ -32,6 +32,7 @@ const theme = extendTheme({
 			"html, body": {
 				background: "background",
 				color: "foreground",
+				fontFeatureSettings: `"calt", "tnum"`,
 			},
 		},
 	},
