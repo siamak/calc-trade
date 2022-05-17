@@ -319,6 +319,8 @@ export default function CalcForm() {
 				marginSize={marginSize}
 				balance={calculator.balance}
 				riskCapital={calculator.riskCapital}
+				leverage={calculator.leverage}
+				stoploss={calculator.stoploss}
 			/>
 
 			<RiskReward

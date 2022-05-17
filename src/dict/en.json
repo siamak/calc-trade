@@ -36,7 +36,8 @@
 		},
 		"riskedCaptial": {
 			"label": "Risked Capital",
-			"subtitle": "Amount of capital that will be lost if your configured stop loss is reached"
+			"subtitle": "Amount of capital that will be lost if your configured stop loss is reached",
+			"error": "Liquidation point will be reached prior to stop loss. SOLUTIONS: Decrease leverage or decrease your stop loss."
 		},
 		"margin": {
 			"label": "Margin",

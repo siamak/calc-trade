@@ -14,12 +14,16 @@ interface IProps {
 	riskCapital: number;
 	marginSize: number;
 	balance: number;
+	leverage: number;
+	stoploss: number;
 }
 
 const Result: React.FC<IProps> = ({
 	riskCapital,
 	marginSize,
 	balance,
+	leverage,
+	stoploss,
 }: IProps) => {
 	const t = useTranslations("result");
 	const toast = useToast();
@@ -30,6 +34,7 @@ const Result: React.FC<IProps> = ({
 	const buttonColor = useColorModeValue("#666c6f", "#c1c8cc");
 
 	const isImpossible = marginSize > balance;
+	const willLiquidate = leverage * stoploss >= 92;
 
 	useEffect(() => {
 		if (hasCopied) {
@@ -85,11 +90,17 @@ const Result: React.FC<IProps> = ({
 						<Text fontSize="xs" opacity={0.6} maxW={"360px"}>
 							{t("riskedCaptial.subtitle")}
 						</Text>
+
+						{willLiquidate && (
+							<Text fontSize="xs" color="red.500" maxW={"360px"}>
+								{t("riskedCaptial.error")}
+							</Text>
+						)}
 					</VStack>
 				</HStack>
 				<Text
 					fontSize="large"
-					color={foreground}
+					color={willLiquidate ? "red.500" : foreground}
 					fontWeight={"bold"}
 					lineHeight={1}
 				>
@@ -134,6 +145,7 @@ const Result: React.FC<IProps> = ({
 						<Text fontSize="xs" opacity={0.6} maxW={"360px"}>
 							{t("margin.subtitle")}
 						</Text>
+
 						{isImpossible && (
 							<Text fontSize="xs" color="red.500" maxW={"360px"}>
 								{t("margin.error")}
