@@ -104,7 +104,7 @@ const RiskReward: React.FC<IProps> = ({
 						order={[-1, 0]}
 						defaultValue={2}
 						min={1}
-						max={25}
+						max={35}
 						step={0.5}
 						value={value}
 						onChange={(e) => setValue(e)}

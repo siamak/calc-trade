@@ -9,3 +9,12 @@ body {
 body[dir="rtl"] {
 	font-family: Vazir FD UI;
 }
+
+body[dir="rtl"] h1,
+body[dir="rtl"] h2,
+body[dir="rtl"] h3,
+body[dir="rtl"] h4,
+body[dir="rtl"] h5,
+body[dir="rtl"] h6 {
+	font-family: Vazir FD UI;
+}
