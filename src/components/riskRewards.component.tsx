@@ -127,7 +127,13 @@ const RiskReward: React.FC<IProps> = ({
 			<SimpleGrid mt={4} minChildWidth="200px" spacing={4}>
 				<Stat>
 					<StatLabel>{t("pnl.label")}</StatLabel>
-					<StatNumber color={greenColor}>~ ${pnl}</StatNumber>
+					<StatNumber color={greenColor}>
+						~ $
+						{new Intl.NumberFormat("en-US", {
+							style: "currency",
+							currency: "USD",
+						}).format(pnl)}
+					</StatNumber>
 					<StatHelpText opacity={0.6}>{t("pnl.subtitle")}</StatHelpText>
 				</Stat>
 
