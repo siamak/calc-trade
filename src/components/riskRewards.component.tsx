@@ -128,7 +128,7 @@ const RiskReward: React.FC<IProps> = ({
 				<Stat>
 					<StatLabel>{t("pnl.label")}</StatLabel>
 					<StatNumber color={greenColor}>
-						~ $
+						~
 						{new Intl.NumberFormat("en-US", {
 							style: "currency",
 							currency: "USD",
