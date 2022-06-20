@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/router";
 import { useForm, Controller } from "react-hook-form";
 import NumberFormat from "react-number-format";
 import {
@@ -24,6 +25,7 @@ import {
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import useFormPersist from "../hooks/useFormPersist";
+import TelegramMobile from "./telegram.mobile";
 
 const RiskReward = dynamic(() => import("./riskRewards.component"), {
 	loading: () => <Spinner />,
@@ -35,6 +37,9 @@ const Result = dynamic(() => import("./result.component"), {
 
 export default function CalcForm() {
 	const t = useTranslations("form");
+	const router = useRouter();
+	const { locale } = router;
+
 	const inputBorderActive = useColorModeValue("purple.500", "purple.300");
 	const bgSlider = useColorModeValue("gray.100", "#2e3345");
 	const bgTrack = useColorModeValue("gray.300", "#5c6277");
@@ -314,7 +319,6 @@ export default function CalcForm() {
 					</Button>
 				</HStack>
 			</VStack>
-
 			<Result
 				marginSize={marginSize}
 				balance={calculator.balance}
@@ -329,6 +333,8 @@ export default function CalcForm() {
 				leverage={calculator.leverage}
 				balance={calculator.balance}
 			/>
+
+			{locale === "fa" && <TelegramMobile />}
 		</form>
 	);
 }

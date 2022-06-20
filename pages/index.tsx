@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { Container, Spinner } from "@chakra-ui/react";
 
 const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
@@ -13,13 +13,13 @@ const GuideModal = dynamic(() => import("../src/components/guide.modal"), {
 const Footer = dynamic(() => import("../src/components/footer"), {
 	loading: () => <Spinner />,
 });
-const TelegramCTA = dynamic(() => import("../src/components/telegram.cta"), {
-	loading: () => <Spinner />,
-});
+// const TelegramCTA = dynamic(() => import("../src/components/telegram.cta"), {
+// 	loading: () => <Spinner />,
+// });
 
 const Home: NextPage = () => {
-	const router = useRouter();
-	const { locale } = router;
+	// const router = useRouter();
+	// const { locale } = router;
 
 	return (
 		<>
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
 				<Footer />
 			</Container>
 
-			{locale === "fa" && <TelegramCTA />}
+			{/* {locale === "fa" && <TelegramCTA />} */}
 			<GuideModal />
 		</>
 	);
