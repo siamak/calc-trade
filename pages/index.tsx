@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Container, Spinner } from "@chakra-ui/react";
 
 const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
@@ -18,13 +18,16 @@ const Footer = dynamic(() => import("../src/components/footer"), {
 // });
 
 const Home: NextPage = () => {
-	// const router = useRouter();
-	// const { locale } = router;
+	const router = useRouter();
+	const { locale } = router;
 
 	return (
 		<>
 			<Head>
-				<title>Calculate trade</title>
+				{(locale === "fa" && (
+					<title>ماشین حساب حجم پوزیشن های اسپات و فیوچرز ارزدیجیتال</title>
+				)) || <title>Calculate trade</title>}
+
 				<meta
 					name="description"
 					content="Calculate the size of your trade position"
