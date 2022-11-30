@@ -275,7 +275,7 @@ export default function CalcForm() {
 							order={[-1, 0]}
 							defaultValue={10}
 							min={1}
-							max={50}
+							max={100}
 							step={1}
 							value={getValues("leverage")}
 							onChange={(e) => setValue("leverage", e)}
