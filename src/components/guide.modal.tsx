@@ -28,7 +28,7 @@ export default function GuideModal() {
 			window.localStorage.setItem(`@guide_modal_${locale}`, "true");
 			onOpen();
 		}
-	}, []);
+	}, [locale, onOpen]);
 
 	return (
 		<>

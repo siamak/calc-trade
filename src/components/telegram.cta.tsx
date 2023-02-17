@@ -23,7 +23,7 @@ export default function TelegramCTA() {
 		if (!isOpen) {
 			onToggle();
 		}
-	}, []);
+	}, [isOpen, onToggle]);
 
 	return (
 		<ScaleFade initialScale={0.8} in={isOpen}>
@@ -49,7 +49,7 @@ export default function TelegramCTA() {
 					top={4}
 					left={4}
 					bg={btnBgColor}
-					d="inline-flex"
+					display="inline-flex"
 					position="absolute"
 					_hover={{
 						bg: btnHoverColor,
