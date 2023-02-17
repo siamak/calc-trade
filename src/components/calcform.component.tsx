@@ -96,7 +96,7 @@ export default function CalcForm() {
 			stoploss,
 			leverage,
 			balance,
-			sizeUSDT: marginSize * leverage,
+			sizeUSDT: marginSize * leverage || 0,
 		};
 	}, [marginSize, values]);
 

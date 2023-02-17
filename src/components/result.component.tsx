@@ -1,14 +1,14 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useCallback } from "react";
 import {
 	Text,
 	Divider,
 	HStack,
 	VStack,
 	useToast,
-	useClipboard,
 	useColorModeValue,
 } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import useCopyToClipboard from "hooks/useCopyToClipboard";
 
 interface IProps {
 	riskCapital: number;
@@ -29,7 +29,7 @@ const Result: React.FC<IProps> = ({
 }: IProps) => {
 	const t = useTranslations("result");
 	const toast = useToast();
-	const { onCopy, value, setValue, hasCopied } = useClipboard("");
+	const [_, saveClipboard] = useCopyToClipboard();
 	const foreground = useColorModeValue("gray.700", "gray.100");
 	const redColor = useColorModeValue("#f21313", "#ff7070");
 	const blueColor = useColorModeValue("#1861ea", "#6299ff");
@@ -39,17 +39,19 @@ const Result: React.FC<IProps> = ({
 	const isImpossible = marginSize > balance;
 	const willLiquidate = leverage * stoploss >= 92;
 
-	useEffect(() => {
-		if (hasCopied) {
+	const copy = useCallback(
+		(text) => {
+			saveClipboard(text);
 			toast({
 				title: t("clipboard.title"),
-				description: `$${value} ${t("clipboard.description")}`,
+				description: `$${text} ${t("clipboard.description")}`,
 				status: "success",
 				duration: 3000,
 				isClosable: true,
 			});
-		}
-	}, [hasCopied, toast, t, value]);
+		},
+		[t, toast, saveClipboard]
+	);
 
 	return (
 		<VStack
@@ -161,8 +163,7 @@ const Result: React.FC<IProps> = ({
 
 				<HStack
 					onClick={() => {
-						setValue(String(marginSize));
-						setTimeout(onCopy, 1000);
+						copy(String(marginSize));
 					}}
 					cursor="pointer"
 					spacing={1}
@@ -274,8 +275,7 @@ const Result: React.FC<IProps> = ({
 
 				<HStack
 					onClick={() => {
-						setValue(String(sizeUSDT));
-						setTimeout(onCopy, 1000);
+						copy(String(sizeUSDT));
 					}}
 					cursor="pointer"
 					spacing={1}
