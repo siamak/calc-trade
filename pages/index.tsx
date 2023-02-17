@@ -10,15 +10,15 @@ const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
 });
 const GuideModal = dynamic(() => import("../src/components/guide.modal"), {
 	loading: () => <Spinner />,
-	ssr: false,
+	ssr: true,
 });
 const Header = dynamic(() => import("../src/components/header"), {
 	loading: () => <Spinner />,
-	ssr: false,
+	ssr: true,
 });
 const Footer = dynamic(() => import("../src/components/footer"), {
 	loading: () => <Spinner />,
-	ssr: false,
+	ssr: true,
 });
 // const TelegramCTA = dynamic(() => import("../src/components/telegram.cta"), {
 // 	loading: () => <Spinner />,
