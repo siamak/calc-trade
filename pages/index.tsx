@@ -3,6 +3,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Container, Spinner } from "@chakra-ui/react";
+import { NextSeo } from "next-seo";
 
 const CalcForm = dynamic(() => import("../src/components/calcform.component"), {
 	loading: () => <Spinner />,
@@ -28,24 +29,21 @@ const Home: NextPage = () => {
 	const router = useRouter();
 	const { locale } = router;
 
+	const title = locale === "fa" ? "ماشین حساب ترید" : "Calculate trade";
+
 	return (
 		<>
+			<NextSeo
+				title={title}
+				description="calc.siamak.me is a free cryptocurrency trade assistant and calculator. You can calculate the profit or the loss of your trade in a single click. This is a free tool that will help you to trade more efficiently."
+			/>
 			<Head>
-				{(locale === "fa" && (
-					<title>ماشین حساب حجم پوزیشن های اسپات و فیوچرز ارزدیجیتال</title>
-				)) || <title>Calculate trade</title>}
-
-				<meta
-					name="description"
-					content="Calculate the size of your trade position"
-				/>
 				<link rel="icon" href="/favicon.ico" />
 
 				<meta name="application-name" content="Calculate trade" />
 				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 				<meta name="apple-mobile-web-app-title" content="Calculate trade" />
-				{/* <meta name="description" content="Best PWA App in the world" /> */}
 				<meta name="format-detection" content="telephone=no" />
 				<meta name="mobile-web-app-capable" content="yes" />
 				<meta
