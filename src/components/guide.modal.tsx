@@ -74,7 +74,7 @@ export default function GuideModal() {
 						</Text>
 					</ModalBody>
 					<ModalFooter>
-						<Button colorScheme={"purple"} isFullWidth onClick={onClose}>
+						<Button colorScheme={"purple"} onClick={onClose}>
 							{t("cta")}
 						</Button>
 					</ModalFooter>

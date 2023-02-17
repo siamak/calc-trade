@@ -89,14 +89,16 @@ export default function CalcForm() {
 		const { balance, risk, stoploss, leverage } = values;
 
 		const _risk = risk / 100;
+		const riskCapital = balance * _risk || 0;
 
 		return {
-			riskCapital: balance * _risk || 0,
+			riskCapital,
 			stoploss,
 			leverage,
 			balance,
+			sizeUSDT: marginSize * leverage,
 		};
-	}, [values]);
+	}, [marginSize, values]);
 
 	return (
 		<form>
@@ -105,7 +107,9 @@ export default function CalcForm() {
 				mt={4}
 				p={[4, 8]}
 				bg="boxBg"
-				boxShadow={"lg"}
+				boxShadow={
+					"0px 11.3px 10px -62px rgba(0, 0, 0, 0.053), 0px 90px 80px -62px rgba(0, 0, 0, 0.11)"
+				}
 				spacing={4}
 				borderRadius={8}
 			>
@@ -253,7 +257,7 @@ export default function CalcForm() {
 						<Box
 							order={[1, 0]}
 							mt={[2, 0]}
-							d="flex"
+							display="flex"
 							alignItems="center"
 							flexDirection="row"
 						>
@@ -283,7 +287,9 @@ export default function CalcForm() {
 						>
 							<SliderTrack bg={bgTrack}>
 								<Box position="relative" right={10} />
-								<SliderFilledTrack bg={bgTrackActive} />
+								<SliderFilledTrack
+									bgGradient={`linear(to-r, ${bgTrackActive}, pink.600)`}
+								/>
 							</SliderTrack>
 							<SliderThumb
 								boxShadow={
@@ -319,12 +325,14 @@ export default function CalcForm() {
 					</Button>
 				</HStack>
 			</VStack>
+
 			<Result
 				marginSize={marginSize}
 				balance={calculator.balance}
 				riskCapital={calculator.riskCapital}
 				leverage={calculator.leverage}
 				stoploss={calculator.stoploss}
+				sizeUSDT={calculator.sizeUSDT}
 			/>
 
 			<RiskReward

@@ -7,10 +7,9 @@ export default function ThemeSwitcher() {
 
 	return (
 		<Button
-			mt={3}
+			px={2}
 			bg={bgButton}
 			_hover={{ bg: bgButtonHover }}
-			isFullWidth
 			outline={0}
 			onClick={toggleColorMode}
 		>
@@ -23,7 +22,7 @@ export default function ThemeSwitcher() {
 					xmlns="http://www.w3.org/2000/svg"
 					xmlnsXlink="http://www.w3.org/1999/xlink"
 				>
-					<g fill={"#1f39c7"}>
+					<g fill={"#2D3748"}>
 						<path d="M9.00068 18.9999c0 .84.13 1.66.37 2.42 -3.84-1.33-6.74-4.86-7.04-8.99 -.3-4.39003 2.23-8.49003 6.32-10.21 1.06-.44 1.60002-.12 1.83002.11 .22.22.53.75.09 1.76 -.45 1.04-.67002 2.14-.67002 3.28 .01 2.04.81002 3.93003 2.11002 5.38003 -1.83 1.46-3.01002 3.72-3.01002 6.25Z" />
 						<path
 							opacity=".40"
@@ -40,7 +39,7 @@ export default function ThemeSwitcher() {
 					xmlns="http://www.w3.org/2000/svg"
 					xmlnsXlink="http://www.w3.org/1999/xlink"
 				>
-					<g fill={"#FFDB7E"}>
+					<g fill={"#EDF2F7"}>
 						<path
 							opacity=".90"
 							d="M12 19c3.866 0 7-3.134 7-7 0-3.86599-3.134-7-7-7 -3.86599 0-7 3.13401-7 7 0 3.866 3.13401 7 7 7Z"

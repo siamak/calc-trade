@@ -26,7 +26,9 @@ export default function TelegramMobile() {
 			borderColor={brColor}
 			p={[4, 8]}
 			bg="boxBg"
-			boxShadow={"lg"}
+			boxShadow={
+				"0px 11.3px 10px -62px rgba(0, 0, 0, 0.053), 0px 90px 80px -62px rgba(0, 0, 0, 0.11)"
+			}
 			borderRadius={8}
 		>
 			<HStack justifyItems={"center"}>
@@ -52,7 +54,6 @@ export default function TelegramMobile() {
 				target={"_blank"}
 				mt={0}
 				rounded={"20px"}
-				isFullWidth
 				colorScheme={"blue"}
 			>
 				کانال تلگرام

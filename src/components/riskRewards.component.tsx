@@ -39,13 +39,22 @@ const RiskReward: React.FC<IProps> = ({
 
 	const greenColor = useColorModeValue("#009980", "#17e2c0");
 	const purpleColor = useColorModeValue("purple.500", "#9086ff");
+	const blueColor = useColorModeValue("blue.500", "blue.300");
 	const blackColor = useColorModeValue("gray.800", "gray.400");
 
 	const [value, setValue] = useState<number>(2);
 	const pnl = Math.round(value * lossRate * 100) / 100 || 0;
 
 	return (
-		<Box mt={4} p={[4, 8]} bg="boxBg" boxShadow={"lg"} borderRadius={8}>
+		<Box
+			mt={6}
+			p={[4, 8]}
+			bg="boxBg"
+			boxShadow={
+				"0px 11.3px 10px -62px rgba(0, 0, 0, 0.053), 0px 90px 80px -62px rgba(0, 0, 0, 0.11)"
+			}
+			borderRadius={8}
+		>
 			{/* Reward Slider */}
 			<FormControl>
 				<FormLabel htmlFor="RewardSlider">
@@ -66,11 +75,13 @@ const RiskReward: React.FC<IProps> = ({
 					userSelect="none"
 				>
 					<Box
-						d="flex"
+						display={"flex"}
 						order={[1, 0]}
 						mt={[2, 0]}
 						alignItems="center"
 						flexDirection="row"
+						flex={"none"}
+						flexWrap={"nowrap"}
 					>
 						<Text
 							fontWeight={"bold"}
@@ -104,11 +115,12 @@ const RiskReward: React.FC<IProps> = ({
 						order={[-1, 0]}
 						defaultValue={2}
 						min={1}
-						max={35}
+						max={50}
 						step={0.5}
 						value={value}
 						onChange={(e) => setValue(e)}
 						focusThumbOnChange={false}
+						flex={"auto"}
 					>
 						<SliderTrack bg={bgTrack}>
 							<Box position="relative" right={10} />
@@ -155,7 +167,7 @@ const RiskReward: React.FC<IProps> = ({
 
 				<Stat>
 					<StatLabel>{t("roe.label")}</StatLabel>
-					<StatNumber fontSize={"lg"} lineHeight={2} color={greenColor}>
+					<StatNumber fontSize={"lg"} lineHeight={2} color={blueColor}>
 						+{(stoploss * value * leverage || 0).toFixed(2)}%
 					</StatNumber>
 					<StatHelpText opacity={0.6}>{t("roe.subtitle")}</StatHelpText>
@@ -166,44 +178,6 @@ const RiskReward: React.FC<IProps> = ({
 			<Text color="gray.500" fontWeight={500} mt={2} fontSize={"xs"}>
 				{t("note")}
 			</Text>
-
-			{/* <TableContainer>
-				<Table variant="simple" size="sm">
-					<Thead>
-						<Tr>
-							<Th py={3} isNumeric>
-								{t("headings.0")}
-							</Th>
-							<Th py={3} isNumeric>
-								{t("headings.1")}
-							</Th>
-							<Th py={3} isNumeric>
-								{t("headings.2")}
-							</Th>
-						</Tr>
-					</Thead>
-					<Tbody>
-						{rrRatio.map((r: number) => (
-							<Tr background={(r === 2 && "gray.100") || ""} key={r}>
-								<Td py={3} isNumeric>
-									<code>1:{r}</code>
-								</Td>
-								<Td py={3} isNumeric>
-									<Badge colorScheme="green">
-										+ ${(Math.round(r * lossRate * 100) / 100 || 0).toFixed(2)}
-									</Badge>
-								</Td>
-								<Td py={3} isNumeric>
-									<Badge colorScheme="red">
-										- ${(Math.round(lossRate * 100) / 100 || 0).toFixed(2)}
-									</Badge>
-								</Td>
-							</Tr>
-						))}
-					</Tbody>
-					<TableCaption color="gray.500">{t("note")}</TableCaption>
-				</Table>
-			</TableContainer> */}
 		</Box>
 	);
 };

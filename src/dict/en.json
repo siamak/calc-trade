@@ -1,4 +1,7 @@
 {
+	"header": {
+		"heading": "Calculate your trade"
+	},
 	"form": {
 		"balance": {
 			"label": "Account Balance",
@@ -31,8 +34,8 @@
 
 	"result": {
 		"clipboard": {
-			"title": "The margin size is copied",
-			"description": "copied to your clipboard. Paste in Exchange"
+			"title": "The size is copied",
+			"description": "copied to your clipboard. Paste it into the Exchange"
 		},
 		"riskedCaptial": {
 			"label": "Risked Capital",
@@ -43,6 +46,11 @@
 			"label": "Margin",
 			"subtitle": "Total amount of your capital used in this position",
 			"error": "Required margin is lower than your balance. SOLUTIONS: Decrease risk, Increase leverage or Increase stoploss"
+		},
+		"size": {
+			"label": "Size",
+			"subtitle": "Total size (USDT) of your trade used in this trade",
+			"error": "Required size is lower than your balance. SOLUTIONS: Decrease risk, Increase leverage or Increase stoploss"
 		}
 	},
 

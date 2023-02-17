@@ -1,7 +1,7 @@
 import { Center, Text, useColorModeValue } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import LocaleSwitcher from "./localeSwitcher.component";
-import ThemeSwitcher from "./themeSwitcher.component";
+// import LocaleSwitcher from "./localeSwitcher.component";
+// import ThemeSwitcher from "./themeSwitcher.component";
 
 export default function Footer() {
 	const t = useTranslations("footer");
@@ -9,8 +9,8 @@ export default function Footer() {
 
 	return (
 		<footer>
-			<LocaleSwitcher />
-			<ThemeSwitcher />
+			{/* <LocaleSwitcher /> */}
+			{/* <ThemeSwitcher /> */}
 
 			<Text textAlign={"center"} color={"gray.500"} mt={4} fontStyle="italic">
 				{t("disclaimer")}

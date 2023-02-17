@@ -95,7 +95,6 @@ export default function TelegramCTA() {
 					mt={4}
 					rounded={"20px"}
 					w={["8rem", "auto"]}
-					isFullWidth
 					colorScheme={"blue"}
 				>
 					کانال تلگرام
