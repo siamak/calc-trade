@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 		<>
 			<NextSeo
 				title={title}
-				description="calc.siamak.me is a free cryptocurrency trade assistant and calculator. You can calculate the profit or the loss of your trade in a single click. This is a free tool that will help you to trade more efficiently."
+				description="calc.siamak.me is a calculator in order that your next trade's profit or loss with our trade assistant calculator. Optimize your strategy and make informed decisions in a single click. Try it now!"
 			/>
 			<Head>
 				<link rel="icon" href="/favicon.ico" />
