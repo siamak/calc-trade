@@ -53,7 +53,7 @@ export default async function LocaleLayout({
 	}
 	const isRTL = locale === "fa";
 	const dir = isRTL ? "rtl" : "ltr";
-	const fontClass = isRTL ? "font-persian" : "font-sans";
+	const fontClass = isRTL ? "font-persian" : "font-english";
 
 	return (
 		<html lang={locale} dir={dir} suppressHydrationWarning>
@@ -95,7 +95,7 @@ export default async function LocaleLayout({
 							crossOrigin="anonymous"
 						/>
 						<link
-							href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+							href="https://fonts.googleapis.com/css2?family=Mozilla+Text:wght@400;500;700&display=swap"
 							rel="stylesheet"
 						/>
 					</>

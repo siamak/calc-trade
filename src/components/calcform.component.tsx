@@ -7,10 +7,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NumericFormat } from "react-number-format";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { Loader2 } from "lucide-react";
+import useFormPersist from "react-hook-form-persist";
+import { DollarSign, Loader2, Percent, DiamondPercent } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
-import useFormPersist from "../hooks/useFormPersist";
 import TelegramMobile from "./telegram.mobile";
 import { RippleButton } from "@/components/animate-ui/buttons/ripple";
 import {
@@ -39,7 +39,9 @@ export default function CalcForm() {
 
 	const form = useForm<CalculatorFormValues>({
 		resolver: zodResolver(calculatorFormSchema),
-		mode: "onBlur",
+		mode: "onChange",
+		reValidateMode: "onChange",
+		criteriaMode: "all",
 		defaultValues: {
 			balance: 0,
 			risk: 0,
@@ -50,21 +52,27 @@ export default function CalcForm() {
 
 	const [marginSize, setMargin] = useState<number>(0);
 
-	useFormPersist(
-		"@history",
-		{ watch: form.watch, setValue: form.setValue },
-		{
-			storage: process.browser && window.localStorage,
-		}
-	);
-
 	const values = form.watch();
+	const { watch, setValue } = form;
+
+	useFormPersist("@history", {
+		watch,
+		setValue,
+		storage: window.localStorage,
+	});
 
 	useEffect(() => {
 		const { balance, risk, stoploss, leverage } = values;
 
 		const _risk = risk / 100;
 		const _sl = stoploss / 100;
+
+		// Prevent division by zero
+		if (_sl === 0 || leverage === 0) {
+			setMargin(0);
+			return;
+		}
+
 		const margin = (balance * _risk) / (_sl * leverage);
 		setMargin(Math.round(margin) || 0);
 	}, [values, setMargin]);
@@ -84,6 +92,8 @@ export default function CalcForm() {
 		};
 	}, [marginSize, values]);
 
+	console.log(calculator);
+
 	return (
 		<Form {...form}>
 			<form>
@@ -94,31 +104,38 @@ export default function CalcForm() {
 						name="balance"
 						render={({ field }) => (
 							<FormItem className="w-full">
-								<FormLabel className="text-sm font-medium">
+								<FormLabel htmlFor={field.name} className="font-medium">
 									{t("balance.label")}
-									<FormDescription className="text-xs text-muted-foreground">
-										{t("balance.subtitle")}
-									</FormDescription>
 								</FormLabel>
-								<FormControl>
-									<div className="flex">
-										<div className="flex items-center px-3 bg-muted border border-r-0 rounded-l-md text-sm">
-											$
+
+								<FormControl className="relative">
+									<div className="relative">
+										<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+											<DollarSign size={16} aria-hidden="true" />
 										</div>
 										<NumericFormat
 											customInput={Input}
-											className="rounded-l-none"
+											className="peer ps-9"
 											placeholder={t("balance.placeholder")}
 											allowNegative={false}
 											thousandSeparator={true}
 											type="text"
 											inputMode="decimal"
+											id={field.name}
 											{...field}
-											onValueChange={(v: any) => field.onChange(v.floatValue)}
-											value={field.value || ""}
+											onValueChange={(v: any) => {
+												const value = v.floatValue;
+												// Ensure we always store a clean numeric value
+												const cleanValue = value !== undefined ? value : 0;
+												field.onChange(cleanValue);
+											}}
+											value={field.value ?? ""}
 										/>
 									</div>
 								</FormControl>
+								<FormDescription className="text-xs text-muted-foreground">
+									{t("balance.subtitle")}
+								</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -130,33 +147,37 @@ export default function CalcForm() {
 						name="risk"
 						render={({ field }) => (
 							<FormItem className="w-full">
-								<FormLabel className="text-sm font-medium">
+								<FormLabel htmlFor={field.name} className="font-medium">
 									{t("risk.label")}
-									<FormDescription className="text-xs text-muted-foreground">
-										{t("risk.subtitle")}
-									</FormDescription>
 								</FormLabel>
 								<FormControl>
-									<div className="flex">
+									<div className="relative">
+										<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+											<Percent size={16} aria-hidden="true" />
+										</div>
 										<NumericFormat
 											customInput={Input}
-											className="rounded-r-none"
+											className="peer ps-9"
 											allowNegative={false}
 											thousandSeparator={false}
 											decimalScale={2}
 											type="text"
 											inputMode="decimal"
+											id={field.name}
 											fixedDecimalScale
 											placeholder={t("risk.placeholder")}
 											{...field}
-											onValueChange={(v: any) => field.onChange(v.value)}
-											value={field.value || ""}
+											onValueChange={(v: any) => {
+												const value = v.value;
+												field.onChange(value !== undefined ? value : 0);
+											}}
+											value={field.value ?? ""}
 										/>
-										<div className="flex items-center px-3 bg-muted border border-l-0 rounded-r-md text-sm">
-											%
-										</div>
 									</div>
 								</FormControl>
+								<FormDescription className="text-xs text-muted-foreground">
+									{t("risk.subtitle")}
+								</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -168,17 +189,17 @@ export default function CalcForm() {
 						name="stoploss"
 						render={({ field }) => (
 							<FormItem className="w-full">
-								<FormLabel className="text-sm font-medium">
+								<FormLabel htmlFor={field.name} className="font-medium">
 									{t("stoploss.label")}
-									<FormDescription className="text-xs text-muted-foreground">
-										{t("stoploss.subtitle")}
-									</FormDescription>
 								</FormLabel>
 								<FormControl>
-									<div className="flex">
+									<div className="relative">
+										<div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
+											<DiamondPercent size={16} aria-hidden="true" />
+										</div>
 										<NumericFormat
 											customInput={Input}
-											className="rounded-r-none"
+											className="peer ps-9"
 											allowNegative={false}
 											thousandSeparator={false}
 											decimalScale={2}
@@ -186,15 +207,19 @@ export default function CalcForm() {
 											type="text"
 											inputMode="decimal"
 											placeholder={t("stoploss.placeholder")}
+											id={field.name}
 											{...field}
-											onValueChange={(v: any) => field.onChange(v.value)}
-											value={field.value || ""}
+											onValueChange={(v: any) => {
+												const value = v.value;
+												field.onChange(value !== undefined ? value : 0);
+											}}
+											value={field.value ?? ""}
 										/>
-										<div className="flex items-center px-3 bg-muted border border-l-0 rounded-r-md text-sm">
-											%
-										</div>
 									</div>
 								</FormControl>
+								<FormDescription className="text-xs text-muted-foreground">
+									{t("stoploss.subtitle")}
+								</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -206,12 +231,12 @@ export default function CalcForm() {
 						name="leverage"
 						render={({ field }) => (
 							<FormItem className="w-full">
-								<FormLabel className="text-sm font-medium">
+								<FormLabel htmlFor={field.name} className="text-sm font-medium">
 									{t("leverage.label")}
-									<FormDescription className="text-xs text-muted-foreground">
-										{t("leverage.subtitle")}
-									</FormDescription>
 								</FormLabel>
+								<FormDescription className="text-xs text-muted-foreground">
+									{t("leverage.subtitle")}
+								</FormDescription>
 								<FormControl>
 									<div className="flex flex-col items-center space-y-2 pt-6 pb-7 px-8 bg-muted rounded-lg select-none">
 										<div className="flex w-full justify-between gap-2">
@@ -220,7 +245,7 @@ export default function CalcForm() {
 													? t("leverage.spot")
 													: t("leverage.futures")}
 											</FormLabel>
-											<output className="text-sm font-medium tabular-nums">
+											<output className="font-bold tabular-nums">
 												{field.value}
 											</output>
 										</div>
@@ -229,13 +254,16 @@ export default function CalcForm() {
 												min={1}
 												max={100}
 												step={1}
-												value={[field.value]}
+												value={[field.value ?? 1]}
 												onValueChange={(value) => field.onChange(value[0])}
 												className="w-full"
+												rangeClassName="bg-gradient-to-l from-red-500 via-pink-500 to-blue-500 h-2 rounded-full"
+												thumbClassName="bg-white border border-gray-300 w-4 h-4"
 											/>
 										</div>
 									</div>
 								</FormControl>
+
 								<FormMessage />
 							</FormItem>
 						)}

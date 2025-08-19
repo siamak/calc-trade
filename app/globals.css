@@ -60,6 +60,9 @@
 	--font-sans: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", "Segoe UI",
 		"Roboto", "Helvetica Neue", sans-serif, "Apple Color Emoji",
 		"Segoe UI Emoji", "Noto Color Emoji";
+	--font-english: "Mozilla Text", "Inter", "Segoe UI", "Roboto",
+		"Helvetica Neue", sans-serif;
+	--font-persian: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", sans-serif;
 
 	/* Border Radius */
 	--radius-sm: calc(var(--radius) - 4px);
@@ -236,7 +239,8 @@
 
 	body {
 		@apply bg-background text-foreground;
-		font-family: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", sans-serif;
+		font-family: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", "Mozilla Text",
+			"Inter", sans-serif;
 		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1;
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
@@ -255,6 +259,18 @@
 		text-align: right;
 		font-family: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", sans-serif;
 		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1, "ss01" 1;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* LTR Direction Support */
+	[dir="ltr"] {
+		direction: ltr;
+		text-align: left;
+		font-family: "Mozilla Text", "Inter", "Segoe UI", "Roboto", "Helvetica Neue",
+			sans-serif;
+		font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -294,6 +310,15 @@
 	.font-persian {
 		font-family: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", sans-serif;
 		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	.font-english {
+		font-family: "Mozilla Text", "Inter", "Segoe UI", "Roboto", "Helvetica Neue",
+			sans-serif;
+		font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -395,6 +420,65 @@
 	}
 
 	.text-persian-5xl {
+		font-size: 3rem;
+		line-height: 1.2;
+		letter-spacing: -0.03em;
+	}
+
+	/* ==========================================================================
+       ENGLISH TYPOGRAPHY UTILITIES
+       ========================================================================== */
+
+	/* Typography Scale for English Content */
+	.text-english-xs {
+		font-size: 0.75rem;
+		line-height: 1.4;
+		letter-spacing: 0.01em;
+	}
+
+	.text-english-sm {
+		font-size: 0.875rem;
+		line-height: 1.5;
+		letter-spacing: 0.005em;
+	}
+
+	.text-english-base {
+		font-size: 1rem;
+		line-height: 1.6;
+		letter-spacing: 0;
+	}
+
+	.text-english-lg {
+		font-size: 1.125rem;
+		line-height: 1.6;
+		letter-spacing: -0.005em;
+	}
+
+	.text-english-xl {
+		font-size: 1.25rem;
+		line-height: 1.6;
+		letter-spacing: -0.01em;
+	}
+
+	.text-english-2xl {
+		font-size: 1.5rem;
+		line-height: 1.5;
+		letter-spacing: -0.015em;
+	}
+
+	.text-english-3xl {
+		font-size: 1.875rem;
+		line-height: 1.4;
+		letter-spacing: -0.02em;
+	}
+
+	.text-english-4xl {
+		font-size: 2.25rem;
+		line-height: 1.3;
+		letter-spacing: -0.025em;
+	}
+
+	.text-english-5xl {
 		font-size: 3rem;
 		line-height: 1.2;
 		letter-spacing: -0.03em;

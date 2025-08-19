@@ -34,7 +34,7 @@
 
 	"result": {
 		"clipboard": {
-			"title": "The size is copied",
+			"title": "Copied!",
 			"description": "copied to your clipboard. Paste it into the Exchange"
 		},
 		"riskedCaptial": {
