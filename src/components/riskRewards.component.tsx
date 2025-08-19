@@ -1,184 +1,90 @@
-import {
-	Box,
-	Text,
-	Slider,
-	FormControl,
-	FormLabel,
-	HStack,
-	SliderFilledTrack,
-	SliderThumb,
-	SliderTrack,
-	Stat,
-	StatHelpText,
-	StatLabel,
-	StatNumber,
-	Divider,
-	SimpleGrid,
-	useColorModeValue,
-} from "@chakra-ui/react";
+"use client";
+
 import { useTranslations } from "next-intl";
 import React, { memo, useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 
 interface IProps {
 	lossRate: number;
-	stoploss: number;
-	leverage: number;
-	balance: number;
 }
 
-const RiskReward: React.FC<IProps> = ({
-	lossRate,
-	stoploss,
-	leverage,
-	balance,
-}: IProps) => {
+const RiskReward: React.FC<IProps> = ({ lossRate }: IProps) => {
 	const t = useTranslations("riskReward");
-	const bgSlider = useColorModeValue("gray.100", "#2e3345");
-	const bgTrack = useColorModeValue("gray.300", "#5c6277");
-	const bgTrackActive = useColorModeValue("#009980", "#17e2c0");
-
-	const greenColor = useColorModeValue("#009980", "#17e2c0");
-	const purpleColor = useColorModeValue("purple.500", "#9086ff");
-	const blueColor = useColorModeValue("blue.500", "blue.300");
-	const blackColor = useColorModeValue("gray.800", "gray.400");
 
 	const [value, setValue] = useState<number>(2);
 	const pnl = Math.round(value * lossRate * 100) / 100 || 0;
 
 	return (
-		<Box
-			mt={6}
-			p={[4, 8]}
-			bg="boxBg"
-			boxShadow={
-				"0px 11.3px 10px -62px rgba(0, 0, 0, 0.053), 0px 90px 80px -62px rgba(0, 0, 0, 0.11)"
-			}
-			borderRadius={8}
-		>
+		<div className="mt-6 p-4 md:p-8 bg-card shadow-lg rounded-lg">
 			{/* Reward Slider */}
-			<FormControl>
-				<FormLabel htmlFor="RewardSlider">
+			<div className="space-y-2">
+				<Label htmlFor="RewardSlider" className="text-sm font-medium">
 					{t("rewardSlider.label")}
-					<Text fontSize="xs" opacity={0.6}>
+					<span className="block text-xs text-muted-foreground">
 						{t("rewardSlider.subtitle")}
-					</Text>
-				</FormLabel>
+					</span>
+				</Label>
 
-				<HStack
-					pl={5}
-					pr={10}
-					flexDirection={["column", "row"]}
-					spacing={[0, 3]}
-					py={6}
-					bg={bgSlider}
-					borderRadius={"lg"}
-					userSelect="none"
-				>
-					<Box
-						display={"flex"}
-						order={[1, 0]}
-						mt={[2, 0]}
-						alignItems="center"
-						flexDirection="row"
-						flex={"none"}
-						flexWrap={"nowrap"}
-					>
-						<Text
-							fontWeight={"bold"}
-							fontSize="lg"
-							minW={"8"}
-							textAlign="center"
-							opacity={0.6}
-						>
+				<div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-3 pl-5 pr-10 py-6 bg-muted rounded-lg select-none">
+					<div className="flex items-center flex-row flex-none flex-nowrap order-1 md:order-0 mt-2 md:mt-0">
+						<span className="font-bold text-lg min-w-[2rem] text-center opacity-60">
 							1
-						</Text>
-						<Text
-							fontWeight={"bold"}
-							fontSize="lg"
-							minW={"4"}
-							textAlign="center"
-							opacity={0.6}
-						>
+						</span>
+						<span className="font-bold text-lg min-w-[1rem] text-center opacity-60">
 							:
-						</Text>
-
-						<Text
-							fontWeight={"bold"}
-							fontSize="lg"
-							minW={"10"}
-							textAlign="center"
-						>
-							{value}
-						</Text>
-					</Box>
-					<Slider
-						order={[-1, 0]}
-						defaultValue={2}
-						min={1}
-						max={50}
-						step={0.5}
-						value={value}
-						onChange={(e) => setValue(e)}
-						focusThumbOnChange={false}
-						flex={"auto"}
-					>
-						<SliderTrack bg={bgTrack}>
-							<Box position="relative" right={10} />
-							<SliderFilledTrack bg={bgTrackActive} />
-						</SliderTrack>
-						<SliderThumb
-							boxShadow={
-								"0 3px 6px 0 rgb(109 118 126 / 37%), 0 1px 2px 0 rgb(0 0 0 / 6%)"
-							}
-							boxSize={6}
+						</span>
+						<span className="text-lg min-w-[2rem] text-center">{value}</span>
+					</div>
+					<div className="flex-1 w-full order-[-1] md:order-0">
+						<Slider
+							defaultValue={[2]}
+							min={1}
+							max={10}
+							step={0.1}
+							value={[value]}
+							onValueChange={(val) => setValue(val[0])}
+							className="w-full"
 						/>
-					</Slider>
-				</HStack>
-			</FormControl>
+					</div>
+				</div>
+			</div>
 
-			<SimpleGrid mt={4} minChildWidth="200px" spacing={4}>
-				<Stat>
-					<StatLabel>{t("pnl.label")}</StatLabel>
-					<StatNumber color={greenColor}>
-						~
-						{new Intl.NumberFormat("en-US", {
-							style: "currency",
-							currency: "USD",
-						}).format(pnl)}
-					</StatNumber>
-					<StatHelpText opacity={0.6}>{t("pnl.subtitle")}</StatHelpText>
-				</Stat>
+			<div className="w-full border-t border-border my-6" />
 
-				<Stat>
-					<StatLabel>{t("ptb.label")}</StatLabel>
-					<StatNumber color={purpleColor}>
-						+{((pnl / balance) * 100 || 0).toFixed(2)}%
-					</StatNumber>
-					<StatHelpText opacity={0.6}>{t("ptb.subtitle")}</StatHelpText>
-				</Stat>
+			{/* Risk/Reward Stats */}
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+				<div className="text-center p-4 bg-muted/50 rounded-lg">
+					<div className="text-2xl font-bold text-destructive">
+						${lossRate.toLocaleString()}
+					</div>
+					<div className="text-sm text-muted-foreground">{t("risk.label")}</div>
+				</div>
 
-				<Stat>
-					<StatLabel>{t("percent.label")}</StatLabel>
-					<StatNumber fontSize={"lg"} lineHeight={2} color={blackColor}>
-						+{(stoploss * value || 0).toFixed(2)}%
-					</StatNumber>
-					<StatHelpText opacity={0.6}>{t("percent.subtitle")}</StatHelpText>
-				</Stat>
+				<div className="text-center p-4 bg-muted/50 rounded-lg">
+					<div className="text-2xl font-bold text-green-600">
+						${pnl.toLocaleString()}
+					</div>
+					<div className="text-sm text-muted-foreground">
+						{t("reward.label")}
+					</div>
+				</div>
 
-				<Stat>
-					<StatLabel>{t("roe.label")}</StatLabel>
-					<StatNumber fontSize={"lg"} lineHeight={2} color={blueColor}>
-						+{(stoploss * value * leverage || 0).toFixed(2)}%
-					</StatNumber>
-					<StatHelpText opacity={0.6}>{t("roe.subtitle")}</StatHelpText>
-				</Stat>
-			</SimpleGrid>
+				<div className="text-center p-4 bg-muted/50 rounded-lg">
+					<div className="text-2xl font-bold text-blue-600">
+						{value.toFixed(1)}x
+					</div>
+					<div className="text-sm text-muted-foreground">
+						{t("ratio.label")}
+					</div>
+				</div>
+			</div>
 
-			<Divider mt={3} />
-			<Text color="gray.500" fontWeight={500} mt={2} fontSize={"xs"}>
-				{t("note")}
-			</Text>
-		</Box>
+			{/* Additional Info */}
+			<div className="mt-6 p-4 bg-muted/30 rounded-lg">
+				<div className="text-sm text-muted-foreground">{t("info.message")}</div>
+			</div>
+		</div>
 	);
 };
 

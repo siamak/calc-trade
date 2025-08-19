@@ -1,80 +1,64 @@
+"use client";
+
 import { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/router";
-import { useForm, Controller } from "react-hook-form";
-import NumberFormat from "react-number-format";
-import {
-	FormErrorMessage,
-	FormLabel,
-	FormControl,
-	Input,
-	Button,
-	InputGroup,
-	InputLeftAddon,
-	InputRightAddon,
-	Text,
-	VStack,
-	HStack,
-	Box,
-	Slider,
-	SliderFilledTrack,
-	SliderThumb,
-	SliderTrack,
-	Spinner,
-	useColorModeValue,
-} from "@chakra-ui/react";
+import { useParams } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { NumericFormat } from "react-number-format";
+import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
+import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import useFormPersist from "../hooks/useFormPersist";
 import TelegramMobile from "./telegram.mobile";
+import { RippleButton } from "@/components/animate-ui/buttons/ripple";
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { calculatorFormSchema, type CalculatorFormValues } from "@/lib/schemas";
 
 const RiskReward = dynamic(() => import("./riskRewards.component"), {
-	loading: () => <Spinner />,
+	loading: () => <Loader2 className="h-4 w-4 animate-spin" />,
 });
 
 const Result = dynamic(() => import("./result.component"), {
-	loading: () => <Spinner />,
+	loading: () => <Loader2 className="h-4 w-4 animate-spin" />,
 });
 
 export default function CalcForm() {
 	const t = useTranslations("form");
-	const router = useRouter();
-	const { locale } = router;
+	const params = useParams();
+	const locale = params.locale as string;
 
-	const inputBorderActive = useColorModeValue("purple.500", "purple.300");
-	const bgSlider = useColorModeValue("gray.100", "#2e3345");
-	const bgTrack = useColorModeValue("gray.300", "#5c6277");
-	const bgAddon = useColorModeValue("gray.100", "#2e3345");
-	const bgTrackActive = useColorModeValue("#641ce5", "#9086ff");
-	const bgButtonHover = useColorModeValue("gray.300", "gray.600");
-	const bgButtonText = useColorModeValue("gray.600", "gray.100");
-
-	const {
-		watch,
-		reset,
-		setValue,
-		getValues,
-		control,
-		formState: { errors, isSubmitting },
-	} = useForm({
+	const form = useForm<CalculatorFormValues>({
+		resolver: zodResolver(calculatorFormSchema),
 		mode: "onBlur",
-		// defaultValues: {
-		// balance: 0,
-		// risk: 0,
-		// stoploss: 0,
-		// leverage: 10,
-		// },
+		defaultValues: {
+			balance: 0,
+			risk: 0,
+			stoploss: 0,
+			leverage: 10,
+		},
 	});
+
 	const [marginSize, setMargin] = useState<number>(0);
 
 	useFormPersist(
 		"@history",
-		{ watch, setValue },
+		{ watch: form.watch, setValue: form.setValue },
 		{
 			storage: process.browser && window.localStorage,
 		}
 	);
 
-	const values = watch();
+	const values = form.watch();
 
 	useEffect(() => {
 		const { balance, risk, stoploss, leverage } = values;
@@ -101,248 +85,197 @@ export default function CalcForm() {
 	}, [marginSize, values]);
 
 	return (
-		<form>
-			<VStack
-				alignItems={"flex-start"}
-				mt={4}
-				p={[4, 8]}
-				bg="boxBg"
-				boxShadow={
-					"0px 11.3px 10px -62px rgba(0, 0, 0, 0.053), 0px 90px 80px -62px rgba(0, 0, 0, 0.11)"
-				}
-				spacing={4}
-				borderRadius={8}
-			>
-				{/* Account Balance */}
-				<FormControl>
-					<FormLabel htmlFor="balance">
-						{t("balance.label")}
-						<Text fontSize="xs" opacity={0.6}>
-							{t("balance.subtitle")}
-						</Text>
-					</FormLabel>
-					<InputGroup>
-						<InputLeftAddon bg={bgAddon}>$</InputLeftAddon>
+		<Form {...form}>
+			<form>
+				<div className="flex flex-col items-start mt-4 p-4 md:p-8 bg-card shadow-lg rounded-lg space-y-4">
+					{/* Account Balance */}
+					<FormField
+						control={form.control}
+						name="balance"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel className="text-sm font-medium">
+									{t("balance.label")}
+									<FormDescription className="text-xs text-muted-foreground">
+										{t("balance.subtitle")}
+									</FormDescription>
+								</FormLabel>
+								<FormControl>
+									<div className="flex">
+										<div className="flex items-center px-3 bg-muted border border-r-0 rounded-l-md text-sm">
+											$
+										</div>
+										<NumericFormat
+											customInput={Input}
+											className="rounded-l-none"
+											placeholder={t("balance.placeholder")}
+											allowNegative={false}
+											thousandSeparator={true}
+											type="text"
+											inputMode="decimal"
+											{...field}
+											onValueChange={(v: any) => field.onChange(v.floatValue)}
+											value={field.value || ""}
+										/>
+									</div>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-						<Controller
-							control={control}
-							name="balance"
-							render={({ field: { onChange, name, value } }) => (
-								<>
-									<NumberFormat
-										customInput={Input}
-										_focus={{
-											borderColor: inputBorderActive,
-										}}
-										placeholder={t("balance.placeholder")}
-										borderStartRadius={0}
-										allowNegative={false}
-										thousandSeparator={true}
-										type="text"
-										inputMode="decimal"
-										name={name}
-										value={value || ""}
-										onValueChange={(v) => onChange(v.floatValue)}
-									/>
-								</>
-							)}
-						/>
-					</InputGroup>
-					<FormErrorMessage>
-						{errors.balance && (errors.balance.message || t("balance.error"))}
-					</FormErrorMessage>
-				</FormControl>
+					{/* Risk */}
+					<FormField
+						control={form.control}
+						name="risk"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel className="text-sm font-medium">
+									{t("risk.label")}
+									<FormDescription className="text-xs text-muted-foreground">
+										{t("risk.subtitle")}
+									</FormDescription>
+								</FormLabel>
+								<FormControl>
+									<div className="flex">
+										<NumericFormat
+											customInput={Input}
+											className="rounded-r-none"
+											allowNegative={false}
+											thousandSeparator={false}
+											decimalScale={2}
+											type="text"
+											inputMode="decimal"
+											fixedDecimalScale
+											placeholder={t("risk.placeholder")}
+											{...field}
+											onValueChange={(v: any) => field.onChange(v.value)}
+											value={field.value || ""}
+										/>
+										<div className="flex items-center px-3 bg-muted border border-l-0 rounded-r-md text-sm">
+											%
+										</div>
+									</div>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				{/* Risk */}
-				<FormControl>
-					<FormLabel htmlFor="risk">
-						{t("risk.label")}
+					{/* Stoploss */}
+					<FormField
+						control={form.control}
+						name="stoploss"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel className="text-sm font-medium">
+									{t("stoploss.label")}
+									<FormDescription className="text-xs text-muted-foreground">
+										{t("stoploss.subtitle")}
+									</FormDescription>
+								</FormLabel>
+								<FormControl>
+									<div className="flex">
+										<NumericFormat
+											customInput={Input}
+											className="rounded-r-none"
+											allowNegative={false}
+											thousandSeparator={false}
+											decimalScale={2}
+											fixedDecimalScale
+											type="text"
+											inputMode="decimal"
+											placeholder={t("stoploss.placeholder")}
+											{...field}
+											onValueChange={(v: any) => field.onChange(v.value)}
+											value={field.value || ""}
+										/>
+										<div className="flex items-center px-3 bg-muted border border-l-0 rounded-r-md text-sm">
+											%
+										</div>
+									</div>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-						<Text fontSize="xs" opacity={0.6}>
-							{t("risk.subtitle")}
-						</Text>
-					</FormLabel>
-					<InputGroup>
-						<Controller
-							control={control}
-							name="risk"
-							render={({ field: { onChange, name, value } }) => (
-								<NumberFormat
-									customInput={Input}
-									_focus={{
-										borderColor: inputBorderActive,
-									}}
-									allowNegative={false}
-									thousandSeparator={false}
-									decimalScale={2}
-									borderEndRadius={0}
-									type="text"
-									inputMode="decimal"
-									fixedDecimalScale
-									placeholder={t("risk.placeholder")}
-									name={name}
-									value={value || ""}
-									onValueChange={(v) => onChange(v.value)}
-								/>
-							)}
-						/>
+					{/* Leverage */}
+					<FormField
+						control={form.control}
+						name="leverage"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel className="text-sm font-medium">
+									{t("leverage.label")}
+									<FormDescription className="text-xs text-muted-foreground">
+										{t("leverage.subtitle")}
+									</FormDescription>
+								</FormLabel>
+								<FormControl>
+									<div className="flex flex-col items-center space-y-2 pt-6 pb-7 px-8 bg-muted rounded-lg select-none">
+										<div className="flex w-full justify-between gap-2">
+											<FormLabel className="leading-6">
+												{field.value === 1
+													? t("leverage.spot")
+													: t("leverage.futures")}
+											</FormLabel>
+											<output className="text-sm font-medium tabular-nums">
+												{field.value}
+											</output>
+										</div>
+										<div className="flex-1 w-full order-0">
+											<Slider
+												min={1}
+												max={100}
+												step={1}
+												value={[field.value]}
+												onValueChange={(value) => field.onChange(value[0])}
+												className="w-full"
+											/>
+										</div>
+									</div>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-						<InputRightAddon bg={bgAddon}>%</InputRightAddon>
-					</InputGroup>
-					<FormErrorMessage>
-						{errors.risk && (errors.risk.message || t("risk.error"))}
-					</FormErrorMessage>
-				</FormControl>
-
-				{/* Stoploss */}
-				<FormControl>
-					<FormLabel htmlFor="stoploss">
-						{t("stoploss.label")}
-						<Text fontSize="xs" opacity={0.6}>
-							{t("stoploss.subtitle")}
-						</Text>
-					</FormLabel>
-					<InputGroup>
-						<Controller
-							control={control}
-							name="stoploss"
-							render={({ field: { onChange, name, value } }) => (
-								<NumberFormat
-									customInput={Input}
-									_focus={{
-										borderColor: inputBorderActive,
-									}}
-									borderEndRadius={0}
-									allowNegative={false}
-									thousandSeparator={false}
-									decimalScale={2}
-									fixedDecimalScale
-									type="text"
-									inputMode="decimal"
-									placeholder={t("stoploss.placeholder")}
-									name={name}
-									value={value || ""}
-									onValueChange={(v) => onChange(v.value)}
-								/>
-							)}
-						/>
-
-						<InputRightAddon bg={bgAddon}>%</InputRightAddon>
-					</InputGroup>
-					<FormErrorMessage>
-						{errors.stoploss &&
-							(errors.stoploss.message || t("stoploss.error"))}
-					</FormErrorMessage>
-				</FormControl>
-
-				{/* Leverage */}
-				<FormControl>
-					<FormLabel htmlFor="leverage">
-						{t("leverage.label")}
-						<Text fontSize="xs" opacity={0.6}>
-							{t("leverage.subtitle")}
-						</Text>
-					</FormLabel>
-
-					<HStack
-						pl={5}
-						flexDirection={["column", "row"]}
-						spacing={[0, 3]}
-						pr={10}
-						py={6}
-						bg={bgSlider}
-						borderRadius={"lg"}
-						userSelect="none"
-					>
-						<Box
-							order={[1, 0]}
-							mt={[2, 0]}
-							display="flex"
-							alignItems="center"
-							flexDirection="row"
+					<div className="flex mt-4">
+						<RippleButton
+							size="sm"
+							disabled={form.formState.isSubmitting}
+							type="button"
+							onClick={() =>
+								form.reset({
+									balance: 0,
+									risk: 0,
+									stoploss: 0,
+									leverage: 10,
+								})
+							}
 						>
-							<Text
-								fontWeight={"bold"}
-								fontSize="xl"
-								minW={"10"}
-								textAlign="center"
-							>
-								{getValues("leverage")}
-							</Text>
-							<Text fontSize="xs" opacity={0.6} minW={"100"} pl={2}>
-								{getValues("leverage") === 1
-									? t("leverage.spot")
-									: t("leverage.futures")}
-							</Text>
-						</Box>
-						<Slider
-							order={[-1, 0]}
-							defaultValue={10}
-							min={1}
-							max={100}
-							step={1}
-							value={getValues("leverage")}
-							onChange={(e) => setValue("leverage", e)}
-							focusThumbOnChange={false}
-						>
-							<SliderTrack bg={bgTrack}>
-								<Box position="relative" right={10} />
-								<SliderFilledTrack
-									bgGradient={`linear(to-r, ${bgTrackActive}, pink.600)`}
-								/>
-							</SliderTrack>
-							<SliderThumb
-								boxShadow={
-									"0 3px 6px 0 rgb(109 118 126 / 37%), 0 1px 2px 0 rgb(0 0 0 / 6%)"
-								}
-								boxSize={6}
-							/>
-						</Slider>
-					</HStack>
-					<FormErrorMessage>
-						{errors.leverage && errors.leverage.message}
-					</FormErrorMessage>
-				</FormControl>
+							{form.formState.isSubmitting && (
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+							)}
+							{t("actions.clear")}
+						</RippleButton>
+					</div>
+				</div>
 
-				<HStack mt={4}>
-					<Button
-						bg={bgButtonHover}
-						color={bgButtonText}
-						fontWeight={500}
-						size="sm"
-						isLoading={isSubmitting}
-						type="button"
-						onClick={() =>
-							reset({
-								balance: 0,
-								risk: 0,
-								stoploss: 0,
-								leverage: 10,
-							})
-						}
-					>
-						{t("actions.clear")}
-					</Button>
-				</HStack>
-			</VStack>
+				<Result
+					marginSize={marginSize}
+					balance={calculator.balance}
+					riskCapital={calculator.riskCapital}
+					leverage={calculator.leverage}
+					stoploss={calculator.stoploss}
+					sizeUSDT={calculator.sizeUSDT}
+				/>
 
-			<Result
-				marginSize={marginSize}
-				balance={calculator.balance}
-				riskCapital={calculator.riskCapital}
-				leverage={calculator.leverage}
-				stoploss={calculator.stoploss}
-				sizeUSDT={calculator.sizeUSDT}
-			/>
+				<RiskReward lossRate={calculator.riskCapital} />
 
-			<RiskReward
-				lossRate={calculator.riskCapital}
-				stoploss={calculator.stoploss}
-				leverage={calculator.leverage}
-				balance={calculator.balance}
-			/>
-
-			{locale === "fa" && <TelegramMobile />}
-		</form>
+				{locale === "fa" && <TelegramMobile />}
+			</form>
+		</Form>
 	);
 }

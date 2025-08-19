@@ -1,37 +1,28 @@
-import { Center, Text, useColorModeValue } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-// import LocaleSwitcher from "./localeSwitcher.component";
-// import ThemeSwitcher from "./themeSwitcher.component";
 
 export default function Footer() {
 	const t = useTranslations("footer");
-	const linkColor = useColorModeValue("purple.500", "purple.300");
 
 	return (
 		<footer>
-			{/* <LocaleSwitcher /> */}
-			{/* <ThemeSwitcher /> */}
-
-			<Text textAlign={"center"} color={"gray.500"} mt={4} fontStyle="italic">
+			<p className="text-center text-muted-foreground mt-4 italic">
 				{t("disclaimer")}
-			</Text>
+			</p>
 
-			<Text textAlign={"center"} color={"gray.500"} my={3}>
+			<p className="text-center text-muted-foreground my-3">
 				{t("copyright.text")}{" "}
-				<Text
-					as="a"
-					fontWeight={500}
-					color={linkColor}
-					_hover={{ color: "gray.500" }}
+				<a
+					className="font-medium text-primary hover:text-muted-foreground transition-colors"
 					target="_blank"
 					href="https://m.siamak.me/"
+					rel="noopener noreferrer"
 				>
 					{t("copyright.name")}
-				</Text>
+				</a>
 				.
-			</Text>
+			</p>
 
-			<Center my={5}>
+			<div className="flex justify-center my-5">
 				<iframe
 					src="https://ghbtns.com/github-btn.html?user=siamak&repo=calc-trade&type=star&count=true&size=large"
 					frameBorder="0"
@@ -40,7 +31,7 @@ export default function Footer() {
 					height="30"
 					title="GitHub"
 				></iframe>
-			</Center>
+			</div>
 		</footer>
 	);
 }

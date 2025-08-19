@@ -1,5 +1,13 @@
-import { Select, useColorModeValue } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+"use client";
+
+import { useParams, useRouter } from "next/navigation";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 const dictFlags: any = {
 	fa: {
@@ -13,35 +21,34 @@ const dictFlags: any = {
 		slug: "En",
 	},
 };
-export default function LocaleSwitcher() {
-	const { locales, locale, push, reload, pathname } = useRouter();
-	const bgSelect = useColorModeValue("gray.200", "gray.700");
-	const bgSelectHover = useColorModeValue("gray.300", "gray.600");
 
-	const onClick = async (e: string) => {
-		await push(pathname, pathname, { locale: e });
-		reload();
+export default function LocaleSwitcher() {
+	const params = useParams();
+	const router = useRouter();
+	const locale = params.locale as string;
+	const locales = ["en", "fa"];
+
+	const onClick = async (value: string) => {
+		const currentPath = window.location.pathname;
+		const newPath = currentPath.replace(`/${locale}`, `/${value}`);
+		router.push(newPath);
+		window.location.reload();
 	};
 
 	if (locales && locales?.length > 0) {
 		return (
-			<>
-				<Select
-					userSelect={"none"}
-					variant={"filled"}
-					bg={bgSelect}
-					_hover={{ bg: bgSelectHover }}
-					id="lang"
-					defaultValue={locale}
-					onChange={(e) => onClick(e.target.value)}
-				>
+			<Select value={locale} onValueChange={onClick}>
+				<SelectTrigger className="w-[120px]">
+					<SelectValue />
+				</SelectTrigger>
+				<SelectContent>
 					{locales.map((_locale) => (
-						<option key={_locale} value={_locale}>
+						<SelectItem key={_locale} value={_locale}>
 							{dictFlags[_locale].slug}
-						</option>
+						</SelectItem>
 					))}
-				</Select>
-			</>
+				</SelectContent>
+			</Select>
 		);
 	} else {
 		return null;

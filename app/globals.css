@@ -1,0 +1,455 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ==========================================================================
+   FONT DECLARATIONS - IRANSansX Custom Webfont
+   ========================================================================== */
+
+/* IRANSansX Variable Font - Primary Font */
+@font-face {
+	font-family: "IRANSansXV";
+	src: url("/webfont/IRANSansXV.woff2") format("woff2"),
+		url("/webfont/IRANSansXV.woff") format("woff");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	font-stretch: normal;
+	unicode-range: U+0600-06FF, /* Arabic */ U+200C-200E,
+		/* Zero Width Non-Joiner, Left-to-Right Mark, Right-to-Left Mark */
+			U+2010-2011,
+		/* Hyphen, Non-Breaking Hyphen */ U+204F, /* Reversed Semicolon */ U+2E41,
+		/* Reversed Question Mark */ U+FB50-FDFF,
+		/* Arabic Presentation Forms-A */ U+FE80-FEFC,
+		/* Arabic Presentation Forms-B */ U+0020-007F, /* Basic Latin */ U+00A0-00FF,
+		/* Latin-1 Supplement */ U+0100-017F; /* Latin Extended-A */
+}
+
+/* IRANSansX Regular - Static Font Fallback */
+@font-face {
+	font-family: "IRANSansX";
+	src: url("/webfont/staticfonts/IRANSansX-Regular.woff") format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41,
+		U+FB50-FDFF, U+FE80-FEFC, U+0020-007F, U+00A0-00FF, U+0100-017F;
+}
+
+/* IRANSansX Bold - Static Font Fallback */
+@font-face {
+	font-family: "IRANSansX";
+	src: url("/webfont/staticfonts/IRANSansX-Bold.woff") format("woff");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41,
+		U+FB50-FDFF, U+FE80-FEFC, U+0020-007F, U+00A0-00FF, U+0100-017F;
+}
+
+/* ==========================================================================
+   CUSTOM UTILITIES
+   ========================================================================== */
+
+/* ==========================================================================
+   TAILWIND CSS V4 THEME CONFIGURATION
+   ========================================================================== */
+
+@theme inline {
+	/* Font Family Configuration */
+	--font-sans: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", "Segoe UI",
+		"Roboto", "Helvetica Neue", sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Noto Color Emoji";
+
+	/* Border Radius */
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+
+	/* Color Mapping */
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ==========================================================================
+   COLOR SCHEME - LIGHT THEME
+   ========================================================================== */
+
+:root {
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.141 0.005 285.823);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.141 0.005 285.823);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.141 0.005 285.823);
+	--primary: oklch(0.21 0.006 285.885);
+	--primary-foreground: oklch(0.985 0 0);
+	--secondary: oklch(0.967 0.001 286.375);
+	--secondary-foreground: oklch(0.21 0.006 285.885);
+	--muted: oklch(0.967 0.001 286.375);
+	--muted-foreground: oklch(0.552 0.016 285.938);
+	--accent: oklch(0.967 0.001 286.375);
+	--accent-foreground: oklch(0.21 0.006 285.885);
+	--destructive: oklch(0.577 0.245 27.325);
+	--border: oklch(0.92 0.004 286.32);
+	--input: oklch(0.92 0.004 286.32);
+	--ring: oklch(0.705 0.015 286.067);
+	--chart-1: oklch(0.646 0.222 41.116);
+	--chart-2: oklch(0.6 0.118 184.704);
+	--chart-3: oklch(0.398 0.07 227.392);
+	--chart-4: oklch(0.828 0.189 84.429);
+	--chart-5: oklch(0.769 0.188 70.08);
+	--sidebar: oklch(0.985 0 0);
+	--sidebar-foreground: oklch(0.141 0.005 285.823);
+	--sidebar-primary: oklch(0.21 0.006 285.885);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.967 0.001 286.375);
+	--sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+	--sidebar-border: oklch(0.92 0.004 286.32);
+	--sidebar-ring: oklch(0.705 0.015 286.067);
+
+	/* Font Family Stack */
+	--font-sans: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", ui-sans-serif,
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", "Noto Sans", sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-serif: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", ui-serif, Georgia,
+		Cambria, "Times New Roman", Times, serif;
+	--font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, SFMono-Regular,
+		Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+	--radius: 0.625rem;
+
+	/* Shadow System */
+	--shadow-2xs: 0 1px 3px 0px oklch(0 0 0 / 0.05);
+	--shadow-xs: 0 1px 3px 0px oklch(0 0 0 / 0.05);
+	--shadow-sm: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 1px 2px -1px oklch(0 0 0 / 0.1);
+	--shadow: 0 1px 3px 0px oklch(0 0 0 / 0.1), 0 1px 2px -1px oklch(0 0 0 / 0.1);
+	--shadow-md: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 2px 4px -1px oklch(0 0 0 / 0.1);
+	--shadow-lg: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 4px 6px -1px oklch(0 0 0 / 0.1);
+	--shadow-xl: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 8px 10px -1px oklch(0 0 0 / 0.1);
+	--shadow-2xl: 0 1px 3px 0px oklch(0 0 0 / 0.25);
+}
+
+/* ==========================================================================
+   COLOR SCHEME - DARK THEME
+   ========================================================================== */
+
+.dark {
+	--background: oklch(0.141 0.005 285.823);
+	--foreground: oklch(0.985 0 0);
+	--card: oklch(0.21 0.006 285.885);
+	--card-foreground: oklch(0.985 0 0);
+	--popover: oklch(0.21 0.006 285.885);
+	--popover-foreground: oklch(0.985 0 0);
+	--primary: oklch(0.92 0.004 286.32);
+	--primary-foreground: oklch(0.21 0.006 285.885);
+	--secondary: oklch(0.274 0.006 286.033);
+	--secondary-foreground: oklch(0.985 0 0);
+	--muted: oklch(0.274 0.006 286.033);
+	--muted-foreground: oklch(0.705 0.015 286.067);
+	--accent: oklch(0.274 0.006 286.033);
+	--accent-foreground: oklch(0.985 0 0);
+	--destructive: oklch(0.704 0.191 22.216);
+	--border: oklch(1 0 0 / 10%);
+	--input: oklch(1 0 0 / 15%);
+	--ring: oklch(0.552 0.016 285.938);
+	--chart-1: oklch(0.488 0.243 264.376);
+	--chart-2: oklch(0.696 0.17 162.48);
+	--chart-3: oklch(0.769 0.188 70.08);
+	--chart-4: oklch(0.627 0.265 303.9);
+	--chart-5: oklch(0.645 0.246 16.439);
+	--sidebar: oklch(0.21 0.006 285.885);
+	--sidebar-foreground: oklch(0.985 0 0);
+	--sidebar-primary: oklch(0.488 0.243 264.376);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.274 0.006 286.033);
+	--sidebar-accent-foreground: oklch(0.985 0 0);
+	--sidebar-border: oklch(1 0 0 / 10%);
+	--sidebar-ring: oklch(0.552 0.016 285.938);
+
+	/* Shadow System for Dark Theme */
+	--shadow-2xs: 0 1px 3px 0px oklch(0 0 0 / 0.05);
+	--shadow-xs: 0 1px 3px 0px oklch(0 0 0 / 0.05);
+	--shadow-sm: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 1px 2px -1px oklch(0 0 0 / 0.1);
+	--shadow: 0 1px 3px 0px oklch(0 0 0 / 0.1), 0 1px 2px -1px oklch(0 0 0 / 0.1);
+	--shadow-md: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 2px 4px -1px oklch(0 0 0 / 0.1);
+	--shadow-lg: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 4px 6px -1px oklch(0 0 0 / 0.1);
+	--shadow-xl: 0 1px 3px 0px oklch(0 0 0 / 0.1),
+		0 8px 10px -1px oklch(0 0 0 / 0.1);
+	--shadow-2xl: 0 1px 3px 0px oklch(0 0 0 / 0.25);
+}
+
+/* ==========================================================================
+   BASE STYLES & TYPOGRAPHY
+   ========================================================================== */
+
+@layer base {
+	/* Reset and Base Styles */
+	* {
+		@apply border-border outline-ring/50;
+	}
+
+	html {
+		font-size: 16px;
+		scroll-behavior: smooth;
+		text-size-adjust: 100%;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+		font-family: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", sans-serif;
+		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		line-height: 1.6;
+		letter-spacing: -0.01em;
+	}
+
+	/* ==========================================================================
+       RTL & PERSIAN LANGUAGE SUPPORT
+       ========================================================================== */
+
+	/* RTL Direction Support */
+	[dir="rtl"] {
+		direction: rtl;
+		text-align: right;
+		font-family: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", sans-serif;
+		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1, "ss01" 1;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* Text Alignment Fixes for RTL */
+	[dir="rtl"] .text-left {
+		text-align: right;
+	}
+
+	[dir="rtl"] .text-right {
+		text-align: left;
+	}
+
+	/* Scrollbar Styling for RTL */
+	[dir="rtl"] [data-slot="scroll-area-viewport"] {
+		scrollbar-width: thin;
+		scrollbar-color: hsl(var(--border)) transparent;
+	}
+
+	/* Persian Number Support */
+	.persian-numbers {
+		font-feature-settings: "pnum" 1, "lnum" 0;
+		font-variant-numeric: proportional-nums;
+	}
+
+	.latin-numbers {
+		font-feature-settings: "pnum" 0, "lnum" 1;
+		font-variant-numeric: lining-nums;
+	}
+
+	/* ==========================================================================
+       PERSIAN TYPOGRAPHY UTILITIES
+       ========================================================================== */
+
+	/* Font Family Classes */
+	.font-persian {
+		font-family: "IRANSansXV", "IRANSansX", "Tahoma", "Arial", sans-serif;
+		font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* Variable Font Weight Classes */
+	.font-thin-persian {
+		font-variation-settings: "wght" 100;
+		font-weight: 100;
+	}
+
+	.font-extralight-persian {
+		font-variation-settings: "wght" 200;
+		font-weight: 200;
+	}
+
+	.font-light-persian {
+		font-variation-settings: "wght" 300;
+		font-weight: 300;
+	}
+
+	.font-normal-persian {
+		font-variation-settings: "wght" 400;
+		font-weight: 400;
+	}
+
+	.font-medium-persian {
+		font-variation-settings: "wght" 500;
+		font-weight: 500;
+	}
+
+	.font-semibold-persian {
+		font-variation-settings: "wght" 600;
+		font-weight: 600;
+	}
+
+	.font-bold-persian {
+		font-variation-settings: "wght" 700;
+		font-weight: 700;
+	}
+
+	.font-extrabold-persian {
+		font-variation-settings: "wght" 800;
+		font-weight: 800;
+	}
+
+	.font-black-persian {
+		font-variation-settings: "wght" 900;
+		font-weight: 900;
+	}
+
+	/* Typography Scale for Persian Content */
+	.text-persian-xs {
+		font-size: 0.75rem;
+		line-height: 1.4;
+		letter-spacing: 0.01em;
+	}
+
+	.text-persian-sm {
+		font-size: 0.875rem;
+		line-height: 1.5;
+		letter-spacing: 0.005em;
+	}
+
+	.text-persian-base {
+		font-size: 1rem;
+		line-height: 1.6;
+		letter-spacing: 0;
+	}
+
+	.text-persian-lg {
+		font-size: 1.125rem;
+		line-height: 1.6;
+		letter-spacing: -0.005em;
+	}
+
+	.text-persian-xl {
+		font-size: 1.25rem;
+		line-height: 1.6;
+		letter-spacing: -0.01em;
+	}
+
+	.text-persian-2xl {
+		font-size: 1.5rem;
+		line-height: 1.5;
+		letter-spacing: -0.015em;
+	}
+
+	.text-persian-3xl {
+		font-size: 1.875rem;
+		line-height: 1.4;
+		letter-spacing: -0.02em;
+	}
+
+	.text-persian-4xl {
+		font-size: 2.25rem;
+		line-height: 1.3;
+		letter-spacing: -0.025em;
+	}
+
+	.text-persian-5xl {
+		font-size: 3rem;
+		line-height: 1.2;
+		letter-spacing: -0.03em;
+	}
+
+	/* ==========================================================================
+       PERFORMANCE & ACCESSIBILITY
+       ========================================================================== */
+
+	/* Reduce Motion for Users Who Prefer It */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+
+		html {
+			scroll-behavior: auto;
+		}
+	}
+
+	/* High Contrast Mode Support */
+	@media (prefers-contrast: high) {
+		body {
+			--border: oklch(0 0 0);
+			--ring: oklch(0 0 0);
+		}
+
+		.dark body {
+			--border: oklch(1 0 0);
+			--ring: oklch(1 0 0);
+		}
+	}
+
+	/* Focus Visible Styling */
+	:focus-visible {
+		outline: 2px solid hsl(var(--ring));
+		outline-offset: 2px;
+	}
+
+	/* Print Styles */
+	@media print {
+		body {
+			font-family: "IRANSansX", "Tahoma", "Arial", sans-serif;
+			color: black;
+			background: white;
+		}
+
+		* {
+			box-shadow: none !important;
+			text-shadow: none !important;
+		}
+	}
+}

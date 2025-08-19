@@ -1,63 +1,43 @@
 import React from "react";
-import {
-	Box,
-	useColorModeValue,
-	Heading,
-	Text,
-	Button,
-	HStack,
-} from "@chakra-ui/react";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 export default function TelegramMobile() {
-	const brColor = useColorModeValue("#4a8fcd", "#75cbef");
-	const fontColor = useColorModeValue("gray.800", "gray.100");
-	const logo = useColorModeValue("/moneify-light.png", "/moneify.png");
-
 	return (
-		<Box
-			position={"relative"}
-			display={"flex"}
-			color={fontColor}
-			flexDirection={"column"}
-			alignItems={"flex-start"}
-			mt={4}
-			border="1px solid"
-			borderColor={brColor}
-			p={[4, 8]}
-			bg="boxBg"
-			boxShadow={
-				"0px 11.3px 10px -62px rgba(0, 0, 0, 0.053), 0px 90px 80px -62px rgba(0, 0, 0, 0.11)"
-			}
-			borderRadius={8}
-		>
-			<HStack justifyItems={"center"}>
+		<div className="relative flex flex-col items-start mt-4 border border-blue-400 dark:border-blue-300 p-4 md:p-8 bg-card shadow-lg rounded-lg">
+			<div className="flex items-center">
 				<Image
 					alt="مرجع قیمت تتر در ایران"
-					src={logo}
-					objectPosition="right"
+					src="/moneify.png"
+					className="dark:hidden"
+					width={72}
+					height={72}
+				/>
+				<Image
+					alt="مرجع قیمت تتر در ایران"
+					src="/moneify-light.png"
+					className="hidden dark:block"
 					width={72}
 					height={72}
 				/>
 
-				<Box>
-					<Heading mt={-3} size={"md"} mb={2}>
+				<div>
+					<h3 className="mt-[-0.75rem] text-lg font-semibold mb-2">
 						مرجع قیمت تتر در ایران
-					</Heading>
-					<Text opacity={0.5}>💵 قصد خرید یا فروش تتر دارید؟</Text>
-				</Box>
-			</HStack>
+					</h3>
+					<p className="opacity-50">💵 قصد خرید یا فروش تتر دارید؟</p>
+				</div>
+			</div>
 
-			<Button
-				as="a"
-				href="https://t.me/+UTSJBK_CmZszYzRk"
-				target={"_blank"}
-				mt={0}
-				rounded={"20px"}
-				colorScheme={"blue"}
-			>
-				کانال تلگرام
+			<Button asChild className="mt-0 rounded-full">
+				<a
+					href="https://t.me/+UTSJBK_CmZszYzRk"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					کانال تلگرام
+				</a>
 			</Button>
-		</Box>
+		</div>
 	);
 }
