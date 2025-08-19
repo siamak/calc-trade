@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -25,7 +24,7 @@ const Footer = dynamic(() => import("../src/components/footer"), {
 // 	loading: () => <Spinner />,
 // });
 
-const Home: NextPage = () => {
+const Home = () => {
 	const router = useRouter();
 	const { locale } = router;
 

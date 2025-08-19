@@ -7,7 +7,9 @@ import { RtlProvider } from "../src/components/rtl.provider";
 import theme from "../src/utils/theme";
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: any) {
+import type { AppProps } from "next/app";
+
+function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<NextIntlProvider messages={pageProps.messages}>
 			<ChakraProvider theme={theme}>

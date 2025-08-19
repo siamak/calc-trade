@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { Container, Spinner } from "@chakra-ui/react";
@@ -8,7 +7,7 @@ const Footer = dynamic(() => import("../src/components/footer"), {
 	loading: () => <Spinner />,
 });
 
-const Book: NextPage = () => {
+const Book = () => {
 	return (
 		<>
 			<Head>
