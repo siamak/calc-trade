@@ -36,6 +36,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		other: {
 			dir: isRTL ? "rtl" : "ltr",
 		},
+		manifest: "/manifest.json",
+		themeColor: "#FFFFFF",
+		appleWebApp: {
+			capable: true,
+			statusBarStyle: "default",
+			title: titles[locale as keyof typeof titles] || titles.en,
+		},
+		formatDetection: {
+			telephone: false,
+		},
+		openGraph: {
+			type: "website",
+			locale: locale,
+			url: "https://calc-trade.vercel.app",
+			title: titles[locale as keyof typeof titles] || titles.en,
+			description:
+				descriptions[locale as keyof typeof descriptions] || descriptions.en,
+			siteName: "Calc Trade",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: titles[locale as keyof typeof titles] || titles.en,
+			description:
+				descriptions[locale as keyof typeof descriptions] || descriptions.en,
+		},
 	};
 }
 
@@ -58,6 +83,40 @@ export default async function LocaleLayout({
 	return (
 		<html lang={locale} dir={dir} suppressHydrationWarning>
 			<head>
+				{/* PWA Meta Tags */}
+				<meta name="application-name" content="Calc Trade" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+				<meta name="apple-mobile-web-app-title" content="Calc Trade" />
+				<meta
+					name="description"
+					content="Professional calculator for position size, risk and reward calculation in trading"
+				/>
+				<meta name="format-detection" content="telephone=no" />
+				<meta name="mobile-web-app-capable" content="yes" />
+				<meta name="msapplication-config" content="/browserconfig.xml" />
+				<meta name="msapplication-TileColor" content="#FFFFFF" />
+				<meta name="msapplication-tap-highlight" content="no" />
+				<meta name="theme-color" content="#FFFFFF" />
+
+				{/* PWA Icons */}
+				<link rel="apple-touch-icon" href="/icons/ios/180.png" />
+				<link
+					rel="icon"
+					type="image/png"
+					sizes="32x32"
+					href="/icons/ios/32.png"
+				/>
+				<link
+					rel="icon"
+					type="image/png"
+					sizes="16x16"
+					href="/icons/ios/16.png"
+				/>
+				<link rel="manifest" href="/manifest.json" />
+				<link rel="mask-icon" href="/icon.png" color="#FFFFFF" />
+				<link rel="shortcut icon" href="/favicon.ico" />
+
 				{/* Persian fonts for RTL */}
 				{isRTL && (
 					<>
@@ -95,7 +154,7 @@ export default async function LocaleLayout({
 							crossOrigin="anonymous"
 						/>
 						<link
-							href="https://fonts.googleapis.com/css2?family=Mozilla+Text:wght@400;500;700&display=swap"
+							href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
 							rel="stylesheet"
 						/>
 					</>
@@ -107,6 +166,49 @@ export default async function LocaleLayout({
 					function gtag(){dataLayer.push(arguments);}
 					gtag('js', new Date());
 					gtag('config', 'G-FDNZT3M442', { page_path: window.location.pathname });
+				`}
+			</Script>
+
+			<Script id="pwa-install-prompt" strategy="afterInteractive">
+				{`
+					let deferredPrompt;
+
+					window.addEventListener('beforeinstallprompt', (e) => {
+						e.preventDefault();
+						deferredPrompt = e;
+
+						// Show install button or notification
+						const installButton = document.getElementById('install-pwa');
+						if (installButton) {
+							installButton.style.display = 'block';
+						}
+					});
+
+					window.addEventListener('appinstalled', () => {
+						deferredPrompt = null;
+						const installButton = document.getElementById('install-pwa');
+						if (installButton) {
+							installButton.style.display = 'none';
+						}
+					});
+
+					// Handle offline/online status
+					window.addEventListener('online', () => {
+						document.body.classList.remove('offline');
+						document.body.classList.add('online');
+					});
+
+					window.addEventListener('offline', () => {
+						document.body.classList.remove('online');
+						document.body.classList.add('offline');
+					});
+
+					// Check initial connection status
+					if (!navigator.onLine) {
+						document.body.classList.add('offline');
+					} else {
+						document.body.classList.add('online');
+					}
 				`}
 			</Script>
 

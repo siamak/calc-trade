@@ -29,16 +29,13 @@ export default function LocaleSwitcher() {
 	const locales = ["en", "fa"];
 
 	const onClick = async (value: string) => {
-		const currentPath = window.location.pathname;
-		const newPath = currentPath.replace(`/${locale}`, `/${value}`);
-		router.push(newPath);
-		window.location.reload();
+		router.push(`/${value}`);
 	};
 
 	if (locales && locales?.length > 0) {
 		return (
 			<Select value={locale} onValueChange={onClick}>
-				<SelectTrigger className="w-[120px]">
+				<SelectTrigger className="w-[80px] bg-card">
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>

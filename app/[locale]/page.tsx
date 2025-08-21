@@ -1,7 +1,8 @@
 import Header from "@/components/header";
-import CalcForm from "@/components/calcform.component";
+import CalcForm from "@/components/calc-form";
 import Footer from "@/components/footer";
-import GuideModal from "@/components/guide.modal";
+import GuideModal from "@/components/guide-modal";
+import { PWAInstallButton } from "@/components/pwa-install-button";
 import { Metadata } from "next";
 
 // Force dynamic rendering to prevent prerendering issues with client components
@@ -41,12 +42,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function Page() {
 	return (
 		<>
-			<div className="container mx-auto max-w-3xl py-4">
+			<div className="container mx-auto max-w-xl p-4">
 				<Header />
 				<CalcForm />
 				<Footer />
 				<GuideModal />
 			</div>
+
+			{/* PWA Components */}
+			<PWAInstallButton />
 		</>
 	);
 }

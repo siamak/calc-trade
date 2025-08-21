@@ -1,67 +1,70 @@
 {
 	"header": {
-		"heading": "Calculate your trade"
+		"heading": "Trade Size Calculator"
 	},
 	"form": {
 		"balance": {
+			"title": "Capital Settings",
 			"label": "Account Balance",
-			"subtitle": "How much money do you have?",
-			"placeholder": "Enter your account balance ($1,000) ...",
-			"error": "Balance should be number"
+			"subtitle": "How much capital do you have?",
+			"placeholder": "Enter your account balance (e.g. $1,000) ...",
+			"error": "Balance must be a number"
 		},
 		"risk": {
 			"label": "Risk (%)",
-			"subtitle": "How much risk are you willing to take?",
-			"placeholder": "Enter your risk (1.00%) ...",
-			"error": "Risk should be number"
+			"subtitle": "What percentage of risk will you take?",
+			"placeholder": "Enter your risk (e.g. 1.00%) ...",
+			"error": "Risk must be a number"
 		},
 		"stoploss": {
-			"label": "Stop loss (%)",
-			"subtitle": "How much percent are you willing to lose on stop-loss?",
-			"placeholder": "Enter your stoploss (0.50%) ...",
-			"error": "Stop-loss should be number"
+			"label": "Stop Loss (%)",
+			"subtitle": "What percent loss will you accept at stop loss?",
+			"placeholder": "Enter your stop loss (e.g. 0.50%) ...",
+			"error": "Stop loss must be a number"
 		},
 		"leverage": {
 			"label": "Leverage",
-			"subtitle": "What is the size of your leverage?",
-			"futures": "Futures trade",
-			"spot": "Spot trade"
+			"subtitle": "Choose your leverage type",
+			"futures": "Futures",
+			"spot": "Spot"
 		},
 		"actions": {
-			"clear": "Reset form"
+			"clear": "Reset Form"
 		}
 	},
 
 	"result": {
+		"title": "Risk Capital",
 		"clipboard": {
 			"title": "Copied!",
-			"description": "copied to your clipboard. Paste it into the Exchange"
+			"description": "Copied to clipboard. Paste it into the exchange."
 		},
 		"riskedCaptial": {
 			"label": "Risked Capital",
-			"subtitle": "Amount of capital that will be lost if your configured stop loss is reached",
-			"error": "Liquidation point will be reached prior to stop loss. SOLUTIONS: Decrease leverage or decrease your stop loss."
+			"subtitle": "Capital you will lose if your stop loss is triggered",
+			"error": "Liquidation occurs before stop loss. SOLUTIONS: Lower leverage or reduce stop loss."
 		},
 		"margin": {
 			"label": "Margin",
-			"subtitle": "Total amount of your capital used in this position",
-			"error": "Required margin is lower than your balance. SOLUTIONS: Decrease risk, Increase leverage or Increase stoploss"
+			"subtitle": "Capital allocated to this position",
+			"error": "Margin required is below your balance. SOLUTIONS: Lower risk, raise leverage, or increase stop loss."
 		},
 		"size": {
-			"label": "Size",
-			"subtitle": "Total size (USDT) of your trade used in this trade",
-			"error": "Required size is lower than your balance. SOLUTIONS: Decrease risk, Increase leverage or Increase stoploss"
+			"label": "Position Size",
+			"subtitle": "Total value (USDT) of your trade",
+			"error": "Size required is below your balance. SOLUTIONS: Lower risk, raise leverage, or increase stop loss."
 		}
 	},
 
 	"riskReward": {
+		"title": "Risk/Reward",
 		"rewardSlider": {
-			"label": "Risk/Reward Ratio",
-			"subtitle": "Ratio of potential gains over potential losses"
+			"label": "Ratio",
+			"subtitle": "Ratio of potential gains to losses"
 		},
 		"pnl": {
 			"label": "Estimated PnL",
-			"subtitle": "Potential gains if take profit is reached"
+			"subtitle": "Potential profit if take profit is reached"
 		},
 		"roe": {
 			"label": "ROE",
@@ -69,18 +72,30 @@
 		},
 		"percent": {
 			"label": "Percent Change",
-			"subtitle": "Percent change of asset at exit price without leverage"
+			"subtitle": "Asset price change at exit without leverage"
 		},
 		"ptb": {
-			"label": "Percent in total balance",
-			"subtitle": "Change in the total balance"
+			"label": "Percent of Balance",
+			"subtitle": "Impact on total balance"
 		},
-		"headings": ["Risk/Reward Ratio", "Profit", "Loss"],
-		"note": "Note: does not account for exchange fees."
+		"risk": {
+			"label": "Risk"
+		},
+		"reward": {
+			"label": "Reward"
+		},
+		"ratio": {
+			"label": "Ratio"
+		},
+		"info": {
+			"message": "Use the slider above to adjust risk/reward and see its effect on potential profit and loss."
+		},
+		"headings": ["Risk/Reward", "Profit", "Loss"],
+		"note": "Note: does not include exchange fees."
 	},
 	"footer": {
 		"lang": "Language",
-		"disclaimer": "We do not store your data on servers. Data will be stored on your device",
+		"disclaimer": "We do not store your data on servers. All data remains on your device.",
 		"copyright": {
 			"text": "Created by",
 			"name": "Siamak"
@@ -88,9 +103,9 @@
 	},
 
 	"guide_modal": {
-		"title": "Hello!",
-		"subtitle": "Ready to see how fun and easy is to calculate the size of your trade position?",
-		"description": "Let's say you have analyzed to buy a coin (BTC, ETH, etc.) and your stop loss is 3%. Your account balance is $1,000 and your risk is 2% (You'll lose $20 if your stop loss is reached) — Calculate the size of the position with this calculator. If you use a 3% stop loss, you lose 2%, or $20.",
-		"cta": "Let's Go!"
+		"title": "Welcome!",
+		"subtitle": "Ready to see how easy it is to calculate your trade size?",
+		"description": "Example: You buy a coin (BTC, ETH, etc.) with a 3% stop loss. Your balance is $1,000 and your risk is 2% (you lose $20 if stop loss is hit). This calculator gives you the correct position size. With a 3% stop loss, your risk equals 2%, or $20.",
+		"cta": "Start Now!"
 	}
 }
