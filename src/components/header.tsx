@@ -1,31 +1,44 @@
-import { Heading, HStack, Box } from "@chakra-ui/react";
+"use client";
+
 import { useTranslations } from "next-intl";
-import LocaleSwitcher from "./localeSwitcher.component";
-import ThemeSwitcher from "./themeSwitcher.component";
+import LocaleSwitcher from "./locale-switcher";
+import ThemeSwitcher from "./theme-switcher";
+import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
 
 export default function Header() {
 	const t = useTranslations("header");
-
 	return (
-		<Box mt={6} mb={8}>
-			<HStack
-				alignItems={"center"}
-				spacing={4}
-				justifyContent={"space-between"}
-				flexDirection={["column", "row"]}
-			>
-				<Heading size="lg" flex={"auto"} mb={[4, 0]}>
+		<>
+			<div className="flex items-center justify-between space-x-4 flex-col md:flex-row">
+				<h1 className="text-2xl font-semibold flex-auto mb-4 md:mb-0">
 					{t("heading")}
-				</Heading>
-				<HStack
-					alignItems={"center"}
-					flex={"none"}
-					justifyContent={"space-between"}
-				>
+				</h1>
+				<div className="flex items-center justify-between flex-none gap-2">
 					<LocaleSwitcher />
 					<ThemeSwitcher />
-				</HStack>
-			</HStack>
-		</Box>
+					<div
+						id="header-portal-actions"
+						className="empty:hidden"
+						aria-hidden
+					/>
+				</div>
+			</div>
+		</>
 	);
+}
+
+export function HeaderPortal({ children }: { children: React.ReactNode }) {
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) return null;
+
+	const portalActions = document.getElementById("header-portal-actions");
+	if (!portalActions) return null;
+
+	return createPortal(children, portalActions) as React.ReactPortal;
 }
