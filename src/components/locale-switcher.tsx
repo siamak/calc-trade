@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
 	Select,
 	SelectContent,
@@ -8,34 +8,34 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { redirect } from "@/i18n/navigation";
 
 const dictFlags: any = {
 	fa: {
 		emoji: "🇮🇷",
 		text: "فارسی",
-		slug: "Fa - فا",
+		slug: "فارسی",
 	},
 	en: {
 		emoji: "🇺🇸",
 		text: "English",
-		slug: "En",
+		slug: "English",
 	},
 };
 
 export default function LocaleSwitcher() {
 	const params = useParams();
-	const router = useRouter();
 	const locale = params.locale as string;
 	const locales = ["en", "fa"];
 
 	const onClick = async (value: string) => {
-		router.push(`/${value}`);
+		redirect({ href: `/`, locale: value });
 	};
 
 	if (locales && locales?.length > 0) {
 		return (
 			<Select value={locale} onValueChange={onClick}>
-				<SelectTrigger className="w-[80px] bg-card">
+				<SelectTrigger className="w-[100px] bg-card">
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>

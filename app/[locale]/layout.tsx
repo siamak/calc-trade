@@ -76,6 +76,9 @@ export default async function LocaleLayout({
 	if (!hasLocale(routing.locales, locale)) {
 		notFound();
 	}
+
+	// Messages are loaded automatically by next-intl through src/i18n/request.ts
+
 	const isRTL = locale === "fa";
 	const dir = isRTL ? "rtl" : "ltr";
 	const fontClass = isRTL ? "font-persian" : "font-english";
