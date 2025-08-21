@@ -14,7 +14,7 @@ export default function Footer() {
 				<a
 					className="font-medium text-primary hover:text-muted-foreground transition-colors"
 					target="_blank"
-					href="https://m.siamak.me/"
+					href="https://github.com/siamak"
 					rel="noopener noreferrer"
 				>
 					{t("copyright.name")}
