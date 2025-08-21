@@ -1,14 +1,16 @@
 import { useTranslations } from "next-intl";
+import { GitHubStarsButton } from "@/components/animate-ui/buttons/github-stars";
+import { MessageCircleWarning } from "lucide-react";
 
 export default function Footer() {
 	const t = useTranslations("footer");
 
 	return (
 		<footer>
-			<p className="text-center text-muted-foreground mt-4 italic">
-				{t("disclaimer")}
-			</p>
-
+			<div className="flex items-center gap-2 mb-4 justify-center text-muted-foreground p-4 bg-muted/30 rounded-lg">
+				<MessageCircleWarning className="size-4" />
+				<p className="text-sm"> {t("disclaimer")}</p>
+			</div>
 			<p className="text-center text-muted-foreground my-3">
 				{t("copyright.text")}{" "}
 				<a
@@ -23,14 +25,7 @@ export default function Footer() {
 			</p>
 
 			<div className="flex justify-center my-5">
-				<iframe
-					src="https://ghbtns.com/github-btn.html?user=siamak&repo=calc-trade&type=star&count=true&size=large"
-					frameBorder="0"
-					scrolling="0"
-					width="120"
-					height="30"
-					title="GitHub"
-				></iframe>
+				<GitHubStarsButton username="siamak" repo="calc-trade" />
 			</div>
 		</footer>
 	);
