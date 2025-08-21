@@ -87,39 +87,27 @@ export default async function LocaleLayout({
 		<html lang={locale} dir={dir} suppressHydrationWarning>
 			<head>
 				{/* PWA Meta Tags */}
-				<meta name="application-name" content="Calc Trade" />
+				<link rel="icon" href="/favicon.ico" />
+				<meta name="application-name" content="Calculate trade" />
 				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-				<meta name="apple-mobile-web-app-title" content="Calc Trade" />
-				<meta
-					name="description"
-					content="Professional calculator for position size, risk and reward calculation in trading"
-				/>
+				<meta name="apple-mobile-web-app-title" content="Calculate trade" />
 				<meta name="format-detection" content="telephone=no" />
 				<meta name="mobile-web-app-capable" content="yes" />
-				<meta name="msapplication-config" content="/browserconfig.xml" />
-				<meta name="msapplication-TileColor" content="#FFFFFF" />
-				<meta name="msapplication-tap-highlight" content="no" />
-				<meta name="theme-color" content="#FFFFFF" />
+				<meta
+					name="theme-color"
+					content="#fff"
+					media="(prefers-color-scheme: light)"
+				/>
+				<meta
+					name="theme-color"
+					content="#101217"
+					media="(prefers-color-scheme: dark)"
+				/>
 
-				{/* PWA Icons */}
-				<link rel="apple-touch-icon" href="/icons/ios/180.png" />
-				<link
-					rel="icon"
-					type="image/png"
-					sizes="32x32"
-					href="/icons/ios/32.png"
-				/>
-				<link
-					rel="icon"
-					type="image/png"
-					sizes="16x16"
-					href="/icons/ios/16.png"
-				/>
+				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 				<link rel="manifest" href="/manifest.json" />
-				<link rel="mask-icon" href="/icon.png" color="#FFFFFF" />
 				<link rel="shortcut icon" href="/favicon.ico" />
-
 				{/* Persian fonts for RTL */}
 				{isRTL && (
 					<>
