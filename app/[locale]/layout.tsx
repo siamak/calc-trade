@@ -109,31 +109,7 @@ export default async function LocaleLayout({
 				<link rel="manifest" href="/manifest.json" />
 				<link rel="shortcut icon" href="/favicon.ico" />
 				{/* Persian fonts for RTL */}
-				{isRTL && (
-					<>
-						<link
-							rel="preload"
-							href="/webfont/IRANSansXV.woff2"
-							as="font"
-							type="font/woff2"
-							crossOrigin="anonymous"
-						/>
-						<link
-							rel="preload"
-							href="/webfont/IRANSansXV.woff"
-							as="font"
-							type="font/woff"
-							crossOrigin="anonymous"
-						/>
-						<link
-							rel="preload"
-							href="/webfont/staticfonts/IRANSansX-Regular.woff"
-							as="font"
-							type="font/woff"
-							crossOrigin="anonymous"
-						/>
-					</>
-				)}
+				{isRTL && <>{/* Fonts are now preloaded in root layout */}</>}
 
 				{/* English fonts for LTR */}
 				{!isRTL && (

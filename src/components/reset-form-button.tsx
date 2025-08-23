@@ -61,3 +61,5 @@ export const ResetFormButton = forwardRef<
 		</AlertDialog>
 	);
 });
+
+ResetFormButton.displayName = "ResetFormButton";
