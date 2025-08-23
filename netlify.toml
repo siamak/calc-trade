@@ -1,9 +1,10 @@
 [build]
   command = "pnpm run build"
+  image = "jammy"
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "18.18.0"
+  NODE_VERSION = "20"
   PNPM_VERSION = "10.11.0"
 
 [[plugins]]
