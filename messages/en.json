@@ -29,7 +29,10 @@
 			"spot": "Spot"
 		},
 		"actions": {
-			"clear": "Reset Form"
+			"clear": "Reset Form",
+			"clear_button": "Reset",
+			"clear_description": "This action cannot be undone. This will permanently reset the form and clear your data.",
+			"cancel": "Cancel"
 		}
 	},
 

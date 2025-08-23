@@ -9,19 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
 import useFormPersist from "react-hook-form-persist";
-import {
-	DollarSign,
-	Loader2,
-	Percent,
-	DiamondPercent,
-	ListRestart,
-} from "lucide-react";
+import { DollarSign, Percent, DiamondPercent } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import TelegramMobile from "./telegram-mobile";
 
 import { Badge } from "@/components/ui/badge";
-import { TooltipButton } from "@/components/ui/tooltip-button";
 import {
 	Form,
 	FormControl,
@@ -33,6 +26,7 @@ import {
 } from "@/components/ui/form";
 import { calculatorFormSchema, type CalculatorFormValues } from "@/lib/schemas";
 import { HeaderPortal } from "./header";
+import { ResetFormButton } from "./reset-form-button";
 
 const Spinner = () => (
 	<div className="mx-auto my-8 size-5 border-[3px] border-secondary border-t-primary rounded-full animate-spin" />
@@ -68,6 +62,7 @@ export default function CalcForm() {
 	const values = form.watch();
 
 	const { watch, setValue } = form;
+
 	useFormPersist("@history", {
 		watch,
 		setValue,
@@ -319,10 +314,8 @@ export default function CalcForm() {
 						/>
 
 						<HeaderPortal>
-							<TooltipButton
-								variant="ghost"
-								size="icon"
-								onClick={() =>
+							<ResetFormButton
+								onReset={() =>
 									form.reset({
 										balance: 0,
 										risk: 0,
@@ -330,13 +323,8 @@ export default function CalcForm() {
 										leverage: 10,
 									})
 								}
-								tooltip={t("actions.clear")}
-							>
-								{form.formState.isSubmitting && (
-									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-								)}
-								<ListRestart />
-							</TooltipButton>
+								isSubmitting={form.formState.isSubmitting}
+							/>
 						</HeaderPortal>
 					</div>
 

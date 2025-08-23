@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import React, { memo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Info } from "lucide-react";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 interface IProps {
 	estimatedPnl: number;
@@ -79,10 +80,11 @@ const FinancialSummary: React.FC<IProps> = ({
 			</div>
 
 			{/* Note Section */}
-			<div className="flex items-center gap-2 my-4 justify-center text-muted-foreground p-4 bg-muted/30 rounded-lg">
-				<Info className="size-4" />
-				<p className="text-sm">{t("note")}</p>
-			</div>
+
+			<Alert className="bg-amber-500/10 dark:bg-amber-500/10 my-4 border-amber-300 dark:border-amber-500/30">
+				<Info className="h-4 w-4 !text-amber-500" />
+				<AlertTitle>{t("note")}</AlertTitle>
+			</Alert>
 		</div>
 	);
 };
