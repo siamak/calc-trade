@@ -54,6 +54,7 @@ export default function CalcForm() {
 			risk: 0,
 			stoploss: 0,
 			leverage: 10,
+			rewardRatio: 3,
 		},
 	});
 
@@ -138,7 +139,9 @@ export default function CalcForm() {
 													placeholder={t("balance.placeholder")}
 													allowNegative={false}
 													thousandSeparator={true}
+													tabIndex={1}
 													type="text"
+													autoFocus
 													inputMode="decimal"
 													id={field.name}
 													onValueChange={(v: any) => {
@@ -183,6 +186,7 @@ export default function CalcForm() {
 													thousandSeparator={false}
 													decimalScale={2}
 													suffix="%"
+													tabIndex={2}
 													type="text"
 													inputMode="decimal"
 													id={field.name}
@@ -232,6 +236,7 @@ export default function CalcForm() {
 													decimalScale={2}
 													suffix="%"
 													fixedDecimalScale
+													tabIndex={3}
 													type="text"
 													inputMode="decimal"
 													placeholder={t("stoploss.placeholder")}
@@ -277,6 +282,7 @@ export default function CalcForm() {
 													min={1}
 													max={100}
 													step={1}
+													tabIndex={5}
 													value={[field.value ?? 1]}
 													onValueChange={(value) => field.onChange(value[0])}
 													className="w-full"
@@ -291,6 +297,7 @@ export default function CalcForm() {
 													className="text-center shadow-none border-transparent hover:border-border transition-colors !bg-transparent w-full font-bold !text-lg px-0"
 													allowNegative={false}
 													thousandSeparator={false}
+													tabIndex={4}
 													decimalScale={0}
 													type="text"
 													inputMode="numeric"
@@ -321,6 +328,7 @@ export default function CalcForm() {
 										risk: 0,
 										stoploss: 0,
 										leverage: 10,
+										rewardRatio: 3,
 									})
 								}
 								isSubmitting={form.formState.isSubmitting}
@@ -337,12 +345,7 @@ export default function CalcForm() {
 						sizeUSDT={calculator.sizeUSDT}
 					/>
 
-					<RiskReward
-						lossRate={calculator.riskCapital}
-						balance={calculator.balance}
-						stoploss={calculator.stoploss}
-						leverage={calculator.leverage}
-					/>
+					<RiskReward form={form} lossRate={calculator.riskCapital} />
 
 					{locale === "fa" && <TelegramMobile />}
 				</form>

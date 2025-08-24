@@ -17,6 +17,11 @@ export const calculatorFormSchema = z.object({
 		.number()
 		.min(1, "Leverage must be at least 1")
 		.max(100, "Leverage cannot exceed 100"),
+
+	rewardRatio: z
+		.number()
+		.min(1, "Reward ratio must be at least 1")
+		.max(50, "Reward ratio cannot exceed 50"),
 });
 
 export type CalculatorFormValues = z.infer<typeof calculatorFormSchema>;
