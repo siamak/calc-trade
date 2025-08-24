@@ -5,6 +5,7 @@ import React, { memo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Info } from "lucide-react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
 
 interface IProps {
 	estimatedPnl: number;
@@ -38,10 +39,14 @@ const FinancialSummary: React.FC<IProps> = ({
 
 	return (
 		<div className="flex w-full flex-col mb-4">
-			{/* KPI Grid */}
-			<div className="grid grid-cols-1 border rounded-lg sm:grid-cols-2 gap-px bg-border overflow-hidden">
+			<div
+				className={cn(
+					"grid grid-cols-1 [&>div]:bg-background border rounded-lg sm:grid-cols-2 gap-px bg-border overflow-hidden",
+					"[&>div]:p-4 [&>div]:hover:bg-background/50 [&>div]:transition-all"
+				)}
+			>
 				{/* Estimated PnL */}
-				<div className="p-5 bg-background space-y-2">
+				<div className="space-y-2">
 					<Badge variant="outline">{t("pnl.label")}</Badge>
 					<div className="text-2xl font-bold text-emerald-500">
 						{formatCurrency(estimatedPnl)}
@@ -50,7 +55,7 @@ const FinancialSummary: React.FC<IProps> = ({
 				</div>
 
 				{/* Percent of Balance */}
-				<div className="p-5 bg-background space-y-2">
+				<div className="space-y-2">
 					<Badge variant="outline">{t("ptb.label")}</Badge>
 					<div className="text-2xl font-bold text-blue-500">
 						{formatPercentage(percentInBalance)}
@@ -59,7 +64,7 @@ const FinancialSummary: React.FC<IProps> = ({
 				</div>
 
 				{/* Percent Change */}
-				<div className="p-5 bg-background space-y-2">
+				<div className="space-y-2">
 					<Badge variant="outline">{t("percent.label")}</Badge>
 					<div className="text-2xl font-bold text-foreground/80">
 						{formatPercentage(percentChange)}
@@ -70,7 +75,7 @@ const FinancialSummary: React.FC<IProps> = ({
 				</div>
 
 				{/* ROE */}
-				<div className="p-5 bg-background space-y-2">
+				<div className="space-y-2">
 					<Badge variant="outline">{t("roe.label")}</Badge>
 					<div className="text-2xl font-bold text-teal-500">
 						{formatPercentage(roe)}
