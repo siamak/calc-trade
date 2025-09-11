@@ -5,6 +5,7 @@ import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import "../globals.css";
 
@@ -167,17 +168,19 @@ export default async function LocaleLayout({
 			</Script>
 
 			<body dir={dir} className={`bg-background text-foreground ${fontClass}`}>
-				<NextIntlClientProvider>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
-						enableSystem
-						disableTransitionOnChange
-					>
-						{children}
-						<Toaster />
-					</ThemeProvider>
-				</NextIntlClientProvider>
+				<NuqsAdapter>
+					<NextIntlClientProvider>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="system"
+							enableSystem
+							disableTransitionOnChange
+						>
+							{children}
+							<Toaster />
+						</ThemeProvider>
+					</NextIntlClientProvider>
+				</NuqsAdapter>
 			</body>
 		</html>
 	);
