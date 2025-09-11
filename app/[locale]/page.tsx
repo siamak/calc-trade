@@ -1,9 +1,9 @@
 import Header from "@/components/header";
 import CalcForm from "@/components/calc-form";
 import Footer from "@/components/footer";
-import GuideModal from "@/components/guide-modal";
 import { PWAInstallButton } from "@/components/pwa-install-button";
 import { Metadata } from "next";
+import { Announcement } from "@/components/announcement";
 
 // Force dynamic rendering to prevent prerendering issues with client components
 export const dynamic = "force-dynamic";
@@ -43,10 +43,10 @@ export default function Page() {
 	return (
 		<>
 			<div className="container mx-auto max-w-xl p-4">
+				<Announcement />
 				<Header />
 				<CalcForm />
 				<Footer />
-				<GuideModal />
 			</div>
 
 			{/* PWA Components */}

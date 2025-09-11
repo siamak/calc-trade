@@ -1,6 +1,11 @@
 {
 	"header": {
-		"heading": "Trade Size Calculator"
+		"heading": "Trade Size Calculator",
+		"learn": "Learn"
+	},
+	"announcement": {
+		"title": "What's the risk management?",
+		"subtitle": "Learn"
 	},
 	"form": {
 		"balance": {
@@ -105,10 +110,39 @@
 		}
 	},
 
-	"guide_modal": {
-		"title": "Welcome!",
-		"subtitle": "Ready to see how easy it is to calculate your trade size?",
-		"description": "Example: You buy a coin (BTC, ETH, etc.) with a 3% stop loss. Your balance is $1,000 and your risk is 2% (you lose $20 if stop loss is hit). This calculator gives you the correct position size. With a 3% stop loss, your risk equals 2%, or $20.",
-		"cta": "Start Now!"
+	"learn": {
+		"title": "Learn Risk Management",
+		"subtitle": "A quick guide on why risk management matters and how this tool supports your trades.",
+		"benefits": {
+			"title": "Why Risk Management?",
+			"points": {
+				"capital": "Protects capital: small, controlled losses keep you in the game.",
+				"consistency": "Improves consistency: position sizing aligns risk across trades.",
+				"emotions": "Reduces emotions: predefined risk limits remove impulsive decisions.",
+				"survivability": "Increases survivability: avoids large drawdowns and account blowups.",
+				"compounding": "Enables compounding: preserving equity lets winners compound over time."
+			}
+		},
+		"how": {
+			"title": "How This Tool Helps",
+			"points": {
+				"position": "Calculates position size from balance, risk %, and stop loss.",
+				"risk": "Shows exact capital at risk so you never overexpose.",
+				"stoploss": "Translates stop loss % into real dollar impact.",
+				"leverage": "Accounts for leverage to size margin and total position.",
+				"rr": "Visualizes Risk/Reward to estimate PnL, ROE, and impact."
+			}
+		},
+		"tips": {
+			"title": "Practical Tips",
+			"points": {
+				"journal": "Keep a journal: log risk %, stop loss, and outcomes.",
+				"fixedRisk": "Use fixed risk per trade (e.g., 0.5–2%) for discipline.",
+				"realistic": "Set realistic R:R targets; focus on quality setups.",
+				"fees": "Consider fees, slippage, and funding in your planning."
+			}
+		},
+		"disclaimer": "This content is educational only and not financial advice.",
+		"cta": "Close"
 	}
 }
