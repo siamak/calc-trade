@@ -1,4 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface PWAState {
 	isInstalled: boolean;
@@ -14,6 +17,7 @@ export function usePWA() {
 		canInstall: false,
 		deferredPrompt: null,
 	});
+	const analytics = useAnalytics();
 
 	useEffect(() => {
 		// Check if app is already installed
@@ -37,6 +41,7 @@ export function usePWA() {
 				canInstall: true,
 				deferredPrompt: e,
 			}));
+			analytics.pwaInstallPromptShown();
 		};
 
 		// Handle app installed event
@@ -47,6 +52,7 @@ export function usePWA() {
 				canInstall: false,
 				deferredPrompt: null,
 			}));
+			analytics.pwaInstalled();
 		};
 
 		// Handle online/offline events
@@ -141,7 +147,3 @@ export function usePWA() {
 		checkForUpdates,
 	};
 }
-
-
-
-

@@ -16,6 +16,7 @@ import {
 	FormControl,
 	FormMessage,
 } from "@/components/ui/form";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 interface IProps {
 	form: UseFormReturn<CalculatorFormValues>;
@@ -24,6 +25,7 @@ interface IProps {
 
 const RiskReward: React.FC<IProps> = ({ form, lossRate }) => {
 	const t = useTranslations("riskReward");
+	const analytics = useAnalytics();
 
 	return (
 		<>
@@ -80,7 +82,10 @@ const RiskReward: React.FC<IProps> = ({ form, lossRate }) => {
 											max={50}
 											step={0.5}
 											value={[field.value ?? 1]}
-											onValueChange={(val) => field.onChange(val[0])}
+											onValueChange={(val) => {
+												field.onChange(val[0]);
+												analytics.riskRewardRatioChanged(val[0]);
+											}}
 											className="w-full"
 											trackClassName="bg-muted rounded-full"
 											rangeClassName="bg-gradient-to-l from-teal-500 via-sky-500 to-indigo-500 rounded-full"

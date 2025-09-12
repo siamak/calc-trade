@@ -4,6 +4,7 @@ import Footer from "@/components/footer";
 import { PWAInstallButton } from "@/components/pwa-install-button";
 import { Metadata } from "next";
 import { RiskManagementGuide } from "@/components/risk-management-guide";
+import { PageTracker } from "@/components/page-tracker";
 
 // Force dynamic rendering to prevent prerendering issues with client components
 export const dynamic = "force-dynamic";
@@ -42,6 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function Page() {
 	return (
 		<>
+			<PageTracker />
 			<div className="container mx-auto max-w-xl p-4">
 				<RiskManagementGuide />
 				<Header />

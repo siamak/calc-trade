@@ -9,6 +9,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { redirect } from "@/i18n/navigation";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 const dictFlags: any = {
 	fa: {
@@ -27,8 +28,10 @@ export default function LocaleSwitcher() {
 	const params = useParams();
 	const locale = params.locale as string;
 	const locales = ["en", "fa"];
+	const analytics = useAnalytics();
 
 	const onClick = async (value: string) => {
+		analytics.localeChanged(value);
 		redirect({ href: `/`, locale: value });
 	};
 

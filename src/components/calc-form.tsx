@@ -27,6 +27,7 @@ import {
 import { calculatorFormSchema, type CalculatorFormValues } from "@/lib/schemas";
 import { HeaderPortal } from "./header";
 import { ResetFormButton } from "./reset-form-button";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 const Spinner = () => (
 	<div className="mx-auto my-8 size-5 border-[3px] border-secondary border-t-primary rounded-full animate-spin" />
@@ -43,6 +44,7 @@ export default function CalcForm() {
 	const t = useTranslations("form");
 	const params = useParams();
 	const locale = params.locale as string;
+	const analytics = useAnalytics();
 
 	const form = useForm<CalculatorFormValues>({
 		resolver: zodResolver(calculatorFormSchema),
@@ -83,7 +85,21 @@ export default function CalcForm() {
 		}
 
 		const margin = (balance * _risk) / (_sl * leverage);
-		setMargin(Math.round(margin) || 0);
+		const roundedMargin = Math.round(margin) || 0;
+		setMargin(roundedMargin);
+
+		// Track calculation when we have meaningful values
+		if (balance > 0 && risk > 0 && stoploss > 0 && leverage > 0) {
+			const riskCapital = balance * _risk;
+			analytics.calculationPerformed({
+				balance,
+				risk,
+				stoploss,
+				leverage,
+				marginSize: roundedMargin,
+				riskCapital,
+			});
+		}
 	}, [values, setMargin]);
 
 	const calculator = useMemo(() => {
@@ -148,6 +164,7 @@ export default function CalcForm() {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 0;
 														field.onChange(cleanValue);
+														analytics.formInputChanged("balance", cleanValue);
 													}}
 													value={field.value ?? ""}
 												/>
@@ -196,6 +213,7 @@ export default function CalcForm() {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 0;
 														field.onChange(cleanValue);
+														analytics.formInputChanged("risk", cleanValue);
 													}}
 													value={field.value ?? ""}
 												/>
@@ -245,6 +263,7 @@ export default function CalcForm() {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 0;
 														field.onChange(cleanValue);
+														analytics.formInputChanged("stoploss", cleanValue);
 													}}
 													value={field.value ?? ""}
 												/>
@@ -284,7 +303,10 @@ export default function CalcForm() {
 													step={1}
 													tabIndex={5}
 													value={[field.value ?? 1]}
-													onValueChange={(value) => field.onChange(value[0])}
+													onValueChange={(value) => {
+														field.onChange(value[0]);
+														analytics.formInputChanged("leverage", value[0]);
+													}}
 													className="w-full"
 													trackClassName="bg-muted rounded-full"
 													rangeClassName="bg-gradient-to-l from-red-500 via-pink-500 to-blue-500 rounded-full"
@@ -306,6 +328,7 @@ export default function CalcForm() {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 1;
 														field.onChange(cleanValue);
+														analytics.formInputChanged("leverage", cleanValue);
 													}}
 													value={field.value ?? 1}
 													min={1}
@@ -322,15 +345,16 @@ export default function CalcForm() {
 
 						<HeaderPortal>
 							<ResetFormButton
-								onReset={() =>
+								onReset={() => {
 									form.reset({
 										balance: 0,
 										risk: 0,
 										stoploss: 0,
 										leverage: 10,
 										rewardRatio: 3,
-									})
-								}
+									});
+									analytics.formReset();
+								}}
 								isSubmitting={form.formState.isSubmitting}
 							/>
 						</HeaderPortal>

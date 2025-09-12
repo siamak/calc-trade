@@ -1,9 +1,13 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { GitHubStarsButton } from "@/components/animate-ui/buttons/github-stars";
 import { MessageCircleWarning } from "lucide-react";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export default function Footer() {
 	const t = useTranslations("footer");
+	const analytics = useAnalytics();
 
 	return (
 		<footer>
@@ -18,6 +22,12 @@ export default function Footer() {
 					target="_blank"
 					href="https://github.com/siamak"
 					rel="noopener noreferrer"
+					onClick={() =>
+						analytics.externalLinkClicked(
+							"https://github.com/siamak",
+							"github-profile"
+						)
+					}
 				>
 					{t("copyright.name")}
 				</a>

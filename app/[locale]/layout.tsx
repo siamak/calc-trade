@@ -6,6 +6,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { StatsigProviderWrapper } from "@/components/providers/statsig-provider";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 import "../globals.css";
 
@@ -170,15 +172,19 @@ export default async function LocaleLayout({
 			<body dir={dir} className={`bg-background text-foreground ${fontClass}`}>
 				<NuqsAdapter>
 					<NextIntlClientProvider>
-						<ThemeProvider
-							attribute="class"
-							defaultTheme="system"
-							enableSystem
-							disableTransitionOnChange
-						>
-							{children}
-							<Toaster />
-						</ThemeProvider>
+						<StatsigProviderWrapper>
+							<ErrorBoundary>
+								<ThemeProvider
+									attribute="class"
+									defaultTheme="system"
+									enableSystem
+									disableTransitionOnChange
+								>
+									{children}
+									<Toaster />
+								</ThemeProvider>
+							</ErrorBoundary>
+						</StatsigProviderWrapper>
 					</NextIntlClientProvider>
 				</NuqsAdapter>
 			</body>
