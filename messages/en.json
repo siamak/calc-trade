@@ -113,5 +113,20 @@
 	"learn": {
 		"title": "Learn Risk Management",
 		"subtitle": "A quick guide on why risk management matters and how this tool supports your trades."
+	},
+
+	"pwa": {
+		"offline": {
+			"message": "You're offline — using cached content",
+			"reconnected": "Back online"
+		},
+		"update": {
+			"title": "Update available",
+			"description": "A new version of Calc Trade is ready.",
+			"button": "Update"
+		},
+		"install": {
+			"button": "Install App"
+		}
 	}
 }

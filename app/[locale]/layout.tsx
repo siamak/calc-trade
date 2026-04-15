@@ -7,7 +7,10 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { StatsigProviderWrapper } from "@/components/providers/statsig-provider";
+import { PWAProvider } from "@/components/providers/pwa-provider";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { OfflineBanner } from "@/components/offline-banner";
+import { PWAUpdatePrompt } from "@/components/pwa-update-prompt";
 
 import "../globals.css";
 
@@ -40,7 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			dir: isRTL ? "rtl" : "ltr",
 		},
 		manifest: "/manifest.json",
-		themeColor: "#FFFFFF",
+		themeColor: [
+			{ media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
+			{ media: "(prefers-color-scheme: dark)", color: "#101217" },
+		],
 		appleWebApp: {
 			capable: true,
 			statusBarStyle: "default",
@@ -74,13 +80,10 @@ export default async function LocaleLayout({
 	children: React.ReactNode;
 	params: Promise<{ locale: string }>;
 }) {
-	// Ensure that the incoming `locale` is valid
 	const { locale } = await params;
 	if (!hasLocale(routing.locales, locale)) {
 		notFound();
 	}
-
-	// Messages are loaded automatically by next-intl through src/i18n/request.ts
 
 	const isRTL = locale === "fa";
 	const dir = isRTL ? "rtl" : "ltr";
@@ -89,17 +92,23 @@ export default async function LocaleLayout({
 	return (
 		<html lang={locale} dir={dir} suppressHydrationWarning>
 			<head>
-				{/* PWA Meta Tags */}
+				{/* Core PWA / browser meta */}
 				<link rel="icon" href="/favicon.ico" />
-				<meta name="application-name" content="Calculate trade" />
+				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+				<link rel="manifest" href="/manifest.json" />
+				<link rel="shortcut icon" href="/favicon.ico" />
+
+				<meta name="application-name" content="Calc Trade" />
 				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-				<meta name="apple-mobile-web-app-title" content="Calculate trade" />
+				<meta name="apple-mobile-web-app-title" content="Calc Trade" />
 				<meta name="format-detection" content="telephone=no" />
 				<meta name="mobile-web-app-capable" content="yes" />
+
+				{/* theme-color for light / dark mode */}
 				<meta
 					name="theme-color"
-					content="#fff"
+					content="#ffffff"
 					media="(prefers-color-scheme: light)"
 				/>
 				<meta
@@ -107,65 +116,15 @@ export default async function LocaleLayout({
 					content="#101217"
 					media="(prefers-color-scheme: dark)"
 				/>
-
-				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-				<link rel="manifest" href="/manifest.json" />
-				<link rel="shortcut icon" href="/favicon.ico" />
-				{/* Persian fonts for RTL */}
-				{isRTL && <>{/* Fonts are now preloaded in root layout */}</>}
-
-				{/* English fonts for LTR */}
-				{!isRTL && <>{/* Fonts are now loaded in root layout */}</>}
 			</head>
+
+			{/* Google Analytics — loaded after interaction so it doesn't block paint */}
 			<Script id="google-analytics" strategy="afterInteractive">
 				{`
 					window.dataLayer = window.dataLayer || [];
 					function gtag(){dataLayer.push(arguments);}
 					gtag('js', new Date());
 					gtag('config', 'G-FDNZT3M442', { page_path: window.location.pathname });
-				`}
-			</Script>
-
-			<Script id="pwa-install-prompt" strategy="afterInteractive">
-				{`
-					let deferredPrompt;
-
-					window.addEventListener('beforeinstallprompt', (e) => {
-						e.preventDefault();
-						deferredPrompt = e;
-
-						// Show install button or notification
-						const installButton = document.getElementById('install-pwa');
-						if (installButton) {
-							installButton.style.display = 'block';
-						}
-					});
-
-					window.addEventListener('appinstalled', () => {
-						deferredPrompt = null;
-						const installButton = document.getElementById('install-pwa');
-						if (installButton) {
-							installButton.style.display = 'none';
-						}
-					});
-
-					// Handle offline/online status
-					window.addEventListener('online', () => {
-						document.body.classList.remove('offline');
-						document.body.classList.add('online');
-					});
-
-					window.addEventListener('offline', () => {
-						document.body.classList.remove('online');
-						document.body.classList.add('offline');
-					});
-
-					// Check initial connection status
-					if (!navigator.onLine) {
-						document.body.classList.add('offline');
-					} else {
-						document.body.classList.add('online');
-					}
 				`}
 			</Script>
 
@@ -180,8 +139,24 @@ export default async function LocaleLayout({
 									enableSystem
 									disableTransitionOnChange
 								>
-									{children}
-									<Toaster />
+									{/*
+									 * PWAProvider mounts once per locale layout and owns all
+									 * service-worker registration, online/offline state, install
+									 * prompt, and update detection.  Every component that calls
+									 * usePWA() reads from this shared context — no duplicate
+									 * registrations or divergent state.
+									 */}
+									<PWAProvider>
+										{/* Offline / reconnected banner — pinned to top of viewport */}
+										<OfflineBanner />
+
+										{children}
+
+										{/* Update-available prompt — bottom-right corner */}
+										<PWAUpdatePrompt />
+
+										<Toaster />
+									</PWAProvider>
 								</ThemeProvider>
 							</ErrorBoundary>
 						</StatsigProviderWrapper>
