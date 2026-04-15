@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { StatsigProviderWrapper } from "@/components/providers/statsig-provider";
+import { UmamiProvider } from "@/components/providers/umami-provider";
 import { ErrorBoundary } from "@/components/error-boundary";
 
 import "../globals.css";
@@ -117,6 +118,24 @@ export default async function LocaleLayout({
 				{/* English fonts for LTR */}
 				{!isRTL && <>{/* Fonts are now loaded in root layout */}</>}
 			</head>
+			{/* Umami — privacy-first analytics
+			    • data-auto-track="false"  disables Umami's own page-view firing;
+			      SPA routing is tracked manually via useUmami / UmamiProvider.
+			    • strategy="afterInteractive" loads after hydration, never blocking
+			      first paint or TTI.
+			    • The script URL and website ID come from env vars so the same
+			      build works for both self-hosted and Umami Cloud deployments. */}
+			{process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL &&
+				process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+					<Script
+						id="umami-analytics"
+						src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL}
+						data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+						data-auto-track="false"
+						strategy="afterInteractive"
+					/>
+				)}
+
 			<Script id="google-analytics" strategy="afterInteractive">
 				{`
 					window.dataLayer = window.dataLayer || [];
@@ -173,17 +192,19 @@ export default async function LocaleLayout({
 				<NuqsAdapter>
 					<NextIntlClientProvider>
 						<StatsigProviderWrapper>
-							<ErrorBoundary>
-								<ThemeProvider
-									attribute="class"
-									defaultTheme="system"
-									enableSystem
-									disableTransitionOnChange
-								>
-									{children}
-									<Toaster />
-								</ThemeProvider>
-							</ErrorBoundary>
+							<UmamiProvider>
+								<ErrorBoundary>
+									<ThemeProvider
+										attribute="class"
+										defaultTheme="system"
+										enableSystem
+										disableTransitionOnChange
+									>
+										{children}
+										<Toaster />
+									</ThemeProvider>
+								</ErrorBoundary>
+							</UmamiProvider>
 						</StatsigProviderWrapper>
 					</NextIntlClientProvider>
 				</NuqsAdapter>

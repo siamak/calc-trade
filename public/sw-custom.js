@@ -148,18 +148,41 @@ function isStaticAsset(pathname) {
 	return staticExtensions.some((ext) => pathname.endsWith(ext));
 }
 
-// Background sync for offline actions
+// ─── Background sync ─────────────────────────────────────────────────────────
+
 self.addEventListener("sync", (event) => {
 	if (event.tag === "background-sync") {
 		event.waitUntil(doBackgroundSync());
 	}
+
+	// When the app queues analytics while offline it registers this tag.
+	// On reconnect the browser fires this sync event even if the tab is hidden,
+	// so we notify all open clients to flush their localStorage queue.
+	if (event.tag === "umami-analytics-flush") {
+		event.waitUntil(notifyClientsToFlushAnalytics());
+	}
 });
 
 async function doBackgroundSync() {
-	// Handle any background sync tasks
-	// For now, just log that sync occurred
 	console.log("Background sync triggered");
 }
+
+async function notifyClientsToFlushAnalytics() {
+	const clients = await self.clients.matchAll({ type: "window" });
+	for (const client of clients) {
+		client.postMessage({ type: "UMAMI_FLUSH_QUEUE" });
+	}
+}
+
+// ─── SW update messaging ──────────────────────────────────────────────────────
+
+// Allow the page to trigger an immediate SW takeover after an update is
+// detected (used by usePWA → checkForUpdates → registration.waiting.postMessage)
+self.addEventListener("message", (event) => {
+	if (event.data?.type === "SKIP_WAITING") {
+		self.skipWaiting();
+	}
+});
 
 // Push notification handling
 self.addEventListener("push", (event) => {

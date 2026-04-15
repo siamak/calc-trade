@@ -26,14 +26,13 @@ export class ErrorBoundary extends Component<
 	}
 
 	componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-		// Track error with analytics - we'll use a simple console log for now
-		// since we can't use hooks in class components
-		console.error("Analytics: error_occurred", {
-			error: error.message,
-			context: errorInfo.componentStack,
-			timestamp: Date.now(),
-		});
 		console.error("Error caught by boundary:", error, errorInfo);
+
+		// Report to Umami — safe to call from a class component because
+		// track.* functions are plain module-level functions, not hooks.
+		import("@/lib/umami").then(({ track }) => {
+			track.errorBoundaryTriggered(errorInfo.componentStack ?? undefined);
+		});
 	}
 
 	resetError = () => {

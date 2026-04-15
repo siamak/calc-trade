@@ -1,4 +1,22 @@
-// Get or create a unique user ID
+/**
+ * Analytics aggregation layer
+ *
+ * Every product event is sent to *two* analytics providers in parallel:
+ *   • Statsig  — feature flags, A/B testing, and detailed event streams.
+ *   • Umami    — privacy-first, aggregate product metrics; GDPR-friendly.
+ *
+ * Call sites should use `useAnalytics()` (or `createAnalytics()` in class
+ * contexts) rather than importing either provider directly.  This keeps the
+ * provider coupling out of product code and makes it easy to add or swap
+ * providers later.
+ */
+
+import { track } from "@/lib/umami";
+
+// ─── User identity ────────────────────────────────────────────────────────────
+
+/** Returns a stable, random session ID stored in localStorage.
+ *  No PII — purely a random string used by Statsig for session continuity. */
 export const getOrCreateUserID = (): string => {
 	if (typeof window === "undefined") return "anonymous";
 
@@ -10,144 +28,182 @@ export const getOrCreateUserID = (): string => {
 	return userId;
 };
 
-// Event tracking functions - these will be used with the useStatsig hook
+// ─── Analytics factory ────────────────────────────────────────────────────────
+
+/**
+ * Creates an analytics object bound to a Statsig `logEvent` function.
+ * Each method fires Statsig *and* the corresponding Umami event.
+ */
 export const createAnalytics = (
 	logEvent: (
 		eventName: string,
-		value?: any,
-		metadata?: Record<string, any>
+		value?: unknown,
+		metadata?: Record<string, unknown>
 	) => void
 ) => ({
-	// Form interactions
-	formInputChanged: (field: string, value: any) => {
-		logEvent("form_input_changed", {
-			field,
-			value,
-			timestamp: Date.now(),
-		});
+	// ── Form interactions ────────────────────────────────────────────────────
+
+	formInputChanged(field: string, value: unknown) {
+		logEvent("form_input_changed", { field, value, timestamp: Date.now() });
+		track.formInputChanged(field);
 	},
 
-	// Calculation events
-	calculationPerformed: (params: {
+	// ── Calculations ──────────────────────────────────────────────────────────
+
+	/**
+	 * Core product event.
+	 * Note: balance and riskCapital are intentionally omitted from Umami to
+	 * avoid capturing financial PII.  Only structural parameters are forwarded.
+	 */
+	calculationPerformed(params: {
 		balance: number;
 		risk: number;
 		stoploss: number;
 		leverage: number;
 		marginSize: number;
 		riskCapital: number;
-	}) => {
-		logEvent("calculation_performed", {
-			...params,
-			timestamp: Date.now(),
+	}) {
+		logEvent("calculation_performed", { ...params, timestamp: Date.now() });
+		track.calculationPerformed({
+			leverage: params.leverage,
+			risk_pct: params.risk,
+			has_stoploss: params.stoploss > 0,
 		});
 	},
 
-	// User engagement
-	pageViewed: (page: string, locale: string) => {
-		logEvent("page_viewed", {
-			page,
-			locale,
-			timestamp: Date.now(),
-		});
+	// ── Navigation ────────────────────────────────────────────────────────────
+
+	pageViewed(page: string, locale: string) {
+		logEvent("page_viewed", { page, locale, timestamp: Date.now() });
+		// Umami page views are handled by useUmami to avoid duplicates.
 	},
 
-	// Risk management interactions
-	riskRewardRatioChanged: (ratio: number) => {
-		logEvent("risk_reward_ratio_changed", {
-			ratio,
-			timestamp: Date.now(),
-		});
+	// ── Risk management ───────────────────────────────────────────────────────
+
+	riskRewardRatioChanged(ratio: number) {
+		logEvent("risk_reward_ratio_changed", { ratio, timestamp: Date.now() });
+		track.riskRewardChanged(ratio);
 	},
 
-	// Form reset
-	formReset: () => {
-		logEvent("form_reset", {
-			timestamp: Date.now(),
-		});
+	// ── Form reset ────────────────────────────────────────────────────────────
+
+	formReset() {
+		logEvent("form_reset", { timestamp: Date.now() });
+		track.formReset();
 	},
 
-	// Theme changes
-	themeChanged: (theme: string) => {
-		logEvent("theme_changed", {
-			theme,
-			timestamp: Date.now(),
-		});
+	// ── Engagement ────────────────────────────────────────────────────────────
+
+	themeChanged(theme: string) {
+		logEvent("theme_changed", { theme, timestamp: Date.now() });
+		track.themeChanged(theme);
 	},
 
-	// Locale changes
-	localeChanged: (locale: string) => {
-		logEvent("locale_changed", {
-			locale,
-			timestamp: Date.now(),
-		});
+	localeChanged(locale: string) {
+		logEvent("locale_changed", { locale, timestamp: Date.now() });
+		track.localeChanged(locale);
 	},
 
-	// PWA interactions
-	pwaInstallPromptShown: () => {
-		logEvent("pwa_install_prompt_shown", {
-			timestamp: Date.now(),
-		});
-	},
-
-	pwaInstalled: () => {
-		logEvent("pwa_installed", {
-			timestamp: Date.now(),
-		});
-	},
-
-	// External links
-	externalLinkClicked: (url: string, linkType: string) => {
+	externalLinkClicked(url: string, linkType: string) {
 		logEvent("external_link_clicked", {
 			url,
 			linkType,
 			timestamp: Date.now(),
 		});
+		track.externalLinkClicked(linkType);
 	},
 
-	// Error tracking
-	errorOccurred: (error: string, context?: string) => {
-		logEvent("error_occurred", {
-			error,
-			context,
-			timestamp: Date.now(),
-		});
+	// ── PWA ───────────────────────────────────────────────────────────────────
+
+	pwaInstallPromptShown() {
+		logEvent("pwa_install_prompt_shown", { timestamp: Date.now() });
+		track.appInstallPrompted();
+	},
+
+	pwaInstalled() {
+		logEvent("pwa_installed", { timestamp: Date.now() });
+		track.appInstalled();
+	},
+
+	// ── Errors ────────────────────────────────────────────────────────────────
+
+	errorOccurred(error: string, context?: string) {
+		logEvent("error_occurred", { error, context, timestamp: Date.now() });
+		track.errorOccurred(error, context);
 	},
 });
 
-// Fallback analytics for when Statsig is not available
+// ─── Fallback (no Statsig) ────────────────────────────────────────────────────
+
+/**
+ * Used when the Statsig SDK is unavailable (e.g. blocked by an ad blocker).
+ * Umami events still fire so aggregate metrics are unaffected.
+ */
 export const fallbackAnalytics = {
-	formInputChanged: (field: string, value: any) => {
+	formInputChanged(field: string, value: unknown) {
 		console.log("Analytics: form_input_changed", { field, value });
+		track.formInputChanged(field);
 	},
-	calculationPerformed: (params: any) => {
+
+	calculationPerformed(params: {
+		balance: number;
+		risk: number;
+		stoploss: number;
+		leverage: number;
+		marginSize: number;
+		riskCapital: number;
+	}) {
 		console.log("Analytics: calculation_performed", params);
+		track.calculationPerformed({
+			leverage: params.leverage,
+			risk_pct: params.risk,
+			has_stoploss: params.stoploss > 0,
+		});
 	},
-	pageViewed: (page: string, locale: string) => {
+
+	pageViewed(page: string, locale: string) {
 		console.log("Analytics: page_viewed", { page, locale });
+		// Umami page views handled by useUmami.
 	},
-	riskRewardRatioChanged: (ratio: number) => {
+
+	riskRewardRatioChanged(ratio: number) {
 		console.log("Analytics: risk_reward_ratio_changed", { ratio });
+		track.riskRewardChanged(ratio);
 	},
-	formReset: () => {
+
+	formReset() {
 		console.log("Analytics: form_reset");
+		track.formReset();
 	},
-	themeChanged: (theme: string) => {
+
+	themeChanged(theme: string) {
 		console.log("Analytics: theme_changed", { theme });
+		track.themeChanged(theme);
 	},
-	localeChanged: (locale: string) => {
+
+	localeChanged(locale: string) {
 		console.log("Analytics: locale_changed", { locale });
+		track.localeChanged(locale);
 	},
-	pwaInstallPromptShown: () => {
-		console.log("Analytics: pwa_install_prompt_shown");
-	},
-	pwaInstalled: () => {
-		console.log("Analytics: pwa_installed");
-	},
-	externalLinkClicked: (url: string, linkType: string) => {
+
+	externalLinkClicked(url: string, linkType: string) {
 		console.log("Analytics: external_link_clicked", { url, linkType });
+		track.externalLinkClicked(linkType);
 	},
-	errorOccurred: (error: string, context?: string) => {
+
+	pwaInstallPromptShown() {
+		console.log("Analytics: pwa_install_prompt_shown");
+		track.appInstallPrompted();
+	},
+
+	pwaInstalled() {
+		console.log("Analytics: pwa_installed");
+		track.appInstalled();
+	},
+
+	errorOccurred(error: string, context?: string) {
 		console.log("Analytics: error_occurred", { error, context });
+		track.errorOccurred(error, context);
 	},
 };
 
