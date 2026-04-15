@@ -100,7 +100,7 @@ export default function CalcForm() {
 				riskCapital,
 			});
 		}
-	}, [values, setMargin]);
+	}, [values, setMargin, analytics]);
 
 	const calculator = useMemo(() => {
 		const { balance, risk, stoploss, leverage } = values;

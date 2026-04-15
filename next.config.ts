@@ -88,7 +88,6 @@ const configWithPWA = withPWA({
 					maxEntries: 4,
 					maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
 				},
-				cacheableResponse: { statuses: [0, 200] },
 			},
 		},
 
@@ -103,7 +102,6 @@ const configWithPWA = withPWA({
 					maxEntries: 10,
 					maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
 				},
-				cacheableResponse: { statuses: [0, 200] },
 			},
 		},
 
@@ -119,7 +117,6 @@ const configWithPWA = withPWA({
 					maxEntries: 20,
 					maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
 				},
-				cacheableResponse: { statuses: [0, 200] },
 			},
 		},
 
@@ -134,7 +131,6 @@ const configWithPWA = withPWA({
 					maxEntries: 128,
 					maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
 				},
-				cacheableResponse: { statuses: [0, 200] },
 			},
 		},
 
@@ -209,7 +205,6 @@ const configWithPWA = withPWA({
 					maxEntries: 16,
 					maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
 				},
-				cacheableResponse: { statuses: [0, 200] },
 			},
 		},
 

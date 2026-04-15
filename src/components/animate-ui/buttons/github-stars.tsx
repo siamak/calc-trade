@@ -156,7 +156,7 @@ function GitHubStarsButton({
 			analytics.externalLinkClicked(repoUrl, "github-repo");
 			setTimeout(() => window.open(repoUrl, "_blank"), 500);
 		},
-		[handleDisplayParticles, repoUrl]
+		[handleDisplayParticles, repoUrl, analytics]
 	);
 
 	if (isLoading) return null;
