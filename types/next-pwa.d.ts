@@ -6,6 +6,7 @@ declare module "next-pwa" {
 		register?: boolean;
 		skipWaiting?: boolean;
 		disable?: boolean;
+		buildExcludes?: Array<RegExp | string>;
 		runtimeCaching?: Array<{
 			urlPattern: RegExp | string | ((options: { url: URL }) => boolean);
 			handler: string;
