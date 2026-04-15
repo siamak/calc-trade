@@ -230,8 +230,8 @@ const configWithPWA = withPWA({
 		// online.  When offline, the SW falls back to whatever is in cache
 		// (populated on previous visits), so the app shell still loads.
 		{
-			urlPattern: ({ request }: { request: Request }) =>
-				request.mode === "navigate",
+			urlPattern: ({ url }: { url: URL }) =>
+				!url.pathname.startsWith("/api/"),
 			handler: "NetworkFirst",
 			options: {
 				cacheName: "pages",
