@@ -92,35 +92,8 @@ export default async function LocaleLayout({
 	const fontClass = isRTL ? "font-persian" : "font-english";
 
 	return (
-		<html lang={locale} dir={dir} suppressHydrationWarning>
-			<head>
-				{/* Core PWA / browser meta */}
-				<link rel="icon" href="/favicon.ico" />
-				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-				<link rel="manifest" href="/manifest.json" />
-				<link rel="shortcut icon" href="/favicon.ico" />
-
-				<meta name="application-name" content="Calc Trade" />
-				<meta name="apple-mobile-web-app-capable" content="yes" />
-				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-				<meta name="apple-mobile-web-app-title" content="Calc Trade" />
-				<meta name="format-detection" content="telephone=no" />
-				<meta name="mobile-web-app-capable" content="yes" />
-
-				{/* theme-color for light / dark mode */}
-				<meta
-					name="theme-color"
-					content="#ffffff"
-					media="(prefers-color-scheme: light)"
-				/>
-				<meta
-					name="theme-color"
-					content="#101217"
-					media="(prefers-color-scheme: dark)"
-				/>
-			</head>
-
-			{/* Umami analytics — loaded after interaction so it doesn't block paint */}
+		<>
+			{/* Umami analytics - loaded after interaction so it doesn't block paint */}
 			{process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL &&
 				process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
 					<Script
@@ -130,10 +103,10 @@ export default async function LocaleLayout({
 					/>
 				)}
 
-			<body dir={dir} className={`bg-background text-foreground ${fontClass}`}>
+			<div dir={dir} className={`bg-background text-foreground ${fontClass}`}>
 				<NuqsAdapter>
 					<NextIntlClientProvider>
-							<ErrorBoundary>
+						<ErrorBoundary>
 							<ThemeProvider
 								attribute="class"
 								defaultTheme="system"
@@ -150,8 +123,8 @@ export default async function LocaleLayout({
 						</ErrorBoundary>
 					</NextIntlClientProvider>
 				</NuqsAdapter>
-			</body>
-		</html>
+			</div>
+		</>
 	);
 }
 
