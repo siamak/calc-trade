@@ -69,6 +69,7 @@ const configWithPWA = withPWA({
 	// Keep the precache manifest lean — exclude files the SW doesn't need.
 	buildExcludes: [
 		/(?:middleware|proxy)-manifest\.json$/,
+		/app-build-manifest\.json$/,
 		/sw-custom\.js$/,
 		/chunks\/pages\/_error\.js$/,
 	],

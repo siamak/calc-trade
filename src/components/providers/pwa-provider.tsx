@@ -47,6 +47,25 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
 		if (typeof window === "undefined") return;
 
+		// In local development, stale SW registrations from a previous production
+		// run can keep executing and throw Workbox precache errors. Since PWA is
+		// disabled in dev, proactively unregister SWs and clear caches.
+		if (process.env.NODE_ENV === "development" && "serviceWorker" in navigator) {
+			navigator.serviceWorker
+				.getRegistrations()
+				.then((registrations) =>
+					Promise.all(registrations.map((registration) => registration.unregister())),
+				)
+				.catch(() => {});
+
+			if ("caches" in window) {
+				caches
+					.keys()
+					.then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+					.catch(() => {});
+			}
+		}
+
 		// ── Initial state ──────────────────────────────────────────────────
 		setIsOnline(navigator.onLine);
 
