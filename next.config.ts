@@ -73,6 +73,14 @@ const configWithPWA = withPWA({
 		/sw-custom\.js$/,
 		/chunks\/pages\/_error\.js$/,
 	],
+	manifestTransforms: [
+		async (entries: Array<{ url: string; [key: string]: unknown }>) => {
+			const manifest = entries.filter(
+				(entry) => !entry.url.endsWith("/_next/app-build-manifest.json"),
+			);
+			return { manifest, warnings: [] };
+		},
+	],
 
 	// ── Runtime caching rules ────────────────────────────────────────────
 	// Listed from most-specific to least-specific.  Workbox evaluates rules
@@ -260,6 +268,6 @@ const configWithPWA = withPWA({
 			},
 		},
 	],
-})(nextConfig);
+} as any)(nextConfig);
 
 export default withNextIntl(configWithPWA);
