@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Script from "next/script";
@@ -42,10 +42,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			dir: isRTL ? "rtl" : "ltr",
 		},
 		manifest: "/manifest.json",
-		themeColor: [
-			{ media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
-			{ media: "(prefers-color-scheme: dark)", color: "#101217" },
-		],
 		appleWebApp: {
 			capable: true,
 			statusBarStyle: "default",
@@ -71,6 +67,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		},
 	};
 }
+
+export const viewport: Viewport = {
+	themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
+		{ media: "(prefers-color-scheme: dark)", color: "#101217" },
+	],
+};
 
 export default async function LocaleLayout({
 	children,
