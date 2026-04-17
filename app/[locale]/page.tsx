@@ -1,11 +1,11 @@
+import { Suspense } from "react";
 import Header from "@/components/header";
 import CalcForm from "@/components/calc-form";
 import Footer from "@/components/footer";
 import { PWAInstallButton } from "@/components/pwa-install-button";
 import { Metadata } from "next";
 import { RiskManagementGuide } from "@/components/risk-management-guide";
-// Force dynamic rendering to prevent prerendering issues with client components
-export const dynamic = "force-dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
 	params: Promise<{
@@ -38,12 +38,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
+function HeaderSkeleton() {
+	return (
+		<div className="flex items-center justify-between gap-4 flex-col md:flex-row">
+			<div className="flex items-center gap-2">
+				<Skeleton className="h-8 w-48" />
+				<Skeleton className="h-5 w-8 rounded-full" />
+			</div>
+			<div className="flex items-center gap-2">
+				<Skeleton className="h-9 w-9 rounded-md" />
+				<Skeleton className="h-9 w-9 rounded-md" />
+			</div>
+		</div>
+	);
+}
+
 export default function Page() {
 	return (
 		<>
 			<div className="container mx-auto max-w-xl p-4">
 				<RiskManagementGuide />
-				<Header />
+				<Suspense fallback={<HeaderSkeleton />}>
+					<Header />
+				</Suspense>
 				<CalcForm />
 				<Footer />
 			</div>

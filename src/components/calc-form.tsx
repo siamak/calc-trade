@@ -25,19 +25,18 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { calculatorFormSchema, type CalculatorFormValues } from "@/lib/schemas";
-import { HeaderPortal } from "./header";
+import { HeaderPortal } from "./header-portal";
 import { ResetFormButton } from "./reset-form-button";
+import { ResultSkeleton } from "./skeletons/result-skeleton";
+import { RiskRewardSkeleton } from "./skeletons/risk-reward-skeleton";
 import { useAnalytics } from "@/hooks/use-analytics";
 
-const Spinner = () => (
-	<div className="mx-auto my-8 size-5 border-[3px] border-secondary border-t-primary rounded-full animate-spin" />
-);
 const RiskReward = dynamic(() => import("./risk-rewards"), {
-	loading: () => <Spinner />,
+	loading: () => <RiskRewardSkeleton />,
 });
 
 const Result = dynamic(() => import("./result"), {
-	loading: () => <Spinner />,
+	loading: () => <ResultSkeleton />,
 });
 
 export default function CalcForm() {
