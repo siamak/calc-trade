@@ -3,7 +3,7 @@
 **Professional trading position-size and risk/reward calculator — built as a production-grade PWA.**
 
 [![Live app](https://img.shields.io/badge/Live-calc--trade.netlify.app-informational?logo=netlify)](https://calc-trade.netlify.app/)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
 
@@ -32,7 +32,7 @@ All calculations run entirely in the browser — no data is ever sent to a serve
 | **i18n** | English (`en`) and Persian/Farsi (`fa`) with full RTL layout |
 | **Themes** | Light / dark / system via `next-themes` |
 | **Persistence** | Form values persisted to `localStorage` via `react-hook-form-persist` |
-| **Analytics** | Statsig event tracking (fire-and-forget, no PII) |
+| **Analytics** | Umami event tracking (privacy-friendly, no PII) |
 | **Fonts** | Google Fonts Inter (en) · IRANSansX variable font (fa) |
 
 ---
@@ -41,14 +41,14 @@ All calculations run entirely in the browser — no data is ever sent to a serve
 
 | Layer | Technology |
 |---|---|
-| Framework | [Next.js 15](https://nextjs.org/) — App Router, React Server Components |
+| Framework | [Next.js 16](https://nextjs.org/) — App Router, React Server Components |
 | Language | [TypeScript 5](https://www.typescriptlang.org/) |
 | Styling | [Tailwind CSS 4](https://tailwindcss.com/) + [Motion](https://motion.dev/) animations |
 | UI primitives | [Radix UI](https://www.radix-ui.com/) (shadcn/ui components) |
 | Forms | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
 | i18n | [next-intl](https://next-intl-docs.vercel.app/) |
 | PWA / SW | [next-pwa](https://github.com/shadowwalker/next-pwa) + [Workbox](https://developer.chrome.com/docs/workbox/) |
-| Analytics | [Statsig](https://statsig.com/) |
+| Analytics | [Umami](https://umami.is/) |
 | URL state | [nuqs](https://nuqs.47ng.com/) |
 | Notifications | [Sonner](https://sonner.emilkowal.ski/) |
 | Package manager | [pnpm](https://pnpm.io/) |
@@ -60,8 +60,8 @@ All calculations run entirely in the browser — no data is ever sent to a serve
 
 ### Prerequisites
 
-- **Node.js** ≥ 18 (LTS recommended)
-- **pnpm** ≥ 9 — install with `npm i -g pnpm`
+- **Node.js** ≥ 22 (LTS recommended)
+- **pnpm** ≥ 10 — install with `npm i -g pnpm`
 
 ### Installation
 
@@ -81,9 +81,10 @@ cp env.example .env.local
 
 | Variable | Required | Description |
 |---|---|---|
-| `NEXT_PUBLIC_STATSIG_CLIENT_KEY` | Optional | Statsig client SDK key for analytics |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | Optional | URL to your Umami tracking script |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | Optional | Umami website ID |
 
-The app works without Statsig — it falls back to `console.log` logging.
+The app works without Umami configured — analytics events are simply no-ops.
 
 ### Development
 
@@ -120,8 +121,7 @@ calc-trade/
 ├── src/
 │   ├── components/
 │   │   ├── providers/
-│   │   │   ├── pwa-provider.tsx    # PWA context — SW, online, install, update
-│   │   │   └── statsig-provider.tsx
+│   │   │   └── pwa-provider.tsx    # PWA context — SW, online, install, update
 │   │   ├── ui/                     # shadcn/ui primitives
 │   │   ├── calc-form.tsx           # Calculator form
 │   │   ├── result.tsx              # Calculation results
@@ -131,10 +131,10 @@ calc-trade/
 │   │   └── pwa-install-button.tsx  # Floating install button
 │   ├── hooks/
 │   │   ├── use-pwa.ts              # Re-exports usePWAContext — public API
-│   │   └── use-analytics.ts
+│   │   └── use-analytics.ts        # Umami event helpers
 │   ├── lib/
 │   │   ├── schemas.ts              # Zod form schemas
-│   │   └── analytics.ts            # Statsig event helpers
+│   │   └── analytics.ts            # Umami event wrappers
 │   └── i18n/
 │       ├── routing.ts              # Locale config (en, fa)
 │       └── request.ts              # next-intl server config
@@ -200,7 +200,6 @@ New deploy
 
 **What is never cached:**
 - POST / PUT / PATCH / DELETE requests
-- Statsig analytics calls (external, fire-and-forget)
 - Auth tokens (there is no auth in this app)
 
 ### Offline UX
@@ -244,11 +243,10 @@ Adding a new locale:
 
 ## Analytics
 
-Analytics are collected via **Statsig** (client-side only). Events include:
+Analytics are collected via **Umami** (client-side only, privacy-friendly). Page views are tracked automatically by the Umami script. Custom events include:
 
 | Event | Trigger |
 |---|---|
-| `page_viewed` | Route mount |
 | `form_input_changed` | Any form field change |
 | `calculation_performed` | Form value change (debounced result) |
 | `risk_reward_ratio_changed` | Slider drag |
@@ -260,7 +258,7 @@ Analytics are collected via **Statsig** (client-side only). Events include:
 | `external_link_clicked` | Outbound link |
 | `error_occurred` | Error boundary catches |
 
-All analytics are fire-and-forget. If `NEXT_PUBLIC_STATSIG_CLIENT_KEY` is not set, events log to `console.log` only.
+All analytics are fire-and-forget. If `NEXT_PUBLIC_UMAMI_SCRIPT_URL` / `NEXT_PUBLIC_UMAMI_WEBSITE_ID` are not set, events are silently skipped.
 
 ---
 
@@ -272,7 +270,7 @@ A `netlify.toml` is included. Push to `main` and Netlify will:
 1. Run `pnpm build`
 2. Publish the `.next/` output
 
-No additional environment variables are needed beyond `NEXT_PUBLIC_STATSIG_CLIENT_KEY` (optional).
+Set `NEXT_PUBLIC_UMAMI_SCRIPT_URL` and `NEXT_PUBLIC_UMAMI_WEBSITE_ID` in the Netlify dashboard environment variables (optional).
 
 ### Other platforms (Vercel, Railway, etc.)
 

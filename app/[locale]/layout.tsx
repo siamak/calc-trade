@@ -6,7 +6,6 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { StatsigProviderWrapper } from "@/components/providers/statsig-provider";
 import { PWAProvider } from "@/components/providers/pwa-provider";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { OfflineBanner } from "@/components/offline-banner";
@@ -118,48 +117,34 @@ export default async function LocaleLayout({
 				/>
 			</head>
 
-			{/* Google Analytics — loaded after interaction so it doesn't block paint */}
-			<Script id="google-analytics" strategy="afterInteractive">
-				{`
-					window.dataLayer = window.dataLayer || [];
-					function gtag(){dataLayer.push(arguments);}
-					gtag('js', new Date());
-					gtag('config', 'G-FDNZT3M442', { page_path: window.location.pathname });
-				`}
-			</Script>
+			{/* Umami analytics — loaded after interaction so it doesn't block paint */}
+			{process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL &&
+				process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+					<Script
+						src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL}
+						data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+						strategy="afterInteractive"
+					/>
+				)}
 
 			<body dir={dir} className={`bg-background text-foreground ${fontClass}`}>
 				<NuqsAdapter>
 					<NextIntlClientProvider>
-						<StatsigProviderWrapper>
 							<ErrorBoundary>
-								<ThemeProvider
-									attribute="class"
-									defaultTheme="system"
-									enableSystem
-									disableTransitionOnChange
-								>
-									{/*
-									 * PWAProvider mounts once per locale layout and owns all
-									 * service-worker registration, online/offline state, install
-									 * prompt, and update detection.  Every component that calls
-									 * usePWA() reads from this shared context — no duplicate
-									 * registrations or divergent state.
-									 */}
-									<PWAProvider>
-										{/* Offline / reconnected banner — pinned to top of viewport */}
-										<OfflineBanner />
-
-										{children}
-
-										{/* Update-available prompt — bottom-right corner */}
-										<PWAUpdatePrompt />
-
-										<Toaster />
-									</PWAProvider>
-								</ThemeProvider>
-							</ErrorBoundary>
-						</StatsigProviderWrapper>
+							<ThemeProvider
+								attribute="class"
+								defaultTheme="system"
+								enableSystem
+								disableTransitionOnChange
+							>
+								<PWAProvider>
+									<OfflineBanner />
+									{children}
+									<PWAUpdatePrompt />
+									<Toaster />
+								</PWAProvider>
+							</ThemeProvider>
+						</ErrorBoundary>
 					</NextIntlClientProvider>
 				</NuqsAdapter>
 			</body>
