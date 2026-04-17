@@ -119,7 +119,7 @@ export default function CalcForm() {
 	return (
 		<>
 			<div className="relative mt-8 mb-4 flex items-center justify-center gap-2">
-				<div className="pr-2 rtl:pr-0 rtl:pl-2 text-center bg-background text-sm shrink-0 text-muted-foreground/70 uppercase">
+				<div className="pr-2 rtl:pr-0 rtl:pl-2 text-center bg-background text-sm shrink-0 text-muted-foreground/90 uppercase">
 					{t("balance.title")}
 				</div>
 				<Separator className="flex-1" />
@@ -154,7 +154,6 @@ export default function CalcForm() {
 													placeholder={t("balance.placeholder")}
 													allowNegative={false}
 													thousandSeparator={true}
-													tabIndex={1}
 													type="text"
 													autoFocus
 													inputMode="decimal"
@@ -202,7 +201,6 @@ export default function CalcForm() {
 													thousandSeparator={false}
 													decimalScale={2}
 													suffix="%"
-													tabIndex={2}
 													type="text"
 													inputMode="decimal"
 													id={field.name}
@@ -253,7 +251,6 @@ export default function CalcForm() {
 													decimalScale={2}
 													suffix="%"
 													fixedDecimalScale
-													tabIndex={3}
 													type="text"
 													inputMode="decimal"
 													placeholder={t("stoploss.placeholder")}
@@ -300,7 +297,6 @@ export default function CalcForm() {
 													min={1}
 													max={100}
 													step={1}
-													tabIndex={5}
 													value={[field.value ?? 1]}
 													onValueChange={(value) => {
 														field.onChange(value[0]);
@@ -310,6 +306,7 @@ export default function CalcForm() {
 													trackClassName="bg-muted rounded-full"
 													rangeClassName="bg-gradient-to-l from-red-500 via-pink-500 to-blue-500 rounded-full"
 													thumbClassName="w-6 rounded-full bg-card border-2 border-red-500 focus-visible:border-red-600 focus-visible:ring-0 h-5"
+													thumbLabel={t("leverage.label")}
 												/>
 											</div>
 											<div className="shrink-0 w-16">
@@ -318,7 +315,6 @@ export default function CalcForm() {
 													className="text-center shadow-none border-transparent hover:border-border transition-colors !bg-transparent w-full font-bold !text-lg px-0"
 													allowNegative={false}
 													thousandSeparator={false}
-													tabIndex={4}
 													decimalScale={0}
 													type="text"
 													inputMode="numeric"

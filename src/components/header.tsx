@@ -21,7 +21,6 @@ export default async function Header() {
 				<div
 					id="header-portal-actions"
 					className="empty:hidden"
-					aria-hidden
 				/>
 			</div>
 		</div>

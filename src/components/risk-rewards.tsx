@@ -30,7 +30,7 @@ const RiskReward: React.FC<IProps> = ({ form, lossRate }) => {
 	return (
 		<>
 			<div className="relative mt-8 mb-4 flex items-center justify-center gap-2">
-				<div className="pr-2 rtl:pr-0 rtl:pl-2 text-center bg-background text-sm shrink-0 text-muted-foreground/70 uppercase">
+				<div className="pr-2 rtl:pr-0 rtl:pl-2 text-center bg-background text-sm shrink-0 text-muted-foreground/90 uppercase">
 					{t("title")}
 				</div>
 				<Separator className="flex-1" />
@@ -90,6 +90,7 @@ const RiskReward: React.FC<IProps> = ({ form, lossRate }) => {
 											trackClassName="bg-muted rounded-full"
 											rangeClassName="bg-gradient-to-l from-teal-500 via-sky-500 to-indigo-500 rounded-full"
 											thumbClassName="w-6 rounded-full bg-card border-2 border-teal-500 focus-visible:border-teal-600 focus-visible:ring-0 h-5"
+											thumbLabel={t("rewardSlider.label")}
 										/>
 									</div>
 								</div>

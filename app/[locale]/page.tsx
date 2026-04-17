@@ -56,14 +56,14 @@ function HeaderSkeleton() {
 export default function Page() {
 	return (
 		<>
-			<div className="container mx-auto max-w-xl p-4">
+			<main className="container mx-auto max-w-xl p-4">
 				<RiskManagementGuide />
 				<Suspense fallback={<HeaderSkeleton />}>
 					<Header />
 				</Suspense>
 				<CalcForm />
 				<Footer />
-			</div>
+			</main>
 
 			{/* PWA Components */}
 			<PWAInstallButton />
