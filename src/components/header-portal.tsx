@@ -4,16 +4,31 @@ import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 
 export function HeaderPortal({ children }: { children: React.ReactNode }) {
-	const [mounted, setMounted] = useState(false);
+	const [target, setTarget] = useState<HTMLElement | null>(null);
 
 	useEffect(() => {
-		setMounted(true);
+		const resolveTarget = () => {
+			const el = document.getElementById("header-portal-actions");
+			if (!el) return false;
+			if (el.dataset.portalReady !== "true") return false;
+			setTarget(el);
+			return true;
+		};
+
+		if (resolveTarget()) return;
+
+		const intervalId = window.setInterval(() => {
+			if (resolveTarget()) {
+				window.clearInterval(intervalId);
+			}
+		}, 50);
+
+		return () => {
+			window.clearInterval(intervalId);
+		};
 	}, []);
 
-	if (!mounted) return null;
+	if (!target) return null;
 
-	const el = document.getElementById("header-portal-actions");
-	if (!el) return null;
-
-	return createPortal(children, el) as React.ReactPortal;
+	return createPortal(children, target) as React.ReactPortal;
 }

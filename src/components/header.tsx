@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { HeaderPortalAnchor } from "./header-portal-anchor";
 import LocaleSwitcher from "./locale-switcher";
 import ThemeSwitcher from "./theme-switcher";
 import { Badge } from "./ui/badge";
@@ -18,10 +19,7 @@ export default async function Header() {
 			<div className="flex items-center justify-between flex-none gap-2">
 				<LocaleSwitcher />
 				<ThemeSwitcher />
-				<div
-					id="header-portal-actions"
-					className="empty:hidden"
-				/>
+				<HeaderPortalAnchor />
 			</div>
 		</div>
 	);
