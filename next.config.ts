@@ -51,8 +51,8 @@ const nextConfig: NextConfig = {
 //    intercept the `updatefound` event and show a user-facing update prompt.
 //  • skipWaiting: false — New SWs wait until the user confirms the update.
 //    PWAProvider sends SKIP_WAITING when the user clicks "Update".
-//  • buildExcludes   — Prevents next-pwa from precaching the middleware
-//    manifest (not needed by the SW) and the deprecated sw-custom.js.
+	//  • buildExcludes   — Prevents next-pwa from precaching the proxy/middleware
+	//    manifest (not needed by the SW) and the deprecated sw-custom.js.
 //
 const configWithPWA = withPWA({
 	dest: "public",
@@ -68,7 +68,7 @@ const configWithPWA = withPWA({
 
 	// Keep the precache manifest lean — exclude files the SW doesn't need.
 	buildExcludes: [
-		/middleware-manifest\.json$/,
+		/(?:middleware|proxy)-manifest\.json$/,
 		/sw-custom\.js$/,
 		/chunks\/pages\/_error\.js$/,
 	],
