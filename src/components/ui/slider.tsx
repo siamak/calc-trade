@@ -8,10 +8,11 @@ export const Slider = React.forwardRef<
 		trackClassName?: string;
 		rangeClassName?: string;
 		thumbClassName?: string;
+		thumbLabel?: string;
 	}
 >(
 	(
-		{ className, trackClassName, rangeClassName, thumbClassName, ...props },
+		{ className, trackClassName, rangeClassName, thumbClassName, thumbLabel, ...props },
 		ref
 	) => (
 		<SliderPrimitive.Root
@@ -33,6 +34,7 @@ export const Slider = React.forwardRef<
 				/>
 			</SliderPrimitive.Track>
 			<SliderPrimitive.Thumb
+				aria-label={thumbLabel}
 				className={cn(
 					"block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
 					thumbClassName

@@ -43,7 +43,7 @@ const Result: React.FC<IProps> = ({
 	return (
 		<>
 			<div className="relative mt-8 mb-4 flex items-center justify-center gap-2">
-				<div className="pr-2 rtl:pr-0 rtl:pl-2 text-center bg-background text-sm shrink-0 text-muted-foreground/70 uppercase">
+				<div className="pr-2 rtl:pr-0 rtl:pl-2 text-center bg-background text-sm shrink-0 text-muted-foreground/90 uppercase">
 					{t("title")}
 				</div>
 				<Separator className="flex-1" />
@@ -96,6 +96,7 @@ const Result: React.FC<IProps> = ({
 								type="button"
 								content={marginSize.toString()}
 								onCopy={copy}
+								aria-label={t("margin.label")}
 							/>
 						</div>
 					</div>
@@ -119,6 +120,7 @@ const Result: React.FC<IProps> = ({
 								type="button"
 								content={sizeUSDT.toString()}
 								onCopy={copy}
+								aria-label={t("size.label")}
 							/>
 						</div>
 					</div>

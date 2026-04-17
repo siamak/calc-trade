@@ -38,7 +38,7 @@ export default function LocaleSwitcher() {
 	if (locales && locales?.length > 0) {
 		return (
 			<Select value={locale} onValueChange={onClick}>
-				<SelectTrigger className="w-[100px] bg-card">
+				<SelectTrigger className="w-[100px] bg-card" aria-label="Select language">
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>
