@@ -18,11 +18,9 @@ export function PWAInstallButton() {
 	const analytics = useAnalytics();
 	const t = useTranslations("pwa");
 
-	const handleInstallClick = async () => {
-		const accepted = await installPWA();
-		if (accepted) {
-			analytics.pwaInstalled();
-		}
+	const handleInstallClick = () => {
+		analytics.pwaInstallClicked();
+		installPWA();
 	};
 
 	// Don't render when the app is already installed or the prompt is not yet

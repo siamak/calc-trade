@@ -4,9 +4,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { useAnalytics } from "@/hooks/use-analytics";
+
+const TELEGRAM_URL = "https://t.me/+UTSJBK_CmZszYzRk";
 
 export default function TelegramCTA() {
 	const [isOpen, setIsOpen] = useState(false);
+	const analytics = useAnalytics();
 
 	useEffect(() => {
 		if (!isOpen) {
@@ -40,9 +44,12 @@ export default function TelegramCTA() {
 			</div>
 			<Button asChild className="mt-4 rounded-full w-32 md:w-auto">
 				<a
-					href="https://t.me/+UTSJBK_CmZszYzRk"
+					href={TELEGRAM_URL}
 					target="_blank"
 					rel="noopener noreferrer"
+					onClick={() =>
+						analytics.externalLinkClicked(TELEGRAM_URL, "telegram")
+					}
 				>
 					کانال تلگرام
 				</a>

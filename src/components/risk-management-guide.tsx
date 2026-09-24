@@ -20,6 +20,7 @@ import { Button } from "./ui/button";
 import { loadMarkdownContent } from "@/lib/markdown-loader";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 // Animation variants for better maintainability
 const bannerVariants: Variants = {
@@ -149,11 +150,23 @@ export function RiskManagementGuide() {
 	const [markdownContent, setMarkdownContent] = useState<string>("");
 	const [isLoading, setIsLoading] = useState(true);
 
-	const handleOpen = useCallback(() => setGuideParam("open"), [setGuideParam]);
+	const analytics = useAnalytics();
+
+	const handleOpen = useCallback(() => {
+		analytics.guideOpened("banner");
+		setGuideParam("open");
+	}, [setGuideParam, analytics]);
 	const handleClose = useCallback(() => {
+		analytics.announcementDismissed();
 		setIsClosed(true);
 		setGuideParam(null);
-	}, [setGuideParam]);
+	}, [setGuideParam, analytics]);
+
+	// Deep link (?learn=open) opens the guide without a banner click.
+	useEffect(() => {
+		if (isGuideOpen) analytics.guideOpened("url");
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	// Memoize translation data to prevent unnecessary re-renders
 	const modalData = useMemo(
@@ -174,13 +187,17 @@ export function RiskManagementGuide() {
 				setMarkdownContent(content);
 			} catch (error) {
 				console.error("Failed to load markdown content:", error);
+				analytics.errorOccurred(
+					error instanceof Error ? error.message : String(error),
+					`markdown:${locale}`
+				);
 			} finally {
 				setIsLoading(false);
 			}
 		};
 
 		loadContent();
-	}, [locale]);
+	}, [locale, analytics]);
 
 	return (
 		<>
@@ -209,7 +226,10 @@ export function RiskManagementGuide() {
 			<Sheet
 				modal
 				open={isGuideOpen}
-				onOpenChange={(open) => setGuideParam(open ? "open" : null)}
+				onOpenChange={(open) => {
+					if (!open) analytics.guideClosed();
+					setGuideParam(open ? "open" : null);
+				}}
 			>
 				<SheetContent
 					side={isRTL ? "left" : "right"}

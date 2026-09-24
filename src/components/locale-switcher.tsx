@@ -31,7 +31,7 @@ export default function LocaleSwitcher() {
 	const analytics = useAnalytics();
 
 	const onClick = async (value: string) => {
-		analytics.localeChanged(value);
+		analytics.localeChanged(locale, value);
 		redirect({ href: `/`, locale: value });
 	};
 
