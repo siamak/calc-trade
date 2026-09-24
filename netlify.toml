@@ -1,0 +1,23 @@
+# Redirect-only deploy for the legacy calc-trade.netlify.app site.
+# The app itself is hosted on Vercel at calc.siamak.pro.
+
+[build]
+  command = "echo 'redirect-only deploy'"
+  publish = "netlify"
+
+[build.environment]
+  # Don't let Netlify auto-install the Next.js runtime for this static deploy.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+# Files that exist in `netlify/` (only sw.js) are served; everything else
+# 301s to the same path on the new domain.
+[[redirects]]
+  from = "/*"
+  to = "https://calc.siamak.pro/:splat"
+  status = 301
+  force = false
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
