@@ -73,6 +73,9 @@ const configWithPWA = withPWA({
 		/sw-custom\.js$/,
 		/chunks\/pages\/_error\.js$/,
 	],
+	// iOS fetches its own copy of the splash images at Add to Home Screen;
+	// precaching ~8 MB of PNGs on every SW install would be pure waste.
+	publicExcludes: ["!noprecache/**/*", "!splash/**/*"],
 	manifestTransforms: [
 		async (entries: Array<{ url: string; [key: string]: unknown }>) => {
 			const manifest = entries.filter(
@@ -135,7 +138,8 @@ const configWithPWA = withPWA({
 			urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp|avif)$/i,
 			handler: "CacheFirst",
 			options: {
-				cacheName: "static-image-assets",
+				// v2: splash images were regenerated under new filenames.
+				cacheName: "static-image-assets-v2",
 				expiration: {
 					maxEntries: 128,
 					maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days

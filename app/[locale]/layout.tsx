@@ -10,6 +10,7 @@ import { PWAProvider } from "@/components/providers/pwa-provider";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { OfflineBanner } from "@/components/offline-banner";
 import { PWAUpdatePrompt } from "@/components/pwa-update-prompt";
+import { appleCapableMeta, appleStartupImages } from "@/lib/splash";
 
 import "../globals.css";
 
@@ -40,12 +41,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			descriptions[locale as keyof typeof descriptions] || descriptions.en,
 		other: {
 			dir: isRTL ? "rtl" : "ltr",
+			...appleCapableMeta,
 		},
 		manifest: "/manifest.json",
 		appleWebApp: {
 			capable: true,
 			statusBarStyle: "default",
 			title: titles[locale as keyof typeof titles] || titles.en,
+			startupImage: appleStartupImages,
 		},
 		formatDetection: {
 			telephone: false,

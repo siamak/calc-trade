@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { GitHubStarsButton } from "@/components/animate-ui/buttons/github-stars";
 import { MessageCircleWarning } from "lucide-react";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { SplashDiagnostics } from "@/components/splash-diagnostics";
 
 export default function Footer() {
 	const t = useTranslations("footer");
@@ -15,6 +16,8 @@ export default function Footer() {
 				<MessageCircleWarning className="size-4 max-md:mt-0.5" />
 				<p className="text-sm"> {t("disclaimer")}</p>
 			</div>
+
+			<SplashDiagnostics />
 
 			<div className="flex flex-wrap mb-4 mt-10 justify-between items-center border-t border-t-border/40 pt-4">
 
