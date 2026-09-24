@@ -6,6 +6,7 @@ import { PWAInstallButton } from "@/components/pwa-install-button";
 import { Metadata } from "next";
 import { RiskManagementGuide } from "@/components/risk-management-guide";
 import { Skeleton } from "@/components/ui/skeleton";
+import { appleStartupImages } from "@/lib/splash";
 
 type Props = {
 	params: Promise<{
@@ -26,6 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			capable: true,
 			statusBarStyle: "default",
 			title: "Calculate trade",
+			// Page-level appleWebApp replaces the layout's, so repeat the images.
+			startupImage: appleStartupImages,
 		},
 		formatDetection: {
 			telephone: false,

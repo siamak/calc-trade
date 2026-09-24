@@ -1,0 +1,23 @@
+[
+	{ "width": 320, "height": 568, "ratio": 2, "devices": "iPhone SE (1st gen), iPhone 5 / 5s / 5c, iPod touch" },
+	{ "width": 375, "height": 667, "ratio": 2, "devices": "iPhone SE (2nd / 3rd gen), iPhone 6 / 6s / 7 / 8" },
+	{ "width": 414, "height": 896, "ratio": 2, "devices": "iPhone XR, iPhone 11" },
+	{ "width": 375, "height": 812, "ratio": 3, "devices": "iPhone X / XS, iPhone 11 Pro, iPhone 12 mini / 13 mini" },
+	{ "width": 390, "height": 844, "ratio": 3, "devices": "iPhone 12 / 12 Pro, iPhone 13 / 13 Pro, iPhone 14, iPhone 16e" },
+	{ "width": 393, "height": 852, "ratio": 3, "devices": "iPhone 14 Pro, iPhone 15 / 15 Pro, iPhone 16" },
+	{ "width": 402, "height": 874, "ratio": 3, "devices": "iPhone 16 Pro, iPhone 17 / 17 Pro" },
+	{ "width": 414, "height": 896, "ratio": 3, "devices": "iPhone XS Max, iPhone 11 Pro Max" },
+	{ "width": 420, "height": 912, "ratio": 3, "devices": "iPhone Air" },
+	{ "width": 428, "height": 926, "ratio": 3, "devices": "iPhone 12 Pro Max, iPhone 13 Pro Max, iPhone 14 Plus" },
+	{ "width": 430, "height": 932, "ratio": 3, "devices": "iPhone 14 Pro Max, iPhone 15 Plus / 15 Pro Max, iPhone 16 Plus" },
+	{ "width": 440, "height": 956, "ratio": 3, "devices": "iPhone 16 Pro Max, iPhone 17 Pro Max" },
+	{ "width": 744, "height": 1133, "ratio": 2, "devices": "iPad mini (6th gen, A17 Pro)" },
+	{ "width": 768, "height": 1024, "ratio": 2, "devices": "iPad 9.7\" (5th / 6th gen), iPad mini 4 / 5, iPad Air 2, iPad Pro 9.7\"" },
+	{ "width": 810, "height": 1080, "ratio": 2, "devices": "iPad 10.2\" (7th / 8th / 9th gen)" },
+	{ "width": 820, "height": 1180, "ratio": 2, "devices": "iPad Air 10.9\" (4th / 5th gen), iPad (10th gen, A16), iPad Air 11\" (M2 / M3)" },
+	{ "width": 834, "height": 1112, "ratio": 2, "devices": "iPad Air 10.5\" (3rd gen), iPad Pro 10.5\"" },
+	{ "width": 834, "height": 1194, "ratio": 2, "devices": "iPad Pro 11\" (1st–4th gen)" },
+	{ "width": 834, "height": 1210, "ratio": 2, "devices": "iPad Pro 11\" (M4 / M5)" },
+	{ "width": 1024, "height": 1366, "ratio": 2, "devices": "iPad Pro 12.9\" (1st–6th gen), iPad Air 13\" (M2 / M3)" },
+	{ "width": 1032, "height": 1376, "ratio": 2, "devices": "iPad Pro 13\" (M4 / M5)" }
+]

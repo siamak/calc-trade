@@ -12,7 +12,7 @@
 	"display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
 	"orientation": "natural",
 	"theme_color": "#FFFFFF",
-	"background_color": "#FFFFFF",
+	"background_color": "#101217",
 	"icons": [
 		{
 			"src": "/icons/android/android-launchericon-48-48.png",

@@ -143,7 +143,7 @@ calc-trade/
 │   ├── sw.js                       # Workbox-generated service worker (gitignored)
 │   ├── sw-custom.js                # Deprecated stub — self-unregisters old SW
 │   ├── icons/                      # Android + iOS launcher icons
-│   ├── splash/                     # iOS splash screens
+│   ├── splash/                     # iOS splash screens (pnpm generate-splash)
 │   └── webfont/                    # Self-hosted IRANSansX
 ├── messages/
 │   ├── en.json                     # English strings
