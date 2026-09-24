@@ -150,6 +150,8 @@ calc-trade/
 │   └── fa.json                     # Persian strings
 ├── contents/                       # Markdown educational content
 ├── next.config.ts                  # Next.js + next-pwa + next-intl config
+├── netlify.toml                    # Legacy Netlify site → 301 to calc.siamak.pro
+├── netlify/sw.js                   # Kill-switch SW for the legacy origin
 └── vercel.json                     # Vercel deployment config
 ```
 
@@ -275,7 +277,11 @@ A `vercel.json` is included. Import the repo in Vercel (framework auto-detected 
 
 Set `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and `NEXT_PUBLIC_UMAMI_DOMAINS` in Project → Settings → Environment Variables (optional).
 
-### Other platforms (Netlify, Railway, etc.)
+### Legacy Netlify site
+
+`calc-trade.netlify.app` stays live as a redirect-only deploy (`netlify.toml`): every path 301s to the same path on `calc.siamak.pro`. The one exception is `/sw.js`, which serves a kill-switch worker (`netlify/sw.js`) that clears the old origin's caches, unregisters itself and moves open tabs to the new domain — browsers won't follow a redirect for a service worker script, so without it returning visitors would keep a stale worker forever.
+
+### Other platforms (Railway, etc.)
 
 ```bash
 # Build command
