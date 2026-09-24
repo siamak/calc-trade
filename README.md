@@ -275,7 +275,7 @@ A `vercel.json` is included. Import the repo in Vercel (framework auto-detected 
 - **Headers:** `sw.js` and `manifest.json` are served with `must-revalidate` so new service workers are picked up immediately and the update prompt fires.
 - **Domain:** `calc.siamak.pro` — add it under Project → Settings → Domains.
 
-Set `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and `NEXT_PUBLIC_UMAMI_DOMAINS` in Project → Settings → Environment Variables (optional).
+Set `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID`, `NEXT_PUBLIC_UMAMI_DOMAINS` and `NEXT_PUBLIC_UMAMI_PATH_PREFIX` (e.g. `/calc`, when sharing a Umami website with siamak.pro) in Project → Settings → Environment Variables (optional).
 
 ### Legacy Netlify site
 
