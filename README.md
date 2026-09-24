@@ -47,7 +47,7 @@ All calculations run entirely in the browser — no data is ever sent to a serve
 | UI primitives | [Radix UI](https://www.radix-ui.com/) (shadcn/ui components) |
 | Forms | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
 | i18n | [next-intl](https://next-intl-docs.vercel.app/) |
-| PWA / SW | [next-pwa](https://github.com/shadowwalker/next-pwa) + [Workbox](https://developer.chrome.com/docs/workbox/) |
+| PWA / SW | [Workbox](https://developer.chrome.com/docs/workbox/) `generateSW` (post-build script) |
 | Analytics | [Umami](https://umami.is/) |
 | URL state | [nuqs](https://nuqs.47ng.com/) |
 | Notifications | [Sonner](https://sonner.emilkowal.ski/) |
@@ -161,7 +161,7 @@ calc-trade/
 
 ### Service worker strategy
 
-The app uses **Workbox `generateSW`** via `next-pwa`. All caching rules are declared in `next.config.ts` — no boilerplate SW file is needed.
+The app uses **Workbox `generateSW`** as a post-build step (`scripts/build-sw.mjs`), so the service worker is independent of the bundler and the app builds with Turbopack. All caching rules are declared in that script — no boilerplate SW file is needed.
 
 **Why `generateSW` instead of `injectManifest`?**  
 Every caching requirement is expressible through Workbox's built-in strategies. `generateSW` keeps all configuration colocated and readable. `injectManifest` would only be needed for complex custom fetch logic (e.g., streaming, partial responses, push payloads) which this app does not require.
