@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		openGraph: {
 			type: "website",
 			locale: locale,
-			url: "https://calc-trade.vercel.app",
+			url: "https://calc.siamak.pro",
 			title: titles[locale as keyof typeof titles] || titles.en,
 			description:
 				descriptions[locale as keyof typeof descriptions] || descriptions.en,
