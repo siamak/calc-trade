@@ -2,7 +2,7 @@
 
 **Professional trading position-size and risk/reward calculator — built as a production-grade PWA.**
 
-[![Live app](https://img.shields.io/badge/Live-calc--trade.netlify.app-informational?logo=netlify)](https://calc-trade.netlify.app/)
+[![Live app](https://img.shields.io/badge/Live-calc.siamak.pro-informational?logo=vercel)](https://calc.siamak.pro/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
@@ -52,7 +52,7 @@ All calculations run entirely in the browser — no data is ever sent to a serve
 | URL state | [nuqs](https://nuqs.47ng.com/) |
 | Notifications | [Sonner](https://sonner.emilkowal.ski/) |
 | Package manager | [pnpm](https://pnpm.io/) |
-| Deployment | [Netlify](https://netlify.com/) |
+| Deployment | [Vercel](https://vercel.com/) |
 
 ---
 
@@ -150,7 +150,7 @@ calc-trade/
 │   └── fa.json                     # Persian strings
 ├── contents/                       # Markdown educational content
 ├── next.config.ts                  # Next.js + next-pwa + next-intl config
-└── netlify.toml                    # Netlify deployment config
+└── vercel.json                     # Vercel deployment config
 ```
 
 ---
@@ -264,15 +264,18 @@ All analytics are fire-and-forget. If `NEXT_PUBLIC_UMAMI_SCRIPT_URL` / `NEXT_PUB
 
 ## Deployment
 
-### Netlify (default)
+### Vercel (default)
 
-A `netlify.toml` is included. Push to `main` and Netlify will:
-1. Run `pnpm build`
-2. Publish the `.next/` output
+A `vercel.json` is included. Import the repo in Vercel (framework auto-detected as Next.js) and every push to `main` deploys to production; other branches get preview URLs.
 
-Set `NEXT_PUBLIC_UMAMI_SCRIPT_URL` and `NEXT_PUBLIC_UMAMI_WEBSITE_ID` in the Netlify dashboard environment variables (optional).
+- **Build:** `pnpm run build` (webpack — required by `next-pwa`)
+- **Node:** 22+ (read from `engines` in `package.json`)
+- **Headers:** `sw.js` and `manifest.json` are served with `must-revalidate` so new service workers are picked up immediately and the update prompt fires.
+- **Domain:** `calc.siamak.pro` — add it under Project → Settings → Domains.
 
-### Other platforms (Vercel, Railway, etc.)
+Set `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and `NEXT_PUBLIC_UMAMI_DOMAINS` in Project → Settings → Environment Variables (optional).
+
+### Other platforms (Netlify, Railway, etc.)
 
 ```bash
 # Build command

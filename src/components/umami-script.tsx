@@ -5,7 +5,7 @@ import { flushAnalyticsQueue } from "@/lib/analytics";
 
 const SCRIPT_URL = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL;
 const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
-// Optional comma-separated allow-list (e.g. "calc.siamak.me") so localhost and
+// Optional comma-separated allow-list (e.g. "calc.siamak.pro") so localhost and
 // preview deploys don't pollute production stats.
 const DOMAINS = process.env.NEXT_PUBLIC_UMAMI_DOMAINS;
 
