@@ -33,3 +33,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# generated service worker (scripts/build-sw.mjs)
+/public/sw.js
+/public/workbox-*.js

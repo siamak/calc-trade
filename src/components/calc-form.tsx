@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NumericFormat } from "react-number-format";
+import { NumericFormat, type NumberFormatValues } from "react-number-format";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
@@ -161,7 +161,7 @@ export default function CalcForm() {
 													autoFocus
 													inputMode="decimal"
 													id={field.name}
-													onValueChange={(v: any) => {
+													onValueChange={(v: NumberFormatValues) => {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 0;
 														field.onChange(cleanValue);
@@ -209,7 +209,7 @@ export default function CalcForm() {
 													id={field.name}
 													fixedDecimalScale
 													placeholder={t("risk.placeholder")}
-													onValueChange={(v: any) => {
+													onValueChange={(v: NumberFormatValues) => {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 0;
 														field.onChange(cleanValue);
@@ -258,7 +258,7 @@ export default function CalcForm() {
 													inputMode="decimal"
 													placeholder={t("stoploss.placeholder")}
 													id={field.name}
-													onValueChange={(v: any) => {
+													onValueChange={(v: NumberFormatValues) => {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 0;
 														field.onChange(cleanValue);
@@ -322,7 +322,7 @@ export default function CalcForm() {
 													type="text"
 													inputMode="numeric"
 													id={field.name}
-													onValueChange={(v: any) => {
+													onValueChange={(v: NumberFormatValues) => {
 														const value = v.floatValue;
 														const cleanValue = value !== undefined ? value : 1;
 														field.onChange(cleanValue);

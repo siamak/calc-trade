@@ -1,4 +1,4 @@
-import { toast as sonnerToast } from "sonner";
+import { toast as sonnerToast, type ExternalToast } from "sonner";
 
 export function useToast() {
 	return {
@@ -6,10 +6,9 @@ export function useToast() {
 			title,
 			description,
 			...props
-		}: {
+		}: ExternalToast & {
 			title?: string;
 			description?: string;
-			[key: string]: any;
 		}) => {
 			if (description) {
 				return sonnerToast(title, { description, ...props });
