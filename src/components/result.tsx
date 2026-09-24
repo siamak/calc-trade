@@ -7,6 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import { CopyButton } from "./animate-ui/buttons/copy";
 import { Separator } from "@/components/ui/separator";
 import NumberFlow from "@number-flow/react";
+import { useAnalytics } from "@/hooks/use-analytics";
+import type { CopiedField } from "@/lib/analytics";
 interface IProps {
 	riskCapital: number;
 	marginSize: number;
@@ -26,18 +28,20 @@ const Result: React.FC<IProps> = ({
 }: IProps) => {
 	const t = useTranslations("result");
 	const { toast } = useToast();
+	const analytics = useAnalytics();
 
 	const isImpossible = marginSize > balance;
 	const willLiquidate = leverage * stoploss >= 92;
 
 	const copy = useCallback(
-		(text: string) => {
+		(field: CopiedField) => (text: string) => {
 			toast({
 				title: t("clipboard.title"),
 				description: `$${text} ${t("clipboard.description")}`,
 			});
+			analytics.resultCopied(field, Number(text));
 		},
-		[t, toast]
+		[t, toast, analytics]
 	);
 
 	return (
@@ -95,7 +99,7 @@ const Result: React.FC<IProps> = ({
 								variant={"outline"}
 								type="button"
 								content={marginSize.toString()}
-								onCopy={copy}
+								onCopy={copy("margin")}
 								aria-label={t("margin.label")}
 							/>
 						</div>
@@ -119,7 +123,7 @@ const Result: React.FC<IProps> = ({
 								variant={"outline"}
 								type="button"
 								content={sizeUSDT.toString()}
-								onCopy={copy}
+								onCopy={copy("size")}
 								aria-label={t("size.label")}
 							/>
 						</div>

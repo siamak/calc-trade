@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import Script from "next/script";
+import { UmamiScript } from "@/components/umami-script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
@@ -93,15 +93,8 @@ export default async function LocaleLayout({
 
 	return (
 		<>
-			{/* Umami analytics - loaded after interaction so it doesn't block paint */}
-			{process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL &&
-				process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
-					<Script
-						src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL}
-						data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-						strategy="afterInteractive"
-					/>
-				)}
+			{/* Umami analytics - loaded after hydration so it doesn't block paint */}
+			<UmamiScript />
 
 			<div dir={dir} className={`bg-background text-foreground ${fontClass}`}>
 				<NuqsAdapter>

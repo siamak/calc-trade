@@ -8,6 +8,7 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { analytics } from "@/lib/analytics";
 
 interface PWAContextValue {
 	/** True when running as an installed PWA (standalone/fullscreen display mode). */
@@ -71,14 +72,22 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 
 		const mq = window.matchMedia("(display-mode: standalone)");
 		const iosStandalone = (navigator as any).standalone === true;
-		setIsInstalled(mq.matches || iosStandalone);
+		const launchedStandalone = mq.matches || iosStandalone;
+		setIsInstalled(launchedStandalone);
+		if (launchedStandalone) analytics.pwaStandaloneLaunch();
 
 		const handleMqChange = (e: MediaQueryListEvent) => setIsInstalled(e.matches);
 		mq.addEventListener("change", handleMqChange);
 
 		// ── Online / offline ───────────────────────────────────────────────
-		const handleOnline = () => setIsOnline(true);
-		const handleOffline = () => setIsOnline(false);
+		const handleOnline = () => {
+			setIsOnline(true);
+			analytics.networkStatusChanged("online");
+		};
+		const handleOffline = () => {
+			setIsOnline(false);
+			analytics.networkStatusChanged("offline");
+		};
 		window.addEventListener("online", handleOnline);
 		window.addEventListener("offline", handleOffline);
 
@@ -87,8 +96,10 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 			e.preventDefault();
 			deferredPromptRef.current = e;
 			setCanInstall(true);
+			analytics.pwaInstallPromptShown();
 		};
 		const handleAppInstalled = () => {
+			analytics.pwaInstalled();
 			deferredPromptRef.current = null;
 			setIsInstalled(true);
 			setCanInstall(false);
@@ -107,6 +118,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 					// without a full reload).
 					if (reg.waiting) {
 						setHasUpdate(true);
+						analytics.pwaUpdateShown();
 					}
 
 					// New SW found during this page session.
@@ -121,6 +133,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 								navigator.serviceWorker.controller
 							) {
 								setHasUpdate(true);
+								analytics.pwaUpdateShown();
 							}
 						});
 					});
@@ -164,6 +177,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 			prompt.prompt();
 			const { outcome } = await prompt.userChoice;
 			deferredPromptRef.current = null;
+			analytics.pwaInstallPromptResult(outcome);
 
 			if (outcome === "accepted") {
 				setIsInstalled(true);
@@ -186,6 +200,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 		if (reg.waiting) {
 			// Tell the waiting SW to take over immediately.
 			// Workbox's generated SW listens for {type: 'SKIP_WAITING'}.
+			analytics.pwaUpdateApplied();
 			reg.waiting.postMessage({ type: "SKIP_WAITING" });
 			// controllerchange listener above will reload the page.
 		}

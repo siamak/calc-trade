@@ -97,6 +97,9 @@ export default function CalcForm() {
 				leverage,
 				marginSize: roundedMargin,
 				riskCapital,
+				positionSize: roundedMargin * leverage,
+				impossible: roundedMargin > balance,
+				liquidationRisk: leverage * stoploss >= 92,
 			});
 		}
 	}, [values, setMargin, analytics]);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Component, ErrorInfo, ReactNode } from "react";
+import { analytics } from "@/lib/analytics";
 
 interface ErrorBoundaryState {
 	hasError: boolean;
@@ -26,17 +27,15 @@ export class ErrorBoundary extends Component<
 	}
 
 	componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-		// Track error with analytics - we'll use a simple console log for now
-		// since we can't use hooks in class components
-		console.error("Analytics: error_occurred", {
-			error: error.message,
-			context: errorInfo.componentStack,
-			timestamp: Date.now(),
-		});
+		analytics.errorOccurred(
+			error.message,
+			errorInfo.componentStack?.trim().split("\n")[0]
+		);
 		console.error("Error caught by boundary:", error, errorInfo);
 	}
 
 	resetError = () => {
+		analytics.errorRecovered();
 		this.setState({ hasError: false, error: undefined });
 	};
 
