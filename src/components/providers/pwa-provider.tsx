@@ -25,6 +25,12 @@ interface PWAContextValue {
 	applyUpdate: () => Promise<void>;
 }
 
+/** Chromium's `beforeinstallprompt` event (not in lib.dom). */
+interface BeforeInstallPromptEvent extends Event {
+	prompt: () => Promise<void>;
+	userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+
 const PWAContext = createContext<PWAContextValue>({
 	isInstalled: false,
 	isOnline: true,
@@ -41,7 +47,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 	const [hasUpdate, setHasUpdate] = useState(false);
 	// Holds the deferred install prompt — must stay as a ref to avoid
 	// stale-closure issues when called from installPWA.
-	const deferredPromptRef = useRef<any>(null);
+	const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null);
 	// Guard against double-reload on controllerchange.
 	const reloadingRef = useRef(false);
 
@@ -71,7 +77,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 		setIsOnline(navigator.onLine);
 
 		const mq = window.matchMedia("(display-mode: standalone)");
-		const iosStandalone = (navigator as any).standalone === true;
+		const iosStandalone = (navigator as Navigator & { standalone?: boolean }).standalone === true;
 		const launchedStandalone = mq.matches || iosStandalone;
 		setIsInstalled(launchedStandalone);
 		if (launchedStandalone) analytics.pwaStandaloneLaunch();
@@ -94,7 +100,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 		// ── Install prompt ─────────────────────────────────────────────────
 		const handleBeforeInstallPrompt = (e: Event) => {
 			e.preventDefault();
-			deferredPromptRef.current = e;
+			deferredPromptRef.current = e as BeforeInstallPromptEvent;
 			setCanInstall(true);
 			analytics.pwaInstallPromptShown();
 		};
@@ -109,7 +115,7 @@ export function PWAProvider({ children }: { children: React.ReactNode }) {
 
 		// ── Service worker registration + update detection ─────────────────
 		if ("serviceWorker" in navigator) {
-			// Register the Workbox-generated SW (built by next-pwa).
+			// Register the Workbox-generated SW (built by scripts/build-sw.mjs).
 			// sw-custom.js is a deprecated stub that self-unregisters.
 			navigator.serviceWorker
 				.register("/sw.js")

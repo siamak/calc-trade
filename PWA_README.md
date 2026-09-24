@@ -42,14 +42,14 @@ This project has been configured as a Progressive Web App (PWA) with full offlin
 
 ### Service Worker
 
-- **File**: `/public/sw-custom.js`
+- **File**: `/public/sw.js` (generated at build time by `scripts/build-sw.mjs`)
 - **Registration**: Automatic via `usePWA` hook
 - **Caching**: Multiple cache strategies for different content types
 - **Updates**: Automatic service worker updates
 
 ### PWA Configuration
 
-- **Next.js Config**: Uses `next-pwa` plugin
+- **Build step**: `scripts/build-sw.mjs` runs Workbox `generateSW` after `next build`
 - **Manifest**: `/public/manifest.json` with app metadata
 - **Icons**: Multiple sizes for different devices and contexts
 - **Meta Tags**: Comprehensive PWA meta tags in layout
@@ -183,7 +183,7 @@ caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)));
 - [PWA Documentation](https://web.dev/progressive-web-apps/)
 - [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
 - [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
-- [Next.js PWA Plugin](https://github.com/shadowwalker/next-pwa)
+- [workbox-build](https://developer.chrome.com/docs/workbox/modules/workbox-build)
 
 ## 🔮 Future Enhancements
 

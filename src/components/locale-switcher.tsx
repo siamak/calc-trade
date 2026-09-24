@@ -11,7 +11,7 @@ import {
 import { redirect } from "@/i18n/navigation";
 import { useAnalytics } from "@/hooks/use-analytics";
 
-const dictFlags: any = {
+const dictFlags: Record<string, { emoji: string; text: string; slug: string }> = {
 	fa: {
 		emoji: "🇮🇷",
 		text: "فارسی",

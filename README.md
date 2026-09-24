@@ -47,7 +47,7 @@ All calculations run entirely in the browser — no data is ever sent to a serve
 | UI primitives | [Radix UI](https://www.radix-ui.com/) (shadcn/ui components) |
 | Forms | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
 | i18n | [next-intl](https://next-intl-docs.vercel.app/) |
-| PWA / SW | [next-pwa](https://github.com/shadowwalker/next-pwa) + [Workbox](https://developer.chrome.com/docs/workbox/) |
+| PWA / SW | [Workbox](https://developer.chrome.com/docs/workbox/) `generateSW` (post-build script) |
 | Analytics | [Umami](https://umami.is/) |
 | URL state | [nuqs](https://nuqs.47ng.com/) |
 | Notifications | [Sonner](https://sonner.emilkowal.ski/) |
@@ -150,6 +150,8 @@ calc-trade/
 │   └── fa.json                     # Persian strings
 ├── contents/                       # Markdown educational content
 ├── next.config.ts                  # Next.js + next-pwa + next-intl config
+├── netlify.toml                    # Legacy Netlify site → 301 to calc.siamak.pro
+├── netlify/sw.js                   # Kill-switch SW for the legacy origin
 └── vercel.json                     # Vercel deployment config
 ```
 
@@ -159,7 +161,7 @@ calc-trade/
 
 ### Service worker strategy
 
-The app uses **Workbox `generateSW`** via `next-pwa`. All caching rules are declared in `next.config.ts` — no boilerplate SW file is needed.
+The app uses **Workbox `generateSW`** as a post-build step (`scripts/build-sw.mjs`), so the service worker is independent of the bundler and the app builds with Turbopack. All caching rules are declared in that script — no boilerplate SW file is needed.
 
 **Why `generateSW` instead of `injectManifest`?**  
 Every caching requirement is expressible through Workbox's built-in strategies. `generateSW` keeps all configuration colocated and readable. `injectManifest` would only be needed for complex custom fetch logic (e.g., streaming, partial responses, push payloads) which this app does not require.
@@ -275,7 +277,11 @@ A `vercel.json` is included. Import the repo in Vercel (framework auto-detected 
 
 Set `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and `NEXT_PUBLIC_UMAMI_DOMAINS` in Project → Settings → Environment Variables (optional).
 
-### Other platforms (Netlify, Railway, etc.)
+### Legacy Netlify site
+
+`calc-trade.netlify.app` stays live as a redirect-only deploy (`netlify.toml`): every path 301s to the same path on `calc.siamak.pro`. The one exception is `/sw.js`, which serves a kill-switch worker (`netlify/sw.js`) that clears the old origin's caches, unregisters itself and moves open tabs to the new domain — browsers won't follow a redirect for a service worker script, so without it returning visitors would keep a stale worker forever.
+
+### Other platforms (Railway, etc.)
 
 ```bash
 # Build command
